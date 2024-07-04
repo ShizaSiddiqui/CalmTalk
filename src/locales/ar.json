@@ -1,0 +1,61 @@
+{
+  "languageSwitcher": {
+    "english": "الإنجليزية",
+    "arabic": "العربية"
+  },
+  "carousel": {
+    "slide1": "اشعر بالتحسن اليوم، كن هادئًا من أجل الغد",
+    "slide2": "اكتشف التأملات الموجهة من أجلك.",
+    "slide3": "العلاج للجميع. دعم الصحة النفسية في متناول يدك.",
+    "slide4": "ابدأ تجربتك الهادئة."
+  },
+  "buttons": {
+    "skip": "تخطي",
+    "next": "التالي"
+  },
+  "login": {
+    "title": "تسجيل الدخول",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "rememberMe": "تذكرني",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "loginButton": "تسجيل الدخول",
+    "orLoginWith": "أو سجل الدخول بواسطة",
+    "dontHaveAccount": "ليس لديك حساب؟ ",
+    "register": "سجل معنا",
+    "or": "أو",
+    "continueAsGuest": "الاستمرار كضيف",
+    "emailRequired": "البريد الإلكتروني مطلوب.",
+    "invalidEmail": "عنوان البريد الإلكتروني غير صالح.",
+    "passwordRequired": "كلمة المرور مطلوبة.",
+    "invalidPassword": "يجب أن تكون كلمة المرور بطول 7 أحرف على الأقل، وتحتوي على حرف كبير واحد وحرف خاص واحد."
+  },
+  "signup": {
+    "title": "تسجيل",
+    "firstNameRequired": "الاسم الأول مطلوب.",
+    "lastNameRequired": "اسم العائلة مطلوب.",
+    "emailPlaceholder": "أدخل عنوان بريدك الإلكتروني",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "firstNamePlaceholder": "الاسم الأول",
+    "lastNamePlaceholder": "اسم العائلة",
+    "emailRequired": "البريد الإلكتروني مطلوب.",
+    "invalidEmail": "عنوان بريد إلكتروني غير صالح.",
+    "passwordRequired": "كلمة المرور مطلوبة.",
+    "invalidPassword": "يجب أن تكون كلمة المرور مكونة من 7 أحرف على الأقل وتحتوي على حرف خاص وحرف كبير.",
+    "agreeTerms": "أوافق على",
+    "termsAndConditions": "الشروط والأحكام.",
+    "registerButton": "تسجيل",
+    "orRegisterWith": "أو التسجيل باستخدام",
+    "alreadyMember": "هل أنت عضو بالفعل؟"
+  },
+  "forgotPassword": {
+    "title": "هل نسيت كلمة المرور؟",
+    "description": "الرجاء إدخال عنوان بريدك الإلكتروني حتى نتمكن من إرسال رابط لإعادة تعيين كلمة المرور الخاصة بك.",
+    "emailPlaceholder": "أدخل عنوان بريدك الإلكتروني",
+    "submit": "إرسال",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "register": "سجل معنا",
+    "emailRequired": "البريد الإلكتروني مطلوب.",
+    "invalidEmail": "الرجاء إدخال عنوان بريد إلكتروني صحيح."
+  }
+}

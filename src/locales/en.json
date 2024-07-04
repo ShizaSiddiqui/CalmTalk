@@ -1,0 +1,61 @@
+{
+  "languageSwitcher": {
+    "english": "English",
+    "arabic": "Arabic"
+  },
+  "carousel": {
+    "slide1": "Feel better today, stay calm for tomorrow",
+    "slide2": "Discover guided meditations for a calmer you.",
+    "slide3": "Therapy for everyone. Accessible mental health support, at your fingertips.",
+    "slide4": "Start your calm experience."
+  },
+  "buttons": {
+    "skip": "Skip",
+    "next": "Next"
+  },
+  "login": {
+    "title": "Login",
+    "emailPlaceholder": "Enter your email address",
+    "passwordPlaceholder": "Enter your password",
+    "rememberMe": "Remember Me",
+    "forgotPassword": "Forgot password?",
+    "loginButton": "Login",
+    "orLoginWith": "Or login with",
+    "dontHaveAccount": "Don’t have an account? ",
+    "register": "Register with us",
+    "or": "Or",
+    "continueAsGuest": "Continue as a guest",
+    "emailRequired": "Email is required.",
+    "invalidEmail": "Invalid email address.",
+    "passwordRequired": "Password is required.",
+    "invalidPassword": "Password must be at least 7 characters long, contain one special character, and one capital letter."
+  },
+  "signup": {
+    "title": "Register",
+    "firstNameRequired": "First name is required.",
+    "lastNameRequired": "Last name is required.",
+    "emailPlaceholder": "Enter your email address",
+    "passwordPlaceholder": "Enter password",
+    "firstNamePlaceholder": "First Name",
+    "lastNamePlaceholder": "Last Name",
+    "emailRequired": "Email is required.",
+    "invalidEmail": "Invalid email address.",
+    "passwordRequired": "Password is required.",
+    "invalidPassword": "Password must be at least 7 characters long, contain one special character, and one capital letter.",
+    "agreeTerms": "I agree with",
+    "termsAndConditions": "Terms & Conditions.",
+    "registerButton": "Register",
+    "orRegisterWith": "Or register with",
+    "alreadyMember": "Already a member?"
+  },
+  "forgotPassword": {
+    "title": "Forgot Your Password?",
+    "description": "Please enter your email address so we can send you a link to reset your password.",
+    "emailPlaceholder": "Enter your email address",
+    "submit": "Submit",
+    "dontHaveAccount": "Don’t have an account?",
+    "register": "Register with us",
+    "emailRequired": "Email is required.",
+    "invalidEmail": "Please enter a valid email address."
+  }
+}
