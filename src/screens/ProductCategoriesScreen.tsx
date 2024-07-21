@@ -7,43 +7,57 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  I18nManager
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HighlightedProductsTile from '../components/HighlightedProductsTile';
+import { t } from 'i18next';
+
+
 const ProductCategoriesScreen = () => {
   const navigation = useNavigation();
-  const productTopic = ['All', 'New', 'Popular'];
+
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' :null
+
+
+  const productTopic = [
+    t('productCategoriesScreen.categoriesList.all'),
+    t('productCategoriesScreen.categoriesList.new'),
+    t('productCategoriesScreen.categoriesList.popular')
+  ];
   const [activeBlogTopic, setActiveBlogTopic] = useState(productTopic[0]);
 
   const data = {
     product: [
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('productCategoriesScreen.categoriesList.title'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('productCategoriesScreen.categoriesList.title'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('productCategoriesScreen.categoriesList.title'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('productCategoriesScreen.categoriesList.title'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('productCategoriesScreen.categoriesList.title'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('productCategoriesScreen.categoriesList.title'),
         image: require('../../assets/images/highlighted_products.png'),
       },
-      // Add more product data here
     ],
     allProducts: [
       {
@@ -56,9 +70,9 @@ const ProductCategoriesScreen = () => {
         subText: 'Promotes relaxation, Eases anxiety, Improves mood',
         image: require('../../assets/images/highlighted_products.png'),
       },
-      // Add more therapy courses data here
     ],
   };
+
   const renderProductTopicItem = ({ item }: { item: string }) => (
     <TouchableOpacity
       style={[
@@ -86,24 +100,21 @@ const ProductCategoriesScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.header}>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', alignItems:'center' }}>
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
               <Image
                 source={require('../../assets/images/back.png')}
-                style={styles.backIcon}
+                style={[styles.backIcon, {transform:transformStyle}]}
                 resizeMode="contain"
               />
             </TouchableOpacity>
-            <Text style={styles.title}>Products</Text>
+            <Text style={styles.title}>{t('productCategoriesScreen.categoriesList.products')}</Text>
           </View>
-          <TouchableOpacity
-            style={styles.favoriteButton}
-            onPress={() => navigation.navigate('BlogsFavoriteScreen')}
-          >
-            <Text style={styles.favoriteButtonText}>Favorites</Text>
+          <TouchableOpacity style={styles.favoriteButton} onPress={() => {}}>
+            <Text style={styles.favoriteButtonText}>{t('productCategoriesScreen.categoriesList.favorites')}</Text>
             <Image
               source={require('../../assets/images/favorite.png')}
               style={styles.favoriteIcon}
@@ -116,11 +127,11 @@ const ProductCategoriesScreen = () => {
           source={require('../../assets/images/category_background.png')}
         >
           <View style={styles.mostRecentProductsHeader}>
-            <Text style={styles.mostRecentProductsHeaderTitle}>Categories</Text>
+            <Text style={styles.mostRecentProductsHeaderTitle}>{t('productCategoriesScreen.categoriesList.categories')}</Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('CategoryListScreen')}
             >
-              <Text style={{ fontSize: 14 }}>See all</Text>
+              <Text style={{ fontSize: 14 }}>{t('productCategoriesScreen.categoriesList.seeAll')}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.categories}>
@@ -128,7 +139,7 @@ const ProductCategoriesScreen = () => {
               data={[
                 {
                   image: require('../../assets/images/product_categories.png'),
-                  title: 'Aroma therapy',
+                  title: t('productCategoriesScreen.categoriesList.aromaTherapy'),
                 },
                 {
                   image: require('../../assets/images/product_categories.png'),
@@ -160,13 +171,12 @@ const ProductCategoriesScreen = () => {
                 </View>
               )}
               keyExtractor={(item) => item.title}
-              //   columnWrapperStyle={styles.row}
             />
           </View>
         </ImageBackground>
 
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Highlighted Products</Text>
+        <View style={[styles.sectionHeader]}>
+          <Text style={styles.sectionTitle}>{t('productCategoriesScreen.categoriesList.highlightedProducts')}</Text>
         </View>
         <FlatList
           data={data.allProducts}
@@ -177,7 +187,6 @@ const ProductCategoriesScreen = () => {
               subText={item.subText}
               image={item.image}
               onPress={() => {
-                // Handle onPress action for therapy course item
                 console.log('Therapy course item pressed:', item.title);
               }}
             />
@@ -186,8 +195,8 @@ const ProductCategoriesScreen = () => {
           keyExtractor={(item, index) => `course-${index}`}
         />
 
-        <View style={styles.recentProductsContainer}>
-          <Text style={styles.recentProductsTitle}>All Products</Text>
+        <View style={[styles.recentProductsContainer]}>
+          <Text style={[styles.recentProductsTitle, {alignSelf:alignSelfStyle}]}>{t('productCategoriesScreen.categoriesList.allProducts')}</Text>
           <FlatList
             horizontal
             data={productTopic}
@@ -208,7 +217,7 @@ const ProductCategoriesScreen = () => {
                     { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
                   ]}
                 >
-                  <Text style={{ color: 'white' }}>Aroma therapy</Text>
+                  <Text style={{ color: 'white' }}>{t('productCategoriesScreen.categoriesList.aromaTherapy')}</Text>
                 </View>
                 <View style={{ width: '100%' }}>
                   <TouchableOpacity
@@ -248,18 +257,17 @@ const ProductCategoriesScreen = () => {
   );
 };
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#F8F8F8',
-    // marginTop: '10%',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 16,
-    // backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
@@ -309,7 +317,6 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    // fontWeight: '600',
   },
   sectionLink: {
     fontSize: 14,
@@ -350,7 +357,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: '8%',
-    // marginBottom: 16,
   },
 
   mostRecentProductsImage: {
@@ -365,7 +371,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingVertical: 5,
     paddingHorizontal: 10,
-    // zIndex: 1,
   },
 
   mostReadTitle: {
@@ -416,6 +421,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 13,
     paddingBottom: 20,
+    paddingHorizontal: 7,
   },
 
   recentProductsContainer: {

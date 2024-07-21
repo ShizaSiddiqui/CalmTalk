@@ -8,37 +8,52 @@ import {
   Image,
   Dimensions,
   ImageBackground,
+  I18nManager
 } from 'react-native';
-
-const moods = ['Recommended', 'Calm', 'Sleepy', 'Moody', 'Motivated'];
-
-const meditations = [
-  {
-    id: '1',
-    image: require('../../assets/images/play.png'),
-    title: 'Love kind meditation',
-    duration: '16:45',
-  },
-  {
-    id: '2',
-    image: require('../../assets/images/play.png'),
-    title: 'Relaxing Waves',
-    duration: '12:30',
-  },
-  {
-    id: '3',
-    image: require('../../assets/images/play.png'),
-    title: 'Mindful Breathing',
-    duration: '10:00',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('window');
 
 const CalmMusic: React.FC = () => {
-  const [activeMood, setActiveMood] = useState(moods[0]);
+  const [activeMood, setActiveMood] = useState('calmMusic.moods.recommended');
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
+  const { t } = useTranslation();
+  const isRTL = I18nManager.isRTL;
+
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const alignItemStyle =  isRTL ? 'flex-start': null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+
+
+  const moods = [
+    t('calmMusic.moods.recommended'),
+    t('calmMusic.moods.calm'),
+    t('calmMusic.moods.sleepy'),
+    t('calmMusic.moods.moody'),
+    t('calmMusic.moods.motivated'),
+  ];
+
+  const meditations = [
+    {
+      id: '1',
+      image: require('../../assets/images/play.png'),
+      title: t('calmMusic.meditations.loveKindMeditation'),
+      duration: t('calmMusic.meditations.duration1'),
+    },
+    {
+      id: '2',
+      image: require('../../assets/images/play.png'),
+      title: t('calmMusic.meditations.relaxingWaves'),
+      duration: t('calmMusic.meditations.duration2'),
+    },
+    {
+      id: '3',
+      image: require('../../assets/images/play.png'),
+      title: t('calmMusic.meditations.mindfulBreathing'),
+      duration: t('calmMusic.meditations.duration3'),
+    },
+  ];
 
   const renderMoodItem = ({ item }: { item: string }) => (
     <TouchableOpacity
@@ -69,7 +84,7 @@ const CalmMusic: React.FC = () => {
     <View style={styles.meditationCard}>
       <Image source={item.image} style={styles.meditationImage} />
       <View style={styles.meditationTextContainer}>
-        <Text style={styles.meditationTitle}>{item.title}</Text>
+        <Text style={[styles.meditationTitle, {alignSelf:alignItemStyle}]}>{item.title}</Text>
         <View style={styles.progressBarContainer}>
           <View style={styles.progressBar} />
         </View>
@@ -95,9 +110,9 @@ const CalmMusic: React.FC = () => {
         source={require('../../assets/images/background_express_and_chat.png')}
       >
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Calm Music</Text>
+          <Text style={styles.headerTitle}>{t('calmMusic.title')}</Text>
           <TouchableOpacity>
-            <Text style={styles.viewAll}>View all &gt;</Text>
+            <Text style={styles.viewAll}>{t('calmMusic.viewAll')}</Text>
           </TouchableOpacity>
         </View>
         <FlatList
@@ -170,7 +185,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#9DB8A1',
   },
   inactiveMoodButton: {
-    // backgroundColor: '#E6E6E6',
     borderWidth: 1,
     borderColor: '#09090B33',
   },
@@ -207,7 +221,6 @@ const styles = StyleSheet.create({
   },
   meditationTitle: {
     fontSize: 16,
-    // fontWeight: 'bold',
     marginHorizontal: 8,
   },
   progressBarContainer: {
@@ -226,7 +239,6 @@ const styles = StyleSheet.create({
   meditationDuration: {
     fontSize: 16,
     color: '#09090B',
-    // marginHorizontal:5
   },
   indicatorContainer: {
     flexDirection: 'row',

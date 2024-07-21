@@ -491,7 +491,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5.3;
+				CURRENT_PROJECT_VERSION = 6.2;
 				DEVELOPMENT_TEAM = L4WHN3M5PP;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = CalmTalk/Info.plist;
@@ -500,7 +500,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.0.3;
+				MARKETING_VERSION = 6.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -528,7 +528,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5.3;
+				CURRENT_PROJECT_VERSION = 6.2;
 				DEVELOPMENT_TEAM = L4WHN3M5PP;
 				INFOPLIST_FILE = CalmTalk/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Calm Talk";
@@ -536,7 +536,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.0.3;
+				MARKETING_VERSION = 6.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

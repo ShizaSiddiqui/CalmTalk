@@ -7,27 +7,35 @@ import {
   TouchableOpacity,
   ImageBackground,
   FlatList,
+  I18nManager
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import { t } from 'i18next';
+
 const TherapistSpeaksScreen = () => {
   const data = [
     {
       image: require('../../assets/images/blog4.png'),
-      title: 'What Is Cognitive Behavioral Therapy (CBT)',
+      title: t('therapistSpeaks.title1'),
     },
     {
       image: require('../../assets/images/blog4.png'),
-      title:
-        'Can You Explain Who A Neuropsychologist Is & What Their Role Entails?',
+      title: t('therapistSpeaks.title2'),
     },
     {
       image: require('../../assets/images/blog4.png'),
-      title:
-        'Can You Explain Your Approach To Acceptance And Commitment Therapy?',
+      title: t('therapistSpeaks.title3'),
     },
   ];
+
   const navigation = useNavigation();
+
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const alignItemStyle = isRTL? 'flex-start' :null;
+
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
@@ -43,11 +51,11 @@ const TherapistSpeaksScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={styles.backArrow}
+              style={[styles.backArrow, {transform:transformStyle}]}
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Therapist Speaks</Text>
+          <Text style={styles.headerTitle}>{t('therapistSpeaks.screenTitle')}</Text>
         </View>
       </ImageBackground>
       <View style={styles.content}>
@@ -58,19 +66,13 @@ const TherapistSpeaksScreen = () => {
             resizeMode="contain"
           />
         </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>What Social Anxiety Disorder</Text>
+        <View style={[styles.textContainer, {alignItems: alignItemStyle}]}>
+          <Text style={styles.title}>{t('therapistSpeaks.mainTitle')}</Text>
           <Text style={styles.text}>
-            Social Anxiety Disorder, Or Social Phobia, Is Characterized By An
-            Intense Fear Of Social Situations And Being Judged By Others. This
-            Condition Can Lead To Avoidance Of Daily Activities And Significant
-            Distress. Symptoms Include Excessive Anxiety, Rapid Heartbeat, And
-            Sweating In Social Contexts. With Treatment Like
-            Cognitive-Behavioral Therapy And Medication, Individuals Can Manage
-            Symptoms And Improve Their Quality Of Life.
+            {t('therapistSpeaks.mainText')}
           </Text>
         </View>
-        <Text style={styles.otherPostsText}>Check other posts</Text>
+        <Text style={[styles.otherPostsText, {alignSelf:alignItemStyle}]}>{t('therapistSpeaks.otherPostsText')}</Text>
         <FlatList
           data={data}
           renderItem={({ item }) => (
@@ -89,7 +91,7 @@ const TherapistSpeaksScreen = () => {
                     // resizeMode='cover'
                   />
                   <View style={styles.generalTopic}>
-                    <Text style={styles.generalTopicText}>General Topic</Text>
+                    <Text style={styles.generalTopicText}>{t('therapistSpeaks.generalTopic')}</Text>
                   </View>
                 </View>
                 <Text style={styles.otherPostText}>{item.title}</Text>
@@ -102,6 +104,7 @@ const TherapistSpeaksScreen = () => {
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -168,17 +171,20 @@ const styles = StyleSheet.create({
     borderBottomColor: '#71717A40',
     borderBottomWidth: 1,
     marginBottom: 20,
+   
+
   },
   text: {
     fontSize: 16,
     lineHeight: 27,
     marginBottom: 20,
     color: '#5C5C5C',
+
+    
   },
   otherPostsText: {
     fontSize: 20,
     fontWeight: 'bold',
-    // marginBottom: 10,
   },
 
   otherPost: {

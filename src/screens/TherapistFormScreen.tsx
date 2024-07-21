@@ -8,10 +8,14 @@ import {
   StyleSheet,
   FlatList,
   ImageBackground,
+  I18nManager
 } from 'react-native';
 import { Button, Input, Divider } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
+import { t } from 'i18next';
+
+
 const TherapistFormScreen: React.FC = () => {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -19,6 +23,13 @@ const TherapistFormScreen: React.FC = () => {
   const [selectedPackage, setSelectedPackage] = useState(4);
 
   const navigation = useNavigation();
+
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+
 
   const onChangeDate = (event: any, selectedDate?: Date) => {
     const currentDate = selectedDate || date;
@@ -39,8 +50,7 @@ const TherapistFormScreen: React.FC = () => {
     nationality: 'Emirati',
     experience: '7 Years',
     languages: ['EN', 'AR'],
-    about:
-      'Originally from Spain, I am an integrative psychotherapist and neuropsychologist. I define myself as a person who thrives on diversifying the projects I am involved in, hence why I enjoy cross-cultural psychology and remaining an active researcher. My next adventure: an existential therapy training in Paris.',
+    about: t('ourteam.description')
   };
 
   const flatListItems = [
@@ -73,7 +83,7 @@ const TherapistFormScreen: React.FC = () => {
         >
           <Image
             source={require('../../assets/images/back.png')}
-            style={{ width: 15, height: 15, marginTop: '11%' }}
+            style={{ width: 15, height: 15, marginTop: '11%' , transform:transformStyle }}
             resizeMode="contain"
           />
         </TouchableOpacity>
@@ -84,8 +94,8 @@ const TherapistFormScreen: React.FC = () => {
               { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
             ]}
           >
-            <Text style={{ color: 'white' }}>Individual, Couple</Text>
-          </View>
+            <Text style={{ color: 'white' }}>{t('form.individual_couple')}</Text>
+            </View>
           <Image
             source={require('../../assets/images/doctor.png')}
             style={styles.profileImage}
@@ -117,7 +127,10 @@ const TherapistFormScreen: React.FC = () => {
                 />
               </TouchableOpacity>
             </View>
-            <Text style={styles.doctorTitle}>{therapistInfo.title}</Text>
+            <Text 
+            style={[styles.doctorTitle,{alignSelf: alignSelfStyle}]}
+            >
+              {t('form.clinical_psychologist')}</Text>
 
             <View style={styles.specializations}>
               {therapistInfo.specializations.map((spec, index) => (
@@ -132,25 +145,32 @@ const TherapistFormScreen: React.FC = () => {
       </ImageBackground>
       <View style={styles.infoContainer}>
         <View style={styles.infoBox}>
-          <Text style={styles.infoTitle}>Nationality</Text>
-          <Text style={styles.infoSubtitle}>{therapistInfo.nationality}</Text>
+        <Text style={styles.infoTitle}>{t('form.nationality')}</Text>
+        <Text style={styles.infoSubtitle}>{therapistInfo.nationality}</Text>
         </View>
         <View style={styles.infoBox}>
-          <Text style={styles.infoTitle}>Experience</Text>
-          <Text style={styles.infoSubtitle}>{therapistInfo.experience}</Text>
+        <Text style={styles.infoTitle}>{t('form.experience')}</Text>
+        <Text style={styles.infoSubtitle}>{therapistInfo.experience}</Text>
         </View>
         <View style={styles.infoBox}>
-          <Text style={styles.infoTitle}>Languages</Text>
-          <Text style={styles.infoSubtitle}>
+        <Text style={styles.infoTitle}>{t('form.languages')}</Text>
+        <Text style={styles.infoSubtitle}>
             {therapistInfo.languages.join(' | ')}
           </Text>
         </View>
       </View>
-      <View style={styles.aboutContainer}>
-        <Text style={styles.sectionTitle}>About Me</Text>
-        <Text style={styles.sectionContent}>{therapistInfo.about}</Text>
+      <View style={[styles.aboutContainer, 
+        {alignItems:alignItemStyle}
+        ]}
+        >
+      <Text style={styles.sectionTitle}>{t('form.about_me')}</Text>
+      <Text style={styles.sectionContent}>{therapistInfo.about}</Text>
       </View>
-      <Text style={styles.therapistSpeaksTitle}>Therapist speaks</Text>
+      <Text 
+      style={[styles.therapistSpeaksTitle, 
+        {alignSelf:alignSelfStyle}
+        ]}>
+          {t('form.therapist_speaks')}</Text>
 
       {/* Therapist speaks */}
       <View style={styles.speaksContainer}>
@@ -171,31 +191,21 @@ const TherapistFormScreen: React.FC = () => {
                 style={styles.flatListImage}
                 resizeMode="contain"
               />
-              <View style={styles.flatListText}>
-                <Text style={styles.flatListTitle}>{item.title}</Text>
-                <Text style={styles.flatListContent}>{item.content}</Text>
+              <View style={[styles.flatListText, {alignItems:alignItemStyle}]}>
+                <Text style={styles.flatListTitle}>{t(`form.${item.id}.title`)}</Text>
+                <Text style={styles.flatListContent}>{t(`form.${item.id}.content`)}</Text>
               </View>
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item.id}
         />
-        {/* <View style={styles.indicatorContainer}>
-    {flatListItems.map((_, index) => (
-      <View
-        key={index}
-        style={[
-          styles.indicator,
-          index === 0 && styles.indicatorActive, // Adjust this condition based on current index
-        ]}
-      />
-    ))}
-  </View> */}
+ 
       </View>
       {/* Therapist speaks ends */}
       <View style={styles.bookingContainer}>
-        <Text style={styles.bookYourSessionTitle}>Book your session</Text>
+        <Text style={[styles.bookYourSessionTitle, {alignSelf:alignSelfStyle}]}>{t('form.book_your_session')}</Text>
 
-        <Text style={styles.sectionSubtitle}>Choose your package</Text>
+        <Text style={[styles.sectionSubtitle,  {alignSelf:alignSelfStyle}]}>{t('form.choose_your_package')}</Text>
         <View style={styles.packageContainer}>
           <TouchableOpacity
             style={[
@@ -210,8 +220,8 @@ const TherapistFormScreen: React.FC = () => {
                 selectedPackage === 1 && styles.packageTextSelected,
               ]}
             >
-              $100 for a session
-            </Text>
+              {t('form.package1')}
+              </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -226,18 +236,17 @@ const TherapistFormScreen: React.FC = () => {
                 selectedPackage === 4 && styles.packageTextSelected,
               ]}
             >
-              $320 for four sessions
-            </Text>
+              {t('form.package4')}
+              </Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.dateTimeContainer}>
-        <Text style={styles.bookYourSessionTitle}>Pick a date & time</Text>
-
-        <Text style={[styles.sectionSubtitle, { marginBottom: 20 }]}>
-          Select your preferred date & time
+   <Text style={[styles.sectionSubtitle, { marginBottom: 20, alignSelf:alignSelfStyle }]}>
+          {t('form.select_preferred_date_time')}
         </Text>
-        <Text>Date</Text>
+       
+        <Text style={{alignSelf:alignSelfStyle}}>{t('form.date')}</Text>
         <TouchableOpacity
           style={styles.dateTimePicker}
           onPress={() => setShowDatePicker(true)}
@@ -245,7 +254,7 @@ const TherapistFormScreen: React.FC = () => {
           <Text style={styles.dateTimePickerLabel}>09-05-24</Text>
           <Text>{date.toDateString()}</Text>
         </TouchableOpacity>
-        <Text style={{ marginTop: 10 }}>Time (GST) (GMT +4)</Text>
+        <Text style={{ marginTop: 10 , alignSelf:alignSelfStyle}}>{t('form.time')}</Text>
         {showDatePicker && (
           <DateTimePicker
             value={date}
@@ -271,7 +280,7 @@ const TherapistFormScreen: React.FC = () => {
         )}
       </View>
       <Button
-        title="Book Now"
+        title={t('form.book_now')}
         buttonStyle={styles.bookButton}
         onPress={() => navigation.navigate('ConfirmAppointment')}
       />
@@ -393,6 +402,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 15,
     marginTop: 15,
+    writingDirection:  'rtl',
+
+    
   },
   sectionTitle: {
     fontSize: 15,

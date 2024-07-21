@@ -8,40 +8,47 @@ import {
   ImageBackground,
   FlatList,
   TextInput,
+  I18nManager
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import { t } from 'i18next';
+
 const CategoryListScreen = () => {
   const data = {
     product: [
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('categoriesList.title1'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('categoriesList.title1'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('categoriesList.title1'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('categoriesList.title1'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('categoriesList.title1'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       {
-        title: 'Lavender Essential Oil - 5 Fluid Ounce',
+        title: t('categoriesList.title1'),
         image: require('../../assets/images/highlighted_products.png'),
       },
       // Add more product data here
     ],
   };
   const navigation = useNavigation();
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
@@ -57,7 +64,7 @@ const CategoryListScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={styles.backArrow}
+              style={[styles.backArrow, {transform:transformStyle}]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -67,15 +74,15 @@ const CategoryListScreen = () => {
               style={styles.icon}
             />
             <TextInput
-              style={styles.searchInput}
-              placeholder="Search in category"
-              placeholderTextColor={'#D9D9D9'}
+              style={[styles.searchInput, {textAlign:textAlignStyle}]}
+              placeholder={t('categoriesList.search')}
+              placeholderTextColor={'#23232399'}
             />
           </View>
         </View>
       </ImageBackground>
       <View style={styles.content}>
-        <Text style={styles.title}>Aroma Therapy Products</Text>
+        <Text style={styles.title}>{t('categoriesList.aromaTherapyProducts')}</Text>
 
         <FlatList
           data={data.product}
@@ -90,7 +97,7 @@ const CategoryListScreen = () => {
                   { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
                 ]}
               >
-                <Text style={{ color: 'white' }}>Aroma therapy</Text>
+                <Text style={{ color: 'white' }}>{t('categoriesList.aromaTherapy')}</Text>
               </View>
               <View style={{ width: '100%' }}>
                 <TouchableOpacity
@@ -135,14 +142,14 @@ const styles = StyleSheet.create({
   },
   headerBackground: {
     width: '100%',
-    height: 180,
+    height: 200,
     paddingTop: '15%',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 15,
-    paddingTop: '8%',
+    paddingTop: '6%',
   },
   backButton: {
     marginLeft: -3,
@@ -156,7 +163,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     marginLeft: 15,
-    // color: '#FFFFFF',
   },
   headerTag: {
     position: 'absolute',
@@ -166,7 +172,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingVertical: 5,
     paddingHorizontal: 10,
-    // zIndex: 1,
   },
   productTile: {
     flex: 1,
@@ -187,14 +192,17 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   icon: {
-    width: 25,
-    height: 25,
+    width: 15,
+    height: 15,
     marginHorizontal: 2,
+    marginLeft: 7,
+    tintColor: '#232323',
   },
   productText: {
     fontWeight: '600',
     fontSize: 13,
     paddingBottom: 20,
+    paddingHorizontal: 7,
   },
   row: {
     flex: 1,
@@ -206,14 +214,11 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   searchContainer: {
-    width: '80%',
+    width: '92%',
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 10,
-    // padding: 12,
-    // marginVertical: 13,
-    // marginHorizontal: 10,
     borderWidth: 1,
     borderColor: '#B1C18199',
   },
@@ -265,12 +270,10 @@ const styles = StyleSheet.create({
   otherPostsText: {
     fontSize: 20,
     fontWeight: 'bold',
-    // marginBottom: 10,
   },
 
   otherPost: {
     width: '50%',
-    // marginBottom: 15,
     borderRadius: 10,
     backgroundColor: '#FFF',
     elevation: 2,
@@ -278,10 +281,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // borderWidth:1
   },
   otherPostImageContainer: {
-    // marginBottom: 10,
     alignItems: 'center',
   },
   otherPostImage: {
@@ -289,8 +290,6 @@ const styles = StyleSheet.create({
     height: 120,
     padding: 10,
     borderRadius: 10,
-    // resizeMode: 'cover',
-    // borderWidth:1,
   },
   otherPostText: {
     fontSize: 14,

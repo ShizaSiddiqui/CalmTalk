@@ -6,13 +6,18 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  I18nManager
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { t } from 'i18next';
 
-const DepressionByPHQScreen = ({ ...props }) => {
-  console.log(props.route.params.title);
+const DepressionByPHQScreen = ({ route }) => {
   const navigation = useNavigation();
-  const title = props.route.params.title;
+  const { title } = route.params;
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const alignSelfStyle= isRTL?  'flex-start' :null;
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -22,23 +27,21 @@ const DepressionByPHQScreen = ({ ...props }) => {
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => {
-              navigation.goBack();
-            }}
+            onPress={() => navigation.goBack()}
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={styles.backArrow}
+              style={[styles.backArrow, {transform:transformStyle}]}
             />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>{title}</Text>
+          <Text style={[styles.headerTitle, {alignSelf:alignSelfStyle}]}>{title}</Text>
         </View>
         <View style={styles.timeContainer}>
           <Image
             source={require('../../assets/images/clock-icon.png')}
             style={styles.timeIcon}
           />
-          <Text style={styles.timeText}>10 minutes</Text>
+          <Text style={[styles.timeText,  {alignSelf:alignSelfStyle}]}>{t('depressionByPHQ.assessmentTime')}</Text>
         </View>
         <Image
           source={require('../../assets/images/depression_by_PHQ.png')}
@@ -46,60 +49,47 @@ const DepressionByPHQScreen = ({ ...props }) => {
           resizeMode="contain"
         />
       </ImageBackground>
-      <View style={{ paddingHorizontal: 10 }}>
-        <View style={styles.aboutContainer}>
-          <Text style={styles.aboutTitle}>About Assessment</Text>
+      <View style={{ paddingHorizontal: 10,}}>
+        <View style={[styles.aboutContainer,  {alignItems:alignSelfStyle}]}>
+          <Text style={styles.aboutTitle}>{t('depressionByPHQ.aboutAssessment')}</Text>
           <Text style={styles.aboutText}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries
+            {t('depressionByPHQ.aboutAssessmentText')}
           </Text>
         </View>
         <View style={styles.previousContainer}>
-          <Text style={styles.previousTitle}>Previous Assessment</Text>
-          <View style={styles.previousItem}>
-            <Text style={styles.depressionText}>Depression By PHQ-9</Text>
+          <Text style={[styles.previousTitle, , {alignSelf:alignSelfStyle}]}>{t('depressionByPHQ.previousAssessment')}</Text>
+          <View style={[styles.previousItem]}>
+            <Text style={[styles.depressionText, , {alignSelf:alignSelfStyle}]}>{t('depressionByPHQ.depressionPHQ')}</Text>
 
             <View style={styles.previousItemRow}>
-              <View
-                style={{
-                  width: '100%',
-                  justifyContent: 'space-between',
-                  flexDirection: 'row',
-                  alignItems: 'flex-end',
-                }}
-              >
-                <View style={styles.previousDateContainer}>
-                  <Image
-                    source={require('../../assets/images/calendar-icon.png')}
-                    style={styles.calendarIcon}
-                  />
-                  <Text style={styles.previousDate}>Date 14 Aug 2k24</Text>
-                </View>
-                <View style={{ justifyContent: 'center' }}>
-                  <Text style={{ color: '#888A95', fontSize: 10 }}>Result</Text>
-
-                  <Text style={styles.previousResult}>20/30</Text>
-                </View>
+              <View style={styles.previousDateContainer}>
+                <Image
+                  source={require('../../assets/images/calendar-icon.png')}
+                  style={styles.calendarIcon}
+                />
+                <Text style={styles.previousDate}>{t('depressionByPHQ.assessmentDate', { date: '14 Aug 2k24' })}</Text>
+              </View>
+              <View style={{ justifyContent: 'center' }}>
+                <Text style={{ color: '#888A95', fontSize: 10 }}>{t('depressionByPHQ.result')}</Text>
+                <Text style={styles.previousResult}>20/30</Text>
               </View>
             </View>
           </View>
         </View>
         <TouchableOpacity style={styles.startButton}>
-          <Text style={styles.startButtonText}>Start Assessment</Text>
+          <Text style={styles.startButtonText}>{t('depressionByPHQ.startAssessment')}</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    // backgroundColor: '#F5F5F5',
   },
   headerBackground: {
     width: '100%',
@@ -124,7 +114,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     marginLeft: 15,
-    // color: '#FFFFFF',
   },
 
   headerIcon: {

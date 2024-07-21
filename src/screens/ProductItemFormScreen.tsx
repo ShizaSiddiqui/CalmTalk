@@ -1,18 +1,27 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, I18nManager } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { t } from 'i18next';
+import { ScrollView } from 'react-native-gesture-handler';
+
 const ProductDetails = () => {
   const navigation = useNavigation();
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' : null;
+
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView  showsVerticalScrollIndicator={false}>
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       >
         <Image
           source={require('../../assets/images/back.png')}
-          style={styles.backIcon}
+          style={[styles.backIcon, {transform:transformStyle}]}
           resizeMode="contain"
         />
       </TouchableOpacity>
@@ -23,10 +32,12 @@ const ProductDetails = () => {
           resizeMode="contain"
         />
       </View>
-      <Text style={styles.productName}>
-        Lavender Essential Oil, Soothing Aromatheray Scent - 5 Fluid Ounce
+      <Text style={[styles.productName, {alignSelf:alignSelfStyle}]}>
+        {t('productDetailsScreen.productName')}
       </Text>
-      <Text style={styles.productBenefitsTitle}>Product benefits</Text>
+      <Text style={[styles.productBenefitsTitle, {alignSelf:alignSelfStyle}]}>
+        {t('productDetailsScreen.productBenefitsTitle')}
+      </Text>
       <View style={styles.productBenefitsContainer}>
         <View style={styles.productBenefit}>
           <View style={styles.productBenefitCheckmark}>
@@ -36,7 +47,9 @@ const ProductDetails = () => {
               resizeMode="contain"
             />
           </View>
-          <Text style={styles.productBenefitText}>Promotes relaxation</Text>
+          <Text style={styles.productBenefitText}>
+            {t('productDetailsScreen.productBenefits.benefit1')}
+          </Text>
         </View>
         <View style={styles.productBenefit}>
           <View style={styles.productBenefitCheckmark}>
@@ -46,7 +59,9 @@ const ProductDetails = () => {
               resizeMode="contain"
             />
           </View>
-          <Text style={styles.productBenefitText}>Eases anxiety</Text>
+          <Text style={styles.productBenefitText}>
+            {t('productDetailsScreen.productBenefits.benefit2')}
+          </Text>
         </View>
         <View style={styles.productBenefit}>
           <View style={styles.productBenefitCheckmark}>
@@ -56,24 +71,30 @@ const ProductDetails = () => {
               resizeMode="contain"
             />
           </View>
-          <Text style={styles.productBenefitText}>Improves mood</Text>
+          <Text style={styles.productBenefitText}>
+            {t('productDetailsScreen.productBenefits.benefit3')}
+          </Text>
         </View>
       </View>
       <TouchableOpacity style={styles.buyButton}>
-        <Text style={styles.buyButtonText}>Buy on amazon</Text>
+        <Text style={styles.buyButtonText}>
+          {t('productDetailsScreen.buyButton')}
+        </Text>
       </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 10,
   },
   backIcon: {
     width: 15,
     height: 15,
-    marginLeft: 10,
   },
   backButton: {
     marginTop: 30,
@@ -88,7 +109,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   productImage: {
-    width: 350,
+    width: '95%',
     height: 250,
     borderRadius: 10,
   },
@@ -113,15 +134,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     paddingHorizontal: 10,
-    // textAlign: 'center',
     marginTop: 20,
   },
   productBenefitsTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     paddingHorizontal: 10,
-
-    // textAlign: 'center',
     marginTop: 20,
   },
   productBenefitsContainer: {
@@ -137,10 +155,8 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     borderRadius: 10,
-    // backgroundColor: '#00B050',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginRight: 10,
   },
   productBenefitCheckmarkText: {
     color: '#FFFFFF',

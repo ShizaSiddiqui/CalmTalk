@@ -1,16 +1,18 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, I18nManager } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const TermsAndConditionsScreen = () => {
   const navigation = useNavigation();
-
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Image
           source={require('../../assets/images/back.png')}
-          style={styles.backArrowIcon}
+          style={[styles.backArrowIcon, {transform:transformStyle}]}
         />
         <Text style={styles.headerText}>Terms & Conditions</Text>
       </View>

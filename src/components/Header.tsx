@@ -7,18 +7,45 @@ import {
   TouchableOpacity,
   ImageBackground,
   Modal,
+  TextInput,
+  I18nManager,
+  Platform
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import CalendarPicker from 'react-native-calendar-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useTranslation } from 'react-i18next';
 
 const Header = ({ navigation }) => {
+  const { t } = useTranslation();
   const [isDiaryModalVisible, setIsDiaryModalVisible] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
+  const isRTL = I18nManager.isRTL;
+  const alignItemStyle =  isRTL ? 'flex-start': null;
+  const textAlignStyle =  isRTL ? 'right' :'left';
+  const alignSelfStyle = isRTL ? 'flex-start' : null;
+
+  const formatDate = (date) => {
+    const options = {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+      weekday: 'short',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    };
+    return date.toLocaleString('en-US', options).replace(/,\s(\d+)/, ' $1');
+  };
+
   const [notes, setNotes] = useState([
-    { id: 1, title: 'Heading ......', text: 'Lorem Ipsum I' },
+    { id: 1, title: formatDate(new Date()), text: t('header.sayYourMindHere') },
+  ]);
+
+  const [voiceNotes, setVoiceNotes] = useState([
+    { id: 1, title: formatDate(new Date()), text: t('header.sayYourMindHere') },
   ]);
 
   const onDateChange = (date) => {
@@ -34,8 +61,8 @@ const Header = ({ navigation }) => {
   const handleAddNote = () => {
     const newNote = {
       id: notes.length + 1,
-      title: 'New Heading ......',
-      text: 'New Lorem Ipsum',
+      title: formatDate(new Date()),
+      text: t('header.sayYourMindHere'),
     };
     setNotes([...notes, newNote]);
   };
@@ -44,14 +71,24 @@ const Header = ({ navigation }) => {
     setNotes(notes.filter((note) => note.id !== id));
   };
 
+  const handleNoteChange = (id, text) => {
+    setNotes(notes.map((note) => (note.id === id ? { ...note, text } : note)));
+  };
+
   const handleAddVoiceNote = () => {
     const newVoiceNote = {
-      id: notes.length + 1,
-      title: 'Voice Note',
-      text: 'New voice note added.',
+      id: voiceNotes.length + 1,
+      title: formatDate(new Date()),
+      text: t('header.sayYourMindHere'),
     };
-    setNotes([...notes, newVoiceNote]);
+    setVoiceNotes([...voiceNotes, newVoiceNote]);
   };
+
+  const handleDeleteVoiceNote = (id) => {
+    setVoiceNotes(voiceNotes.filter((voiceNote) => voiceNote.id !== id));
+  };
+
+
 
   return (
     <ImageBackground
@@ -60,7 +97,7 @@ const Header = ({ navigation }) => {
     >
       <View style={styles.container}>
         <View style={styles.headerTop}>
-          <Text style={styles.greeting}>Hi John 👋</Text>
+          <Text style={styles.greeting}>{t('header.hiJohn')}</Text>
           <View style={styles.icons}>
             <TouchableOpacity onPress={() => setIsDiaryModalVisible(true)}>
               <Image
@@ -78,12 +115,12 @@ const Header = ({ navigation }) => {
           </View>
         </View>
 
-        <View style={styles.quoteContainer}>
-          <Text style={styles.quote}>Peace comes from within!</Text>
+        <View style={[styles.quoteContainer,{paddingVertical:isRTL ? 0 : 10}]}>
+          <Text style={[styles.quote, {paddingVertical: Platform.OS === 'ios' ? '7%' : '10%'}]}>{t('header.peaceComesFromWithin')}</Text>
         </View>
         <View style={styles.separator} />
 
-        <Text style={styles.question}>How you feel today?</Text>
+        <Text style={[styles.question, { alignSelf: alignSelfStyle}]}>{t('header.howYouFeelToday')}</Text>
         <View style={styles.moodContainer}>
           <TouchableOpacity style={styles.moodItem}>
             <Image
@@ -91,7 +128,7 @@ const Header = ({ navigation }) => {
               style={styles.moodIcon}
               resizeMode="contain"
             />
-            <Text style={styles.moodText}>Excellent</Text>
+            <Text style={styles.moodText}>{t('header.excellent')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.moodItem}>
             <Image
@@ -99,7 +136,7 @@ const Header = ({ navigation }) => {
               style={styles.moodIcon}
               resizeMode="contain"
             />
-            <Text style={styles.moodText}>Good</Text>
+            <Text style={styles.moodText}>{t('header.good')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.moodItem}>
             <Image
@@ -107,7 +144,7 @@ const Header = ({ navigation }) => {
               style={styles.moodIcon}
               resizeMode="contain"
             />
-            <Text style={styles.moodText}>Okay</Text>
+            <Text style={styles.moodText}>{t('header.okay')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.moodItem}>
             <Image
@@ -115,7 +152,7 @@ const Header = ({ navigation }) => {
               style={styles.moodIcon}
               resizeMode="contain"
             />
-            <Text style={styles.moodText}>Bad</Text>
+            <Text style={styles.moodText}>{t('header.bad')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.moodItem}>
             <Image
@@ -123,7 +160,7 @@ const Header = ({ navigation }) => {
               style={styles.moodIcon}
               resizeMode="contain"
             />
-            <Text style={styles.moodText}>Terrible</Text>
+            <Text style={styles.moodText}>{t('header.terrible')}</Text>
           </TouchableOpacity>
         </View>
         <Modal
@@ -136,12 +173,18 @@ const Header = ({ navigation }) => {
         >
           <View style={styles.modalView}>
             <ScrollView
+              horizontal={false}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{
+                overflowX: 'hidden',
+              }}
             >
               <View style={styles.modalHeader}>
                 <View style={styles.modalTitleContainer}>
-                  <Text style={styles.modalTitle}>Daily Diary</Text>
+                  <Text style={styles.modalTitle}>
+                    {t('header.dailyDiary')}
+                  </Text>
                   <Image
                     source={require('../../assets/images/dairy.png')}
                     style={styles.modalIcon}
@@ -162,7 +205,7 @@ const Header = ({ navigation }) => {
                 <View className={styles.calendarContainer}>
                   <CalendarPicker
                     onDateChange={onDateChange}
-                    width={350}
+                    width={330}
                     selectedStartDate={selectedDate}
                     customDatesStyles={[
                       {
@@ -227,8 +270,8 @@ const Header = ({ navigation }) => {
                     justifyContent: 'space-between',
                   }}
                 >
-                  <Text style={{ fontSize: 16 }}>Time</Text>
-                  <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 16 }}>{t('header.time')}</Text>
+                  <View style={{ flexDirection: 'row', marginHorizontal: 2 }}>
                     <TouchableOpacity
                       style={styles.dateTimePicker}
                       onPress={() => setShowTimePicker(true)}
@@ -252,7 +295,13 @@ const Header = ({ navigation }) => {
                       <Text style={styles.noteTitle}>{note.title}</Text>
                     </View>
                     <View style={styles.noteBody}>
-                      <Text style={styles.noteText}>{note.text}</Text>
+                      <TextInput
+                        style={[styles.noteTextInput, {textAlign:textAlignStyle}]}
+                        placeholder={note.text}
+                        value={notes}
+                        onChangeText={(text) => handleNoteChange(note.id, text)}
+                        multiline
+                      />
                     </View>
                     <View style={styles.noteActions}>
                       <TouchableOpacity
@@ -275,24 +324,39 @@ const Header = ({ navigation }) => {
                   </View>
                 ))}
 
-                <View style={styles.voiceNoteContainer}>
-                  <View style={styles.voiceNoteHeader}>
-                    <Text style={styles.voiceNoteTitle}>Voice Note</Text>
-                  </View>
-                  <View style={styles.voiceNoteBody}>
-                    <TouchableOpacity>
-                      <Image
-                        source={require('../../assets/images/play.png')}
-                        style={styles.voiceNotePlayIcon}
-                        resizeMode="contain"
-                      />
-                    </TouchableOpacity>
-                    <View style={styles.voiceNoteProgress}>
-                      <View style={styles.voiceNoteProgressBar} />
+                {voiceNotes.map((voiceNote) => (
+                  <View key={voiceNote.id} style={styles.voiceNoteContainer}>
+                    <View style={[styles.voiceNoteHeader, , {alignItems:alignItemStyle}]}>
+                      <Text style={styles.voiceNoteTitle}>
+                        {t('header.voiceNote')}
+                      </Text>
                     </View>
-                    <Text style={styles.voiceNoteTime}>16:45</Text>
+                    <View style={styles.voiceNoteBody}>
+                      <TouchableOpacity>
+                        <Image
+                          source={require('../../assets/images/play.png')}
+                          style={styles.voiceNotePlayIcon}
+                          resizeMode="contain"
+                        />
+                      </TouchableOpacity>
+                      <View style={styles.voiceNoteProgress}>
+                        <View style={styles.voiceNoteProgressBar} />
+                      </View>
+                      <Text style={styles.voiceNoteTime}>16:45</Text>
+                    </View>
+                    <View style={styles.noteActions}>
+                      <TouchableOpacity
+                        onPress={() => handleDeleteVoiceNote(voiceNote.id)}
+                      >
+                        <Image
+                          source={require('../../assets/images/close.png')}
+                          style={styles.noteActionIcon}
+                          resizeMode="contain"
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
+                ))}
               </View>
             </ScrollView>
             <View style={styles.voiceNoteActions}>
@@ -337,6 +401,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: '14%',
+    alignItems:'center'
   },
   icons: {
     flexDirection: 'row',
@@ -349,12 +414,11 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 20,
     fontWeight: '600',
-    marginVertical: 10,
+    marginVertical: '3%',
     color: 'white',
   },
   quoteContainer: {
     backgroundColor: 'white',
-    paddingVertical: 15,
     borderRadius: 20,
     elevation: 2,
     shadowColor: '#000',
@@ -362,7 +426,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     alignItems: 'center',
-    marginVertical: 15,
+    marginVertical: '3%',
     paddingHorizontal: '30%',
     justifyContent: 'center',
   },
@@ -370,24 +434,26 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
-  },
+},
   separator: {
-    height: 0.25,
+    height: 0.5,
     backgroundColor: 'white',
-    marginVertical: 5,
+    marginTop: 15,
   },
   question: {
     fontSize: 18,
     fontWeight: '500',
-    marginVertical: 8,
+    marginVertical: '3%',
+
     color: 'white',
-  },
+
+},
   moodContainer: {
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    // borderWidth: 4,
+    position:'relative'
   },
   moodItem: {
     alignItems: 'center',
@@ -409,7 +475,6 @@ const styles = StyleSheet.create({
   moodText: {
     marginTop: 5,
     fontSize: 13,
-    // fontWeight: 'bold',
     color: '#A1A1AA',
   },
   modalView: {
@@ -426,10 +491,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     marginHorizontal: 20,
-    width: '90%',
+    width: '93%',
     height: '80%',
     marginTop: '15%',
-    paddingHorizontal: 10,
+    paddingHorizontal: 14,
     paddingVertical: 20,
     alignSelf: 'center',
   },
@@ -442,7 +507,6 @@ const styles = StyleSheet.create({
   dateTimePicker: {
     paddingVertical: 15,
     paddingHorizontal: 15,
-    // backgroundColor: '#E0E0E0',
     borderWidth: 0.2,
     marginVertical: 10,
     borderRadius: 10,
@@ -453,7 +517,6 @@ const styles = StyleSheet.create({
   },
   dateTimePickerLabel: {
     fontSize: 14,
-    // fontWeight: 'bold',
     color: '#23232399',
   },
   modalHeader: {
@@ -490,9 +553,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     backgroundColor: 'white',
-    // padding: 20,
     borderRadius: 10,
     marginBottom: 20,
+    marginHorizontal: 10,
   },
   calendarHeader: {
     flexDirection: 'row',
@@ -502,7 +565,6 @@ const styles = StyleSheet.create({
   },
   calendarTitle: {
     fontSize: 18,
-    // fontWeight: 'bold',
   },
   calendarNav: {
     flexDirection: 'row',
@@ -535,8 +597,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     height: 40,
-    // borderBottomWidth: 1,
-    // borderColor: '#ddd',
   },
   calendarCell: {
     width: '14.28%',
@@ -553,6 +613,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
+    borderWidth: 1,
   },
   timeLabel: {
     fontSize: 16,
@@ -583,7 +644,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 15,
     borderRadius: 10,
-    marginBottom: 20,
+    marginBottom: 10,
     borderWidth: 1,
     borderColor: '#E5DFFE',
   },
@@ -610,15 +671,21 @@ const styles = StyleSheet.create({
     height: 25,
     marginHorizontal: 2,
   },
+  noteTextInput: {
+    fontSize: 16,
+    color: 'gray',
+  },
   voiceNoteContainer: {
     paddingHorizontal: 10,
     paddingVertical: 15,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#E5DFFE',
+    marginVertical: 10,
   },
   voiceNoteHeader: {
     marginBottom: 10,
+
   },
   voiceNoteTitle: {
     fontSize: 16,

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, I18nManager } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import { t } from 'i18next';
 
 const BookAppointment: React.FC = () => {
   const navigation = useNavigation();
+  const isRTL = I18nManager.isRTL;
+  const alignItemStyle =  isRTL ? 'flex-start': null;
 
-  const [selected, setSelected] = useState<'individual' | 'couples' | 'teen'>(
-    'individual',
-  );
+  const [selected, setSelected] = useState<'individual' | 'couples' | 'teen'>('individual');
 
   const getImageSource = () => {
     switch (selected) {
@@ -23,11 +24,7 @@ const BookAppointment: React.FC = () => {
     }
   };
 
-  const renderTile = (
-    type: 'individual' | 'couples' | 'teen',
-    title: string,
-    subtitle: string,
-  ) => {
+  const renderTile = (type: 'individual' | 'couples' | 'teen', title: string, subtitle: string) => {
     const isSelected = selected === type;
     const tileStyle = isSelected ? styles.selectedTile : styles.tile;
 
@@ -40,13 +37,13 @@ const BookAppointment: React.FC = () => {
             end={{ x: 1, y: 1 }}
             style={styles.gradient}
           >
-            <Text style={styles.tileTitle}>{title}</Text>
-            <Text style={styles.tileSubtitle}>{subtitle}</Text>
+            <Text style={[styles.tileTitle]}>{title}</Text>
+            <Text style={[styles.tileSubtitle]}>{subtitle}</Text>
           </LinearGradient>
         ) : (
           <>
-            <Text style={styles.tileTitle}>{title}</Text>
-            <Text style={styles.tileSubtitle}>{subtitle}</Text>
+            <Text style={[styles.tileTitle]}>{title}</Text>
+            <Text style={[styles.tileSubtitle]}>{subtitle}</Text>
           </>
         )}
       </TouchableOpacity>
@@ -57,16 +54,16 @@ const BookAppointment: React.FC = () => {
     <>
       <View style={styles.container}>
         <View style={styles.header}>
-          <View style={styles.textContainer}>
-            <Text style={styles.title}>Book appointment</Text>
-            <Text style={styles.subtitle}>
-              Prioritize mental health with us. Booking is simple and seamless.
-            </Text>
+          <View style={[styles.textContainer, {alignItems:alignItemStyle}]}>
+            <Text style={[styles.title]}>{t('bookAppointment.title')}</Text>
+            <Text style={[styles.subtitle]}>{t('bookAppointment.subtitle')}</Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigation.navigate('TherapistFormScreen')}
             >
-              <Text style={styles.buttonText}>Book appointment</Text>
+              <Text style={[styles.buttonText]}>
+                {t('bookAppointment.buttonText')}
+              </Text>
             </TouchableOpacity>
           </View>
           <Image
@@ -78,9 +75,21 @@ const BookAppointment: React.FC = () => {
       </View>
 
       <View style={styles.selectionContainer}>
-        {renderTile('individual', 'Individual', 'For yourself')}
-        {renderTile('couples', 'Couples', 'For you & partner')}
-        {renderTile('teen', 'Teen', 'For your child')}
+        {renderTile(
+          'individual',
+          t('bookAppointment.individualTitle'),
+          t('bookAppointment.individualSubtitle'),
+        )}
+        {renderTile(
+          'couples',
+          t('bookAppointment.couplesTitle'),
+          t('bookAppointment.couplesSubtitle'),
+        )}
+        {renderTile(
+          'teen',
+          t('bookAppointment.teenTitle'),
+          t('bookAppointment.teenSubtitle'),
+        )}
       </View>
       <View style={styles.indicatorContainer}>
         <View
@@ -133,11 +142,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
   },
+
   subtitle: {
     fontSize: 14,
     color: '#666',
     marginVertical: 8,
   },
+
   button: {
     width: '80%',
     backgroundColor: '#B1C181',
@@ -151,6 +162,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 16,
   },
+
   image: {
     width: 130,
     height: 130,
@@ -171,8 +183,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
     marginHorizontal: 3,
-    // paddingVertical: 8,
-    // borderWidth:1,
   },
   selectedTile: {
     flex: 1,
@@ -180,7 +190,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 3,
-    // paddingVertical: 10,
   },
   gradient: {
     flex: 1,
@@ -197,10 +206,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginVertical: 3,
   },
+  
   tileSubtitle: {
-    fontSize: 12,
+    fontSize: 10,
     color: '#666',
   },
+ 
   indicatorContainer: {
     flexDirection: 'row',
     justifyContent: 'center',

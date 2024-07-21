@@ -7,49 +7,56 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  I18nManager
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { t } from 'i18next';
+
 const BlogsFavoriteScreen = () => {
   const navigation = useNavigation();
   const blogTopic = [
-    'All',
-    'General Topics',
-    'Depression',
-    'Parenting',
-    'Other',
+    t('blogsFavoriteScreen.blogTopic.all'),
+    t('blogsFavoriteScreen.blogTopic.generalTopics'),
+    t('blogsFavoriteScreen.blogTopic.depression'),
+    t('blogsFavoriteScreen.blogTopic.parenting'),
+    t('blogsFavoriteScreen.blogTopic.other'),
   ];
   const [activeBlogTopic, setActiveBlogTopic] = useState(blogTopic[0]);
 
   const [blog, setBlog] = useState([
     {
-      title: 'Travel and Its Impact on Mental Health',
+      title: t('blogsFavoriteScreen.blog.title1'),
       image: require('../../assets/images/blog1.png'),
     },
     {
-      title: 'Are you struggling to find time to rest during the...',
+      title: t('blogsFavoriteScreen.blog.title2'),
       image: require('../../assets/images/blog2.png'),
     },
     {
-      title: 'Making peace with the fear of being forgotten',
+      title: t('blogsFavoriteScreen.blog.title3'),
       image: require('../../assets/images/blog5.png'),
     },
     {
-      title: 'Distinguishing between psychological frustration a....',
+      title: t('blogsFavoriteScreen.blog.title4'),
       image: require('../../assets/images/blog3.png'),
     },
     {
-      title: 'Feeling Mental Fatigue | Learn about its Symptoms,...',
+      title: t('blogsFavoriteScreen.blog.title5'),
       image: require('../../assets/images/blog4.png'),
     },
     {
-      title: 'What to Expect When Meeting Your Therapist Online',
+      title: t('blogsFavoriteScreen.blog.title6'),
       image: require('../../assets/images/blog6.png'),
     },
-    // Add more blog data here
   ]);
+
+
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,11 +68,11 @@ const BlogsFavoriteScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={styles.backIcon}
+              style={[styles.backIcon, {transform:transformStyle}]}
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <Text style={styles.title}>Favorite blogs</Text>
+          <Text style={styles.title}>{t('blogsFavoriteScreen.title')}</Text>
         </View>
 
         <View style={styles.recentBlogsContainer}>
@@ -113,10 +120,10 @@ const BlogsFavoriteScreen = () => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // marginTop: '10%',
   },
   header: {
     flexDirection: 'row',

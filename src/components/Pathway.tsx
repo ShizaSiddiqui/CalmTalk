@@ -6,27 +6,32 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  I18nManager
 } from 'react-native';
 import Svg, { Circle, Text as SvgText } from 'react-native-svg';
+import { useTranslation } from 'react-i18next';
 
 const pathways = [
   {
     id: '1',
     progress: 64,
-    day: 'Day 1 of 10',
-    title: 'Positivity pathway',
+    day: 1,
+    totalDays: 10,
+    title: 'positivityPathway',
   },
   {
     id: '2',
     progress: 64,
-    day: 'Day 1 of 10',
-    title: 'Positivity pathway',
+    day: 1,
+    totalDays: 10,
+    title: 'positivityPathway',
   },
   {
     id: '3',
     progress: 64,
-    day: 'Day 1 of 10',
-    title: 'Positivity pathway',
+    day: 1,
+    totalDays: 10,
+    title: 'positivityPathway',
   },
   // Add more pathways as needed
 ];
@@ -35,6 +40,11 @@ const { width } = Dimensions.get('window');
 
 const Pathway: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const { t } = useTranslation();
+  const isRTL = I18nManager.isRTL;
+
+  const alignItemStyle =  isRTL ? 'flex-start': null;
+
 
   const renderPathwayItem = ({ item }: { item: (typeof pathways)[0] }) => (
     <View style={styles.pathwayCard}>
@@ -44,7 +54,7 @@ const Pathway: React.FC = () => {
           { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
         ]}
       >
-        <Text style={{ color: 'white' }}>Active</Text>
+        <Text style={{ color: 'white' }}>{t('pathway.active')}</Text>
       </View>
       <View style={styles.progressContainer}>
         <Svg height="60" width="60" viewBox="0 0 100 100">
@@ -70,7 +80,6 @@ const Pathway: React.FC = () => {
             x="50"
             y="55"
             fontSize="20"
-            // fontWeight="bold"
             fill="#9DB8A1"
             textAnchor="middle"
           >
@@ -79,9 +88,11 @@ const Pathway: React.FC = () => {
         </Svg>
       </View>
 
-      <View style={styles.pathwayTextContainer}>
-        <Text style={styles.pathwayDay}>{item.day}</Text>
-        <Text style={styles.pathwayTitle}>{item.title}</Text>
+      <View style={[styles.pathwayTextContainer, {alignItems:alignItemStyle}]}>
+        <Text style={styles.pathwayDay}>
+          {t('pathway.day', { day: item.day, totalDays: item.totalDays })}
+        </Text>
+        <Text style={styles.pathwayTitle}>{t(`pathway.${item.title}`)}</Text>
       </View>
     </View>
   );
@@ -99,9 +110,9 @@ const Pathway: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Pathway</Text>
+        <Text style={styles.headerTitle}>{t('pathway.title')}</Text>
         <TouchableOpacity>
-          <Text style={styles.viewAll}>View all &gt;</Text>
+          <Text style={styles.viewAll}>{t('pathway.viewAll')}</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -155,7 +166,7 @@ const styles = StyleSheet.create({
     padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    width: width - 64, // Adjust the width to fit within the screen with padding
+    width: width - 64,
     marginRight: 16,
   },
   progressContainer: {
@@ -171,7 +182,6 @@ const styles = StyleSheet.create({
   },
   pathwayTitle: {
     fontSize: 16,
-    // fontWeight: 'bold',
   },
   headerTag: {
     position: 'absolute',
@@ -181,7 +191,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingVertical: 5,
     paddingHorizontal: 15,
-    // borderRadius: 20,
   },
   indicatorContainer: {
     flexDirection: 'row',

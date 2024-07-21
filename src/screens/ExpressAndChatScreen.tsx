@@ -8,12 +8,16 @@ import {
   StyleSheet,
   Dimensions,
   Modal,
+  I18nManager,
   TextInput,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useNavigation } from '@react-navigation/native';
+
+import { t } from 'i18next';
+import { transform } from '@babel/core';
 
 const initialLayout = { width: Dimensions.get('window').width };
 const otherPosts = [
@@ -63,12 +67,17 @@ const ExpressAndChatScreen = () => {
   const [trendingTab, setTrendingTab] = useState('#MentalHealthDay');
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: 'others', title: "Other's posts" },
-    { key: 'myposts', title: 'My posts' },
+    { key: 'others', title: t('expressAndChatScreen.othersPosts') },
+    { key: 'myposts', title: t('expressAndChatScreen.myPosts') },
   ]);
   const [modalVisible, setModalVisible] = useState(false);
   const [newPostText, setNewPostText] = useState('');
   const navigation = useNavigation();
+
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const alignSelfStyle= isRTL? 'flex-start'   : null;
 
   const toggleLike = (id: string, isOtherPosts: boolean) => {
     if (isOtherPosts) {
@@ -93,7 +102,7 @@ const ExpressAndChatScreen = () => {
           source={require('../../assets/images/profile_user.png')}
           style={styles.profileImage}
         />
-        <View style={styles.postInfo}>
+        <View style={[styles.postInfo, {alignItems:alignSelfStyle}]}>
           <Text style={styles.postName}>{item.name}</Text>
           <Text style={styles.postDate}>{item.date}</Text>
         </View>
@@ -177,13 +186,13 @@ const ExpressAndChatScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={styles.backIcon}
+              style={[styles.backIcon, {transform:transformStyle}]}
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <Text style={styles.title}>Express and Chat</Text>
+          <Text style={[styles.title]}>{t('expressAndChatScreen.title')}</Text>
         </View>
-        <Text style={styles.trendingNow}>Trending Now</Text>
+        <Text style={[styles.trendingNow, , {alignSelf:alignSelfStyle}]}>{t('expressAndChatScreen.trendingNow')}</Text>
         <View style={styles.trendingTabs}>
           <TouchableOpacity
             style={
@@ -200,7 +209,7 @@ const ExpressAndChatScreen = () => {
                   : styles.inactiveTabText
               }
             >
-              #MentalHealthDay
+              {t('expressAndChatScreen.mentalHealthDay')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -218,7 +227,7 @@ const ExpressAndChatScreen = () => {
                   : styles.inactiveTabText
               }
             >
-              #CalmTalk
+              {t('expressAndChatScreen.calmTalk')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -234,7 +243,7 @@ const ExpressAndChatScreen = () => {
                   : styles.inactiveTabText
               }
             >
-              #Therapy
+              {t('expressAndChatScreen.therapy')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -272,10 +281,10 @@ const ExpressAndChatScreen = () => {
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent]}>
             <TextInput
-              style={styles.input}
-              placeholder="Express and chat"
+              style={[styles.input,{textAlign:textAlignStyle}]}
+              placeholder={t('expressAndChatScreen.expressAndChat')}
               placeholderTextColor={'#424242B2'}
               multiline={true}
               maxLength={400}
@@ -283,7 +292,7 @@ const ExpressAndChatScreen = () => {
               onChangeText={setNewPostText}
             />
             <TouchableOpacity
-              style={{ position: 'absolute', right: 10, top: 10 }}
+              style={{ position: 'absolute', right: 8, top: 3 }}
               onPress={() => setModalVisible(false)}
             >
               <Image
@@ -294,7 +303,7 @@ const ExpressAndChatScreen = () => {
 
             <View style={styles.modalActions}>
               <Text style={styles.expressBottomText}>
-                Max 400 characters allowed
+                {t('expressAndChatScreen.maxCharacters')}
               </Text>
               <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
@@ -374,11 +383,10 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 100,
-
     borderRadius: 5,
-    // padding: 10,
     marginBottom: 20,
     textAlignVertical: 'top',
+    paddingTop:10,
   },
   modalActions: {
     flexDirection: 'row',
@@ -450,7 +458,6 @@ const styles = StyleSheet.create({
   postContainer: {
     backgroundColor: 'white',
     borderRadius: 10,
-    // paddingHorizontal: 5,
     paddingVertical: 15,
     marginBottom: 20,
     elevation: 1,
