@@ -1,11 +1,30 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, I18nManager } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { t } from 'i18next';
 
 // Import the image you uploaded
 const uploadedImage = require('../../assets/images/highlighted_products.png');
 
-const HighlightedProductsTile = ({ title = 'Lavender Oil', onPress }) => {
+
+const HighlightedProductsTile = ({ title = t('highlightedProductTile.lavenderOil'), onPress }) => {
+
+  // Assuming `uploadedImage` is dynamically provided or passed as a prop
+  const uploadedImage = require('../../assets/images/lavender-oil-image.png'); // Example image, replace as needed
+
+
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' :null
+
+  // Example bullet points data, replace with actual data as needed
+  const bulletPoints = [
+    { image: require('../../assets/images/checkmark_payment.png'), text: t('highlightedProductTile.promotesRelaxation') },
+    { image: require('../../assets/images/checkmark_payment.png'), text: t('highlightedProductTile.easesAnxiety') },
+    { image: require('../../assets/images/checkmark_payment.png'), text: t('highlightedProductTile.improvesMood') },
+  ];
+
   return (
     <TouchableOpacity onPress={onPress} style={styles.courseTile}>
       <LinearGradient
@@ -20,40 +39,22 @@ const HighlightedProductsTile = ({ title = 'Lavender Oil', onPress }) => {
           resizeMode="contain"
         />
 
-        <Text style={styles.courseTitle}>{title}</Text>
-        <View style={styles.bulletsContainer}>
-          <Image
-            source={require('../../assets/images/checkmark_payment.png')}
-            style={styles.bulletsImage}
-            resizeMode="contain"
-          />
+        <Text style={[styles.courseTitle, {alignSelf:alignSelfStyle}]}>{title}</Text>
 
-          <Text style={styles.courseSubText}>Promotes relaxation</Text>
-        </View>
-
-        <View style={styles.bulletsContainer}>
-          <Image
-            source={require('../../assets/images/checkmark_payment.png')}
-            style={styles.bulletsImage}
-            resizeMode="contain"
-          />
-
-          <Text style={styles.courseSubText}>Eases anxiety</Text>
-        </View>
-
-        <View style={styles.bulletsContainer}>
-          <Image
-            source={require('../../assets/images/checkmark_payment.png')}
-            style={styles.bulletsImage}
-            resizeMode="contain"
-          />
-
-          <Text style={styles.courseSubText}>Improves mood</Text>
-        </View>
+        {bulletPoints.map((bullet, index) => (
+          <View key={index} style={[styles.bulletsContainer ]}>
+            <Image
+              source={bullet.image}
+              style={styles.bulletsImage}
+              resizeMode="contain"
+            />
+            <Text style={[styles.courseSubText,]}>{bullet.text}</Text>
+          </View>
+        ))}
 
         <View style={styles.tagsContainer}>
           <Text style={{ marginHorizontal: 5, alignSelf: 'center' }}>
-            Check on
+            {t('highlightedProductTile.checkOn')}
           </Text>
           <Image
             source={require('../../assets/images/check_on.png')}
@@ -66,15 +67,16 @@ const HighlightedProductsTile = ({ title = 'Lavender Oil', onPress }) => {
   );
 };
 
+
+
 const styles = StyleSheet.create({
   courseTile: {
-    // borderWidth: 1,
     width: 300,
-    backgroundColor: '#E5F6EF', // Background color from the image
-    borderRadius: 20, // Adjusted border radius
+    backgroundColor: '#E5F6EF',
+    borderRadius: 20,
     marginRight: 10,
-    elevation: 5, // Add shadow for Android
-    shadowColor: '#000', // Add shadow for iOS
+    elevation: 5, 
+    shadowColor: '#000', 
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
@@ -88,11 +90,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingVertical: 5,
     paddingHorizontal: 15,
-    zIndex: 1, // Add z-index to make sure
+    zIndex: 1, 
   },
   gradient: {
     width: '100%',
-    height: 190, // Adjusted height to match the image
+    height: 190, 
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -108,13 +110,12 @@ const styles = StyleSheet.create({
   courseTitle: {
     marginVertical: 10,
     fontWeight: '600',
-    fontSize: 18, // Adjusted font size
-    color: '#2D2D2D', // Title color
+    fontSize: 18, 
+    color: '#2D2D2D', 
   },
   courseSubText: {
-    fontSize: 14, // Adjusted font size
+    fontSize: 14, 
     color: '#282828B2',
-    // marginHorizontal: 10,
     width: '80%',
     lineHeight: 25,
   },
@@ -151,7 +152,6 @@ const styles = StyleSheet.create({
   checkOnImage: {
     width: 20,
     height: 20,
-    // marginHorizontal:
   },
 });
 

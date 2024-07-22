@@ -3,19 +3,19 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
   StyleSheet,
   Dimensions,
   FlatList,
-  Button,
   I18nManager,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import RNRestart from 'react-native-restart';
 import i18n from '../../i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import RNRestart from 'react-native-restart';
+import RNPickerSelect from 'react-native-picker-select';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -39,8 +39,11 @@ const getCarouselItems = () => [
 ];
 
 const LanguageSwitcher = ({ setCarouselItems }) => {
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+
   const switchLanguage = async (language) => {
     try {
+      setSelectedLanguage(language);
       await i18n.changeLanguage(language);
       const isRTL = language === 'ar';
       I18nManager.forceRTL(isRTL);
@@ -56,13 +59,14 @@ const LanguageSwitcher = ({ setCarouselItems }) => {
 
   return (
     <View style={styles.languageSwitcherContainer}>
-      <Button
-        title={i18n.t('languageSwitcher.english')}
-        onPress={() => switchLanguage('en')}
-      />
-      <Button
-        title={i18n.t('languageSwitcher.arabic')}
-        onPress={() => switchLanguage('ar')}
+      <RNPickerSelect
+        value={selectedLanguage}
+        onValueChange={(value) => switchLanguage(value)}
+        items={[
+          { label: 'English', value: 'en' },
+          { label: 'العربية', value: 'ar' },
+        ]}
+        style={pickerSelectStyles}
       />
     </View>
   );
@@ -161,8 +165,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   languageSwitcherContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
     width: '100%',
     marginBottom: 10,
   },
@@ -226,6 +228,33 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    width: '20%',
+    fontSize: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    // borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 20,
+    color: 'black',
+    // paddingRight: 30,
+    backgroundColor: '#E6E6E6',
+    marginHorizontal: 10,
+    textAlign: 'center',
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
 

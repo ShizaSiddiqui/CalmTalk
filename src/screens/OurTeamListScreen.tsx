@@ -8,6 +8,7 @@ import {
   Image,
   ImageBackground,
   FlatList,
+  I18nManager
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -21,6 +22,10 @@ const OurTeamListScreen = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const alignItemStyle =  isRTL ? 'flex-start': null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
 
   const teamMembers = [
     {
@@ -76,7 +81,7 @@ const OurTeamListScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={styles.backArrow}
+          style={[styles.backArrow, {transform:transformStyle}]}
             />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Our team</Text>
@@ -261,7 +266,6 @@ const OurTeamListScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#F7F7F7',
   },
   headerBackground: {
     width: '100%',
@@ -385,11 +389,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingVertical: 5,
     paddingHorizontal: 10,
+    
   },
   therapistSubTags: {
     fontSize: 12,
     color: '#5C5C5C',
     marginBottom: 5,
+    
   },
   therapistDetails: {
     fontSize: 10,

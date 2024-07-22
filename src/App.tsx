@@ -18,6 +18,8 @@ const App = () => {
       const isRTL = languageTag === 'ar';
 
       I18nManager.forceRTL(isRTL);
+      I18nManager.allowRTL(isRTL);
+
       await i18n.changeLanguage(languageTag);
 
       if (I18nManager.isRTL !== isRTL) {

@@ -231,7 +231,7 @@ const LoginScreen: React.FC = () => {
 
           <TouchableOpacity
             style={styles.guestButton}
-            onPress={() => navigation.navigate('GuestLogin')}
+            onPress={() => navigation.navigate('BottomTabs')}
           >
             <Text style={styles.guestButtonText}>
               {t('login.continueAsGuest')}

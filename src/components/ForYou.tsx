@@ -7,37 +7,42 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  I18nManager
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
-const moods = ['Recommended', 'Calm', 'Sleepy', 'Moody', 'Motivated'];
+const { width } = Dimensions.get('window');
+
+const moods = ['recommended', 'calm', 'sleepy', 'moody', 'motivated'];
 
 const meditations = [
   {
     id: '1',
     image: require('../../assets/images/play.png'),
-    title: 'Love kind meditation',
+    title: 'loveKindMeditation',
     duration: '16:45',
   },
   {
     id: '2',
     image: require('../../assets/images/play.png'),
-    title: 'Relaxing Waves',
+    title: 'relaxingWaves',
     duration: '12:30',
   },
   {
     id: '3',
     image: require('../../assets/images/play.png'),
-    title: 'Mindful Breathing',
+    title: 'mindfulBreathing',
     duration: '10:00',
   },
 ];
-
-const { width } = Dimensions.get('window');
 
 const ForYou: React.FC = () => {
   const [activeMood, setActiveMood] = useState(moods[0]);
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
+  const { t } = useTranslation();
+  const isRTL = I18nManager.isRTL;
+  const alignItemStyle =  isRTL ? 'flex-start': null;
 
   const renderMoodItem = ({ item }: { item: string }) => (
     <TouchableOpacity
@@ -55,7 +60,7 @@ const ForYou: React.FC = () => {
           activeMood === item ? styles.activeMoodText : styles.inactiveMoodText,
         ]}
       >
-        {item}
+        {t(`foryou.${item}`)}
       </Text>
     </TouchableOpacity>
   );
@@ -67,13 +72,15 @@ const ForYou: React.FC = () => {
   }) => (
     <View style={styles.meditationCard}>
       <Image source={item.image} style={styles.meditationImage} />
-      <View style={styles.meditationTextContainer}>
-        <Text style={styles.meditationTitle}>{item.title}</Text>
+      <View style={[styles.meditationTextContainer, {alignItems:alignItemStyle}]}>
+        <Text style={styles.meditationTitle}>{t(`foryou.${item.title}`)}</Text>
         <View style={styles.progressBarContainer}>
           <View style={styles.progressBar} />
         </View>
       </View>
-      <Text style={styles.meditationDuration}>{item.duration}</Text>
+      <Text style={styles.meditationDuration}>
+        {t('foryou.duration', { duration: item.duration })}
+      </Text>
     </View>
   );
 
@@ -90,9 +97,9 @@ const ForYou: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>For you</Text>
+        <Text style={styles.headerTitle}>{t('foryou.title')}</Text>
         <TouchableOpacity>
-          <Text style={styles.viewAll}>View all &gt;</Text>
+          <Text style={styles.viewAll}>{t('foryou.viewAll')}</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -113,7 +120,7 @@ const ForYou: React.FC = () => {
         viewabilityConfig={viewabilityConfig}
         ref={flatListRef}
       />
-      <View style={styles.indicatorContainer}>
+      <View style={[styles.indicatorContainer]}>
         {meditations.map((_, index) => (
           <View
             key={index}
@@ -158,7 +165,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#9DB8A1',
   },
   inactiveMoodButton: {
-    // backgroundColor: '#E6E6E6',
     borderWidth: 1,
     borderColor: '#DDDEE4',
   },
@@ -190,11 +196,11 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   meditationTextContainer: {
-    flex: 1,
+    flex: 1,    
+
   },
   meditationTitle: {
     fontSize: 16,
-    // fontWeight: 'bold',
     marginHorizontal: 8,
   },
   progressBarContainer: {
@@ -208,12 +214,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#9DB8A1',
     borderRadius: 5,
     height: 5,
-    width: '50%', // Adjust this based on the actual progress
+    width: '50%', 
   },
   meditationDuration: {
     fontSize: 16,
     color: '#09090B',
-    // marginHorizontal:5
   },
   indicatorContainer: {
     flexDirection: 'row',

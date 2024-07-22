@@ -2,12 +2,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStackNavigator from './HomeStackNavigator';
-import DiscoverScreen from '../screens/DiscoverScreen';
+import DiscoverStackNavigator from './DiscoverStackNavigator';
 import ProfileScreen from '../screens/ProfileScreen';
 import TabIcon from '../components/TabIcon';
-import DiscoverStackNavigator from './DiscoverStackNavigator';
+import { Platform } from 'react-native';
 
-// Import your images
 const homeIcon = require('../../assets/images/home_bottom_tabs.png');
 const discoverIcon = require('../../assets/images/discover_bottom_tabs.png');
 const profileIcon = require('../../assets/images/profile_bottom_tabs.png');
@@ -37,7 +36,8 @@ const BottomTabsNavigator = () => {
         },
         tabBarShowLabel: false,
         tabBarStyle: {
-          paddingVertical: 25,
+          height:Platform.OS ==='android'?  75 : 80,
+          paddingTop: Platform.OS ==='ios'?  25 : 10,
           backgroundColor: '#ECF9EE',
         },
         headerShown: false,

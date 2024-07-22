@@ -9,120 +9,124 @@ import {
   ScrollView,
   TouchableOpacity,
   ImageBackground,
+  I18nManager
 } from 'react-native';
 import CalmMusic from '../components/CalmMusic';
 import TherapyCoursesTile from '../components/TherapyCoursesTile';
 import LinearGradient from 'react-native-linear-gradient';
-
-const data = {
-  blog: [
-    {
-      title: 'Travel and Its Impact on Mental Health',
-      image: require('../../assets/images/blog1.png'),
-    },
-    {
-      title: 'Are you struggling to find time to rest during the...',
-      image: require('../../assets/images/blog2.png'),
-    },
-    {
-      title: 'Making peace with the fear of being forgotten',
-      image: require('../../assets/images/blog3.png'),
-    },
-    {
-      title: 'Distinguishing between psychological frustration a....',
-      image: require('../../assets/images/blog4.png'),
-    },
-    {
-      title: 'Feeling Mental Fatigue | Learn about its Symptoms,...',
-      image: require('../../assets/images/blog5.png'),
-    },
-    {
-      title: 'What to Expect When Meeting Your Therapist Online',
-      image: require('../../assets/images/blog6.png'),
-    },
-    // Add more blog data here
-  ],
-  calmMusic: [
-    {
-      title: 'Love kind meditation',
-      duration: '16:45',
-      image: require('../../assets/images/play.png'),
-    },
-    // Add more calm music data here
-  ],
-  therapyCourses: [
-    {
-      title: 'First Session',
-      subText: 'Your therapist will build emotional...',
-      image: require('../../assets/images/therapy_courses_render_item_bg.png'),
-    },
-    {
-      title: 'First Session',
-      subText: 'Your therapist will build emotional...',
-      image: require('../../assets/images/therapy_courses_render_item_bg.png'),
-    },
-    // Add more therapy courses data here
-  ],
-  onlineAssessment: [
-    {
-      id: 1,
-      title: 'Depression Test',
-      image: require('../../assets/images/assessment1.png'),
-    },
-    {
-      id: 2,
-      title: 'Anxiety Test',
-      image: require('../../assets/images/assessment2.png'),
-    },
-    {
-      id: 3,
-      title: 'Anger Test',
-      image: require('../../assets/images/assessment3.png'),
-    },
-    // Add more online assessment data here
-  ],
-  therapists: [
-    {
-      name: 'Dr Jelena Lubenko',
-      tags: 'Psychologist',
-      subTags: 'Depression, Anxiety, ADHD, OCD',
-      years: '2 years',
-      location: 'India',
-      languages: 'English, Arabic',
-      image: require('../../assets/images/doctor2.png'),
-    },
-    {
-      name: 'Joao Laurence',
-      tags: 'Psychologist',
-      subTags: 'Depression, Anxiety, ADHD, OCD',
-      years: '2 years',
-      location: 'India',
-      languages: 'English, Arabic',
-      image: require('../../assets/images/doctor3.png'),
-    },
-    {
-      name: 'Joao Laurence',
-      tags: 'Psychologist',
-      subTags: 'Depression, Anxiety, ADHD, OCD',
-      years: '2 years',
-      location: 'India',
-      languages: 'English, Arabic',
-      image: require('../../assets/images/doctor4.png'),
-    },
-    {
-      name: 'Joao Laurence',
-      tags: 'Psychologist',
-      subTags: 'Depression, Anxiety, ADHD, OCD',
-      years: '2 years',
-      location: 'India',
-      languages: 'English, Arabic',
-      image: require('../../assets/images/doctor5.png'),
-    },
-    // Add more therapist data here
-  ],
-};
+import { useTranslation } from 'react-i18next';
+import { transform } from '@babel/core';
 
 const DiscoverScreen = ({ navigation }) => {
+  const { t } = useTranslation();
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const alignItemStyle =  isRTL ? 'flex-start': null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+
+  const data = {
+    blog: [
+      {
+        title: t('blog.title1'),
+        image: require('../../assets/images/blog1.png'),
+      },
+      {
+        title: t('blog.title2'),
+        image: require('../../assets/images/blog2.png'),
+      },
+      {
+        title: t('blog.title3'),
+        image: require('../../assets/images/blog3.png'),
+      },
+      {
+        title: t('blog.title4'),
+        image: require('../../assets/images/blog4.png'),
+      },
+      {
+        title: t('blog.title5'),
+        image: require('../../assets/images/blog5.png'),
+      },
+      {
+        title: t('blog.title6'),
+        image: require('../../assets/images/blog6.png'),
+      },
+    ],
+    calmMusic: [
+      {
+        title: t('calmMusicDiscover.title1'),
+        duration: t('calmMusicDiscover.duration1'),
+        image: require('../../assets/images/play.png'),
+      },
+    ],
+    therapyCourses: [
+      {
+        title: t('therapyCourses.title1'),
+        subText: t('therapyCourses.subText1'),
+        image: require('../../assets/images/therapy_courses_render_item_bg.png'),
+      },
+      {
+        title: t('therapyCourses.title2'),
+        subText: t('therapyCourses.subText2'),
+        image: require('../../assets/images/therapy_courses_render_item_bg.png'),
+      },
+    ],
+    onlineAssessment: [
+      {
+        id: 1,
+        title: t('onlineAssessment.title1'),
+        image: require('../../assets/images/assessment1.png'),
+      },
+      {
+        id: 2,
+        title: t('onlineAssessment.title2'),
+        image: require('../../assets/images/assessment2.png'),
+      },
+      {
+        id: 3,
+        title: t('onlineAssessment.title3'),
+        image: require('../../assets/images/assessment3.png'),
+      },
+    ],
+    therapists: [
+      {
+        name: t('therapists.name1'),
+        tags: t('therapists.tags1'),
+        subTags: t('therapists.subTags1'),
+        years: t('therapists.years1'),
+        location: t('therapists.location1'),
+        languages: t('therapists.languages1'),
+        image: require('../../assets/images/doctor2.png'),
+      },
+      {
+        name: t('therapists.name2'),
+        tags: t('therapists.tags2'),
+        subTags: t('therapists.subTags2'),
+        years: t('therapists.years2'),
+        location: t('therapists.location2'),
+        languages: t('therapists.languages2'),
+        image: require('../../assets/images/doctor3.png'),
+      },
+      {
+        name: t('therapists.name3'),
+        tags: t('therapists.tags3'),
+        subTags: t('therapists.subTags3'),
+        years: t('therapists.years3'),
+        location: t('therapists.location3'),
+        languages: t('therapists.languages3'),
+        image: require('../../assets/images/doctor4.png'),
+      },
+      {
+        name: t('therapists.name4'),
+        tags: t('therapists.tags4'),
+        subTags: t('therapists.subTags4'),
+        years: t('therapists.years4'),
+        location: t('therapists.location4'),
+        languages: t('therapists.languages4'),
+        image: require('../../assets/images/doctor5.png'),
+      },
+    ],
+  };
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
@@ -133,11 +137,11 @@ const DiscoverScreen = ({ navigation }) => {
         >
           <Image
             source={require('../../assets/images/back.png')}
-            style={styles.backIcon}
+            style={[styles.backIcon, {transform:transformStyle}]}
           />
         </TouchableOpacity>
         <>
-          <Text style={styles.headerTitle}>Discover</Text>
+          <Text style={styles.headerTitle}>{t('discoverHeader.title')}</Text>
           <Image
             source={require('../../assets/images/discover.png')}
             style={styles.icon}
@@ -149,7 +153,7 @@ const DiscoverScreen = ({ navigation }) => {
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Discover"
+          placeholder={t('search.placeholder')}
           placeholderTextColor={'#D9D9D9'}
         />
         <Image
@@ -161,35 +165,35 @@ const DiscoverScreen = ({ navigation }) => {
       <View style={styles.tilesContainer}>
         {[
           {
-            label: 'Blog',
+            label: t('tiles.blog'),
             image: require('../../assets/images/blog_icon.png'),
           },
           {
-            label: 'Listen to Calm Music',
+            label: t('tiles.calmMusic'),
             image: require('../../assets/images/music_icon.png'),
           },
           {
-            label: 'Therapy Courses',
+            label: t('tiles.therapyCourses'),
             image: require('../../assets/images/courses_icon.png'),
           },
           {
-            label: 'Daily Tips',
+            label: t('tiles.dailyTips'),
             image: require('../../assets/images/tips_icon.png'),
           },
           {
-            label: 'On Boarding',
+            label: t('tiles.onBoarding'),
             image: require('../../assets/images/onboarding_icon.png'),
           },
           {
-            label: 'Online assessment',
+            label: t('tiles.onlineAssessment'),
             image: require('../../assets/images/assessment_icon.png'),
           },
           {
-            label: 'Products',
+            label: t('tiles.products'),
             image: require('../../assets/images/products_icon.png'),
           },
           {
-            label: 'Exercises',
+            label: t('tiles.exercises'),
             image: require('../../assets/images/exercises_icon.png'),
           },
         ].map((item, index) => (
@@ -197,7 +201,7 @@ const DiscoverScreen = ({ navigation }) => {
             key={index}
             style={styles.tile}
             onPress={() => {
-              if (item.label === 'Products') {
+              if (item.label === t('tiles.products')) {
                 navigation.navigate('ProductCategoriesScreen');
               }
             }}
@@ -216,19 +220,18 @@ const DiscoverScreen = ({ navigation }) => {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            // alignContent: 'center',
             alignItems: 'center',
             marginVertical: 10,
             paddingTop: 20,
           }}
         >
-          <Text style={styles.expressTitle}>Express and Chat</Text>
-          <Text style={styles.expressLink}>{`Check what is going on >`}</Text>
+          <Text style={styles.expressTitle}>{t('expressChat.title')}</Text>
+          <Text style={styles.expressLink}>{t('expressChat.link')}</Text>
         </View>
         <View style={styles.textAreaContainer}>
           <TextInput
             style={styles.textArea}
-            placeholder="Express your feelings"
+            placeholder={t('expressChat.placeholder')}
             placeholderTextColor={'#9D9D9D'}
             multiline
             numberOfLines={4}
@@ -257,7 +260,7 @@ const DiscoverScreen = ({ navigation }) => {
           }}
         >
           <Text style={styles.expressBottomText}>
-            Max 400 characters allowed
+            {t('expressChat.maxCharacters')}
           </Text>
           <TouchableOpacity
             style={{
@@ -269,15 +272,17 @@ const DiscoverScreen = ({ navigation }) => {
             }}
             onPress={() => navigation.navigate('ExpressAndChatScreen')}
           >
-            <Text style={{ color: 'white', fontSize: 14 }}>My Posts</Text>
+            <Text style={{ color: 'white', fontSize: 14 }}>
+              {t('expressChat.myPosts')}
+            </Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
 
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>Blogs</Text>
+        <Text style={styles.sectionTitle}>{t('sections.blogs')}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('BlogsScreen')}>
-          <Text style={styles.sectionLink}>{`Show All`}</Text>
+          <Text style={styles.sectionLink}>{t('sections.showAll')}</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -288,7 +293,7 @@ const DiscoverScreen = ({ navigation }) => {
             style={[
               styles.blogTile,
               {
-                marginTop: index % 2 === 1 ? 30 : 0, // Apply marginTop to second column only
+                marginTop: index % 2 === 1 ? 30 : 0,
               },
             ]}
           >
@@ -312,9 +317,9 @@ const DiscoverScreen = ({ navigation }) => {
 
       <CalmMusic navigation={navigation} />
 
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>Therapy Courses</Text>
-        <Text style={styles.sectionLink}>{`Show All`}</Text>
+      <View style={[styles.sectionHeader]}>
+        <Text style={[styles.sectionTitle]}>{t('sections.therapyCourses')}</Text>
+        <Text style={styles.sectionLink}>{t('sections.showAll')}</Text>
       </View>
       <FlatList
         data={data.therapyCourses}
@@ -325,7 +330,6 @@ const DiscoverScreen = ({ navigation }) => {
             subText={item.subText}
             image={item.image}
             onPress={() => {
-              // Handle onPress action for therapy course item
               console.log('Therapy course item pressed:', item.title);
             }}
           />
@@ -335,12 +339,16 @@ const DiscoverScreen = ({ navigation }) => {
       />
 
       <View style={styles.sectionHeaderAssessment}>
-        <Text style={styles.sectionTitle}>Online Assessment</Text>
+        <Text style={styles.sectionTitle}>
+          {t('sections.onlineAssessment')}
+        </Text>
         <TouchableOpacity>
           <Text
             style={styles.sectionLink}
             onPress={() => navigation.navigate('AssesmentsScreen')}
-          >{`Show All`}</Text>
+          >
+            {t('sections.showAll')}
+          </Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -353,11 +361,11 @@ const DiscoverScreen = ({ navigation }) => {
             onPress={() => {
               let title;
               if (item.id === 1) {
-                title = 'Depression By PHQ-9';
+                title = t('assessmentTitles.title1');
               } else if (item.id === 2) {
-                title = 'Anxiety test';
+                title = t('assessmentTitles.title2');
               } else if (item.id === 3) {
-                title = 'Anger Test';
+                title = t('assessmentTitles.title3');
               }
               navigation.navigate('DepressionByPHQScreen', { title });
             }}
@@ -373,9 +381,7 @@ const DiscoverScreen = ({ navigation }) => {
       />
 
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>
-          Your Therapist Is Just A Click Away
-        </Text>
+        <Text style={styles.sectionTitle}>{t('sections.therapist')}</Text>
       </View>
       <FlatList
         data={data.therapists}
@@ -388,7 +394,9 @@ const DiscoverScreen = ({ navigation }) => {
                 { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
               ]}
             >
-              <Text style={{ color: 'white' }}>Individual, Couple</Text>
+              <Text style={{ color: 'white' }}>
+                {t('therapists.individualCouple')}
+              </Text>
             </View>
             <Image source={item.image} style={styles.therapistImage} />
             <View style={styles.therapistInfo}>
@@ -428,7 +436,9 @@ const DiscoverScreen = ({ navigation }) => {
                   style={styles.bookButton}
                   onPress={() => navigation.navigate('TherapistFormScreen')}
                 >
-                  <Text style={styles.bookButtonText}>BOOK WITH ME!</Text>
+                  <Text style={styles.bookButtonText}>
+                    {t('therapists.book')}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>

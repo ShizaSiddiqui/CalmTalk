@@ -6,11 +6,21 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  I18nManager
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 const AssessmentsScreen = () => {
   const navigation = useNavigation();
+  const { t } = useTranslation();
+
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' : null;
+
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -26,10 +36,10 @@ const AssessmentsScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={styles.backArrow}
+              style={[styles.backArrow, {transform:transformStyle}]}
             />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Assessments</Text>
+          <Text style={styles.headerTitle}>{t('assessments.assessments')}</Text>
         </View>
         <Image
           source={require('../../assets/images/assessments_header.png')}
@@ -42,17 +52,20 @@ const AssessmentsScreen = () => {
           style={styles.assessmentItem}
           onPress={() =>
             navigation.navigate('DepressionByPHQScreen', {
-              title: 'Depression By PHQ-9',
+              title: t('assessments.depressionByPHQ9'),
             })
           }
         >
           <View style={styles.assessmentText}>
-            <Text style={styles.assessmentTitle}>Depression By PHQ-9</Text>
-            <Text style={styles.assessmentDescription}>
-              Your therapist will build emotional bound with you by ask what
-              struggling with, medical background.
+            <Text style={[styles.assessmentTitle, {alignSelf: alignSelfStyle}]}>
+              {t('assessments.depressionByPHQ9')}
             </Text>
-            <Text style={styles.assessmentDuration}>10 Minutes</Text>
+            <Text style={styles.assessmentDescription}>
+              {t('assessments.depressionByPHQ9Description')}
+            </Text>
+            <Text style={styles.assessmentDuration}>
+              {t('assessments.duration', { minutes: 10 })}
+            </Text>
           </View>
           <View style={styles.assessmentImage}>
             <Image
@@ -66,17 +79,20 @@ const AssessmentsScreen = () => {
           style={styles.assessmentItem}
           onPress={() =>
             navigation.navigate('DepressionByPHQScreen', {
-              title: 'Anxiety By Zung',
+              title: t('assessments.anxietyByZung'),
             })
           }
         >
           <View style={styles.assessmentText}>
-            <Text style={styles.assessmentTitle}>Anxiety by zung</Text>
-            <Text style={styles.assessmentDescription}>
-              Your therapist will build emotional bound with you by ask what
-              struggling with, medical background.
+            <Text style={styles.assessmentTitle}>
+              {t('assessments.anxietyByZung')}
             </Text>
-            <Text style={styles.assessmentDuration}>10 Minutes</Text>
+            <Text style={styles.assessmentDescription}>
+              {t('assessments.anxietyByZungDescription')}
+            </Text>
+            <Text style={styles.assessmentDuration}>
+              {t('assessments.duration', { minutes: 10 })}
+            </Text>
           </View>
           <View style={styles.assessmentImage}>
             <Image
@@ -90,17 +106,20 @@ const AssessmentsScreen = () => {
           style={styles.assessmentItem}
           onPress={() =>
             navigation.navigate('DepressionByPHQScreen', {
-              title: 'Anger Management',
+              title: t('assessments.angerManagement'),
             })
           }
         >
           <View style={styles.assessmentText}>
-            <Text style={styles.assessmentTitle}>Anger management</Text>
-            <Text style={styles.assessmentDescription}>
-              Your therapist will build emotional bound with you by ask what
-              struggling with, medical background.
+            <Text style={styles.assessmentTitle}>
+              {t('assessments.angerManagement')}
             </Text>
-            <Text style={styles.assessmentDuration}>10 Minutes</Text>
+            <Text style={styles.assessmentDescription}>
+              {t('assessments.angerManagementDescription')}
+            </Text>
+            <Text style={styles.assessmentDuration}>
+              {t('assessments.duration', { minutes: 10 })}
+            </Text>
           </View>
           <View style={styles.assessmentImage}>
             <Image
@@ -118,8 +137,6 @@ const AssessmentsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    // backgroundColor: '#F5F5F5',
   },
   headerBackground: {
     width: '100%',

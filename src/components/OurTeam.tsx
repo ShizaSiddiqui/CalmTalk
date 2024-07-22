@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 interface Doctor {
   id: string;
@@ -25,52 +26,58 @@ const doctors: Doctor[] = [
   {
     id: '1',
     image: require('../../assets/images/doctor.png'),
-    name: 'Dr. John Mark',
-    designation: 'Psychologist',
-    specialties: ['Depression', 'Anxiety', 'ADHD', 'OCD'],
-    description:
-      'Originary from Spain, I am an integrative psychotherapist and neuropsychologist. I define myself as a person who thrives on diversifying the projects I am involved in, hence why I enjoy cross-cultural psychology and remaining an active researcher. My next adventure: an existential therapy training in Paris.',
-    experience: '2 years | India | English, Arabic',
-    price1: '$50 / 3 session',
-    price2: '$20 / 25 min session',
+    name: 'doctorName',
+    designation: 'designation',
+    specialties: [
+      'specialties.depression',
+      'specialties.anxiety',
+      'specialties.adhd',
+      'specialties.ocd',
+    ],
+    description: 'description',
+    experience: 'yearsExperience',
+    price1: 'price1',
+    price2: 'price2',
   },
   {
     id: '2',
     image: require('../../assets/images/doctor.png'),
-    name: 'Dr. John Mark',
-    designation: 'Psychologist',
-    specialties: ['Depression', 'Anxiety', 'ADHD', 'OCD'],
-    description:
-      'Originary from Spain, I am an integrative psychotherapist and neuropsychologist. I define myself as a person who thrives on diversifying the projects I am involved in, hence why I enjoy cross-cultural psychology and remaining an active researcher. My next adventure: an existential therapy training in Paris.',
-    experience: '2 years | India | English, Arabic',
-    price1: '$50 / 3 session',
-    price2: '$20 / 25 min session',
+    name: 'doctorName',
+    designation: 'designation',
+    specialties: [
+      'specialties.depression',
+      'specialties.anxiety',
+      'specialties.adhd',
+      'specialties.ocd',
+    ],
+    description: 'description',
+    experience: 'yearsExperience',
+    price1: 'price1',
+    price2: 'price2',
   },
   {
     id: '3',
     image: require('../../assets/images/doctor.png'),
-    name: 'Dr. John Mark',
-    designation: 'Psychologist',
-    specialties: ['Depression', 'Anxiety', 'ADHD', 'OCD'],
-    description:
-      'Originary from Spain, I am an integrative psychotherapist and neuropsychologist. I define myself as a person who thrives on diversifying the projects I am involved in, hence why I enjoy cross-cultural psychology and remaining an active researcher. My next adventure: an existential therapy training in Paris.',
-    experience: '2 years | India | English, Arabic',
-    price1: '$50 / 3 session',
-    price2: '$20 / 25 min session',
+    name: 'doctorName',
+    designation: 'designation',
+    specialties: [
+      'specialties.depression',
+      'specialties.anxiety',
+      'specialties.adhd',
+      'specialties.ocd',
+    ],
+    description: 'description',
+    experience: 'yearsExperience',
+    price1: 'price1',
+    price2: 'price2',
   },
   // Add more doctors as needed
 ];
 
-// Static mapping for the images
-const images: { [key: string]: any } = {
-  doctor1: require('../../assets/images/doctor.png'),
-  // Add more mappings as needed
-};
-
 const OurTeam: React.FC = () => {
   const [selectedPackage, setSelectedPackage] = useState(1);
-
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const renderItem = ({ item }: { item: Doctor }) => (
     <View style={styles.card}>
@@ -80,7 +87,7 @@ const OurTeam: React.FC = () => {
           { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
         ]}
       >
-        <Text style={{ color: 'white' }}>Individual, Couple</Text>
+        <Text style={{ color: 'white' }}>{t('ourteam.individualCouple')}</Text>
       </View>
 
       <View style={styles.profileContainer}>
@@ -90,7 +97,7 @@ const OurTeam: React.FC = () => {
         />
         <View style={styles.textContainer}>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.name}>{t(`ourteam.${item.name}`)}</Text>
             <View
               style={{
                 justifyContent: 'center',
@@ -101,19 +108,23 @@ const OurTeam: React.FC = () => {
                 marginHorizontal: 8,
               }}
             >
-              <Text style={styles.therapistTags}>{item.designation}</Text>
+              <Text style={styles.therapistTags}>
+                {t(`ourteam.${item.designation}`)}
+              </Text>
             </View>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={styles.specialties}>
-              {item.specialties.join(', ')}
+              {item.specialties
+                .map((specialty) => t(`ourteam.${specialty}`))
+                .join(', ')}
             </Text>
           </View>
         </View>
       </View>
-      <Text style={styles.description}>{item.description}</Text>
+      <Text style={styles.description}>{t(`ourteam.${item.description}`)}</Text>
       <View style={styles.experienceContainer}>
-        <Text style={styles.experience}>{item.experience}</Text>
+        <Text style={styles.experience}>{t(`ourteam.${item.experience}`)}</Text>
       </View>
       <View style={styles.packageContainer}>
         <TouchableOpacity
@@ -129,7 +140,7 @@ const OurTeam: React.FC = () => {
               selectedPackage === 1 && styles.packageTextSelected,
             ]}
           >
-            {item.price1}
+            {t(`ourteam.${item.price1}`)}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -145,7 +156,7 @@ const OurTeam: React.FC = () => {
               selectedPackage === 4 && styles.packageTextSelected,
             ]}
           >
-            {item.price2}
+            {t(`ourteam.${item.price2}`)}
           </Text>
         </TouchableOpacity>
       </View>
@@ -154,7 +165,7 @@ const OurTeam: React.FC = () => {
         style={styles.button}
         onPress={() => navigation.navigate('TherapistFormScreen')}
       >
-        <Text style={styles.buttonText}>BOOK WITH ME!</Text>
+        <Text style={styles.buttonText}>{t('ourteam.bookWithMe')}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -162,13 +173,13 @@ const OurTeam: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Our team</Text>
+        <Text style={styles.headerTitle}>{t('ourteam.title')}</Text>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('OurTeamListScreen');
           }}
         >
-          <Text style={styles.viewAll}>View all &gt;</Text>
+          <Text style={styles.viewAll}>{t('ourteam.viewAll')}</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -195,7 +206,6 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
-    // fontWeight: 'bold',
   },
   viewAll: {
     fontSize: 14,
@@ -213,24 +223,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#E6F5EA',
     padding: 4,
     borderRadius: 4,
-    // borderWidth:1,
     borderColor: 'black',
   },
   tag: {
     color: '#B1C181',
   },
-
   profileContainer: {
     flexDirection: 'row',
     marginTop: 20,
     justifyContent: 'space-between',
   },
-
   textContainer: {
     flex: 1,
     marginLeft: 16,
   },
-
   profileImage: {
     width: 50,
     height: 50,
@@ -257,10 +263,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#888888',
     marginVertical: 4,
+  
+
   },
   description: {
     fontSize: 14,
     marginVertical: 4,
+
+   
   },
   experienceContainer: {
     width: '80%',
@@ -270,6 +280,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     paddingHorizontal: 7,
     paddingVertical: 10,
+    
   },
   experience: {
     color: '#555555',

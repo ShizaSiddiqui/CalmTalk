@@ -1,13 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image,I18nManager } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { t } from 'i18next';
+
 const BlogsReadViewScreen = () => {
   const navigation = useNavigation();
+
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const alignItemStyle =  isRTL ? 'flex-start': null;
+
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.backButton}
@@ -15,11 +24,11 @@ const BlogsReadViewScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={styles.backIcon}
+              style={[styles.backIcon , {transform:transformStyle}]}
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <Text style={styles.title}>Blogs</Text>
+          <Text style={styles.title}>{t('blogsReadViewScreen.title')}</Text>
         </View>
 
         <View style={styles.content}>
@@ -32,7 +41,7 @@ const BlogsReadViewScreen = () => {
             }}
           >
             <Text style={styles.blogTitle}>
-              Making Peace With the Fear of Being Forgotten
+              {t('blogsReadViewScreen.blogTitle')}
             </Text>
             <TouchableOpacity>
               <Image
@@ -46,92 +55,78 @@ const BlogsReadViewScreen = () => {
             source={require('../../assets/images/blog3.png')}
             style={styles.blogImage}
           />
+          <View style={{alignItems:alignItemStyle,}}>
           <Text style={styles.blogText}>
-            In the quiet moments of introspection, when the noise of the world
-            fades away, there's a whisper that often tugs at the corners of our
-            minds: the fear of being forgotten. It's a primal fear, rooted in
-            our innate desire for significance and connection. We strive to
-            leave our mark on the world, to be remembered long after we're gone.
-            But what happens when that fear becomes a shadow, looming over our
-            every action and decision?
+            {t('blogsReadViewScreen.blogText1')}
           </Text>
           <Text style={styles.blogText}>
-            For many, the fear of being forgotten manifests in subtle ways,
-            shaping the choices we make and the paths we take in life. We seek
-            validation and recognition, grasping for fleeting moments of
-            acknowledgment to appease the gnawing sense of insignificance. Yet,
-            no matter how much praise we receive or how many accomplishments we
-            stack up, the fear remains, lurking in the corners of our
-            consciousness.
+            {t('blogsReadViewScreen.blogText2')}
           </Text>
           <Text style={styles.blogText}>
-            But what if we shifted our perspective? What if instead of fearing
-            oblivion, we embraced the transient nature of existence? What if we
-            found solace in the ebb and flow of life, knowing that our impact
-            doesn't have to be grand or enduring to be meaningful? Perhaps, in
-            embracing our impermanence, we can find freedom from the shackles of
-            validation-seeking and the relentless pursuit of legacy.
+            {t('blogsReadViewScreen.blogText3')}
           </Text>
           <Text style={styles.blogText}>
-            Making peace with the fear of being forgotten isn't about resigning
-            ourselves to obscurity; it's about finding peace within ourselves,
-            independent of external validation. It's about recognizing that our
-            worth isn't measured by the number of people who remember our name,
-            but by the depth of the connections we forge and the lives we touch,
-            however fleetingly.
+            {t('blogsReadViewScreen.blogText4')}
           </Text>
           <Text style={styles.blogText}>
-            In the end, perhaps the true measure of a life well-lived isn't in
-            the echoes that reverberate through history, but in the quiet
-            moments of connection, the shared laughter, the tears wiped away,
-            and the love exchanged. So let us release the fear of being
-            forgotten and instead embrace the beauty of the present moment,
-            knowing that our presence, however transient, leaves an indelible
-            mark on the tapestry of humanity.
+            {t('blogsReadViewScreen.blogText5')}
           </Text>
+          </View>
         </View>
 
         <View style={styles.categoriesContainer}>
-          <Text style={styles.categoriesTitle}>Categories</Text>
+          <Text style={[styles.categoriesTitle, 
+            {alignSelf:alignItemStyle}
+            ]}>
+            {t('blogsReadViewScreen.categoriesTitle')}
+          </Text>
           <TouchableOpacity style={styles.categoryItem}>
-            <Text style={styles.categoryText}>General Topics</Text>
+            <Text style={styles.categoryText}>
+              {t('blogsReadViewScreen.category.generalTopics')}
+            </Text>
             <Image
               source={require('../../assets/images/forward.png')}
-              style={styles.categoryIcon}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.categoryItem}>
-            <Text style={styles.categoryText}>Depression</Text>
-            <Image
-              source={require('../../assets/images/forward.png')}
-              style={styles.categoryIcon}
+              style={[styles.categoryIcon, {transform:transformStyle}]}
               resizeMode="contain"
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.categoryItem}>
             <Text style={styles.categoryText}>
-              Parenting & Family Relationship
+              {t('blogsReadViewScreen.category.depression')}
             </Text>
             <Image
               source={require('../../assets/images/forward.png')}
-              style={styles.categoryIcon}
+              style={[styles.categoryIcon, {transform:transformStyle}]}
               resizeMode="contain"
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.categoryItem}>
-            <Text style={styles.categoryText}>Addiction</Text>
+            <Text style={styles.categoryText}>
+              {t('blogsReadViewScreen.category.parentingAndFamily')}
+            </Text>
             <Image
               source={require('../../assets/images/forward.png')}
-              style={styles.categoryIcon}
+              style={[styles.categoryIcon, {transform:transformStyle}]}
               resizeMode="contain"
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.categoryItem}>
-            <Text style={styles.categoryText}>Children & Teenagers</Text>
+            <Text style={styles.categoryText}>
+              {t('blogsReadViewScreen.category.addiction')}
+            </Text>
             <Image
               source={require('../../assets/images/forward.png')}
-              style={styles.categoryIcon}
+              style={[styles.categoryIcon, {transform:transformStyle}]}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.categoryItem}>
+            <Text style={styles.categoryText}>
+              {t('blogsReadViewScreen.category.childrenAndTeenagers')}
+            </Text>
+            <Image
+              source={require('../../assets/images/forward.png')}
+              style={[styles.categoryIcon, {transform:transformStyle}]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -140,6 +135,7 @@ const BlogsReadViewScreen = () => {
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -206,6 +202,8 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginBottom: 16,
     color: '#333333',
+    // borderWidth:1,
+    // textAlign:'center'
   },
   categoriesContainer: {
     // marginTop: 10,
@@ -216,6 +214,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 16,
     color: '#1C2024',
+    // alignItems:'center',
+    // borderWidth:1
   },
   categoryItem: {
     flexDirection: 'row',

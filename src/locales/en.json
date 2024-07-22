@@ -57,5 +57,385 @@
     "register": "Register with us",
     "emailRequired": "Email is required.",
     "invalidEmail": "Please enter a valid email address."
+  },
+  "header": {
+    "hiJohn": "Hi John 👋",
+    "peaceComesFromWithin": "Peace comes from within!",
+    "howYouFeelToday": "How you feel today?",
+    "excellent": "Excellent",
+    "good": "Good",
+    "okay": "Okay",
+    "bad": "Bad",
+    "terrible": "Terrible",
+    "dailyDiary": "Daily Diary",
+    "time": "Time",
+    "sayYourMindHere": "Say your mind here...",
+    "voiceNote": "Voice Note"
+  },
+  "bookAppointment": {
+    "title": "Book appointment",
+    "subtitle": "Prioritize mental health with us. Booking is simple and seamless.",
+    "buttonText": "Book appointment",
+    "individualTitle": "Individual",
+    "individualSubtitle": "For yourself",
+    "couplesTitle": "Couples",
+    "couplesSubtitle": "For you & partner",
+    "teenTitle": "Teen",
+    "teenSubtitle": "For your child"
+  },
+  "pathway": {
+    "title": "Pathway",
+    "viewAll": "View all >",
+    "active": "Active",
+    "day": "Day 1 of 10",
+    "positivityPathway": "Positivity pathway"
+  },
+  "foryou": {
+    "title": "For you",
+    "viewAll": "View all >",
+    "recommended": "Recommended",
+    "calm": "Calm",
+    "sleepy": "Sleepy",
+    "moody": "Moody",
+    "motivated": "Motivated",
+    "loveKindMeditation": "Love kind meditation",
+    "relaxingWaves": "Relaxing Waves",
+    "mindfulBreathing": "Mindful Breathing",
+    "duration": "16:45"
+  },
+  "ourteam": {
+    "title": "Our team",
+    "viewAll": "View all >",
+    "individualCouple": "Individual, Couple",
+    "bookWithMe": "BOOK WITH ME!",
+    "yearsExperience": "2 years | India | English, Arabic",
+    "price1": "$50 / 3 session",
+    "price2": "$20 / 25 min session",
+    "specialties": {
+      "depression": "Depression",
+      "anxiety": "Anxiety",
+      "adhd": "ADHD",
+      "ocd": "OCD"
+    },
+    "doctorName": "Dr. John Mark",
+    "designation": "Psychologist",
+    "description": "Originary from Spain, I am an integrative psychotherapist and neuropsychologist. I define myself as a person who thrives on diversifying the projects I am involved in, hence why I enjoy cross-cultural psychology and remaining an active researcher. My next adventure: an existential therapy training in Paris."
+  },
+  "discoverHeader": {
+    "title": "Discover"
+  },
+
+  "calmMusic": {
+    "title": "Calm Music",
+    "viewAll": "View all >",
+    "moods": {
+      "recommended": "Recommended",
+      "calm": "Calm",
+      "sleepy": "Sleepy",
+      "moody": "Moody",
+      "motivated": "Motivated"
+    },
+    "meditations": {
+      "loveKindMeditation": "Love kind meditation",
+      "relaxingWaves": "Relaxing Waves",
+      "mindfulBreathing": "Mindful Breathing",
+      "duration1": "16:45",
+      "duration2": "12:30",
+      "duration3": "10:00"
+    }
+  },
+
+  "search": {
+    "placeholder": "Discover"
+  },
+  "tiles": {
+    "blog": "Blog",
+    "calmMusic": "Listen to Calm Music",
+    "therapyCourses": "Therapy Courses",
+    "dailyTips": "Daily Tips",
+    "onBoarding": "On Boarding",
+    "onlineAssessment": "Online assessment",
+    "products": "Products",
+    "exercises": "Exercises"
+  },
+  "expressChat": {
+    "title": "Express and Chat",
+    "link": "Check what is going on >",
+    "placeholder": "Express your feelings",
+    "maxCharacters": "Max 400 characters allowed",
+    "myPosts": "My Posts"
+  },
+  "sections": {
+    "blogs": "Blogs",
+    "showAll": "Show All",
+    "therapyCourses": "Therapy Courses",
+    "onlineAssessment": "Online Assessment",
+    "therapist": "Your Therapist Is Just A Click Away"
+  },
+  "blog": {
+    "title1": "Travel and Its Impact on Mental Health",
+    "title2": "Are you struggling to find time to rest during the...",
+    "title3": "Making peace with the fear of being forgotten",
+    "title4": "Distinguishing between psychological frustration a....",
+    "title5": "Feeling Mental Fatigue | Learn about its Symptoms,...",
+    "title6": "What to Expect When Meeting Your Therapist Online"
+  },
+  "calmMusicDiscover": {
+    "title1": "Love kind meditation",
+    "duration1": "16:45"
+  },
+  "therapyCourses": {
+    "title1": "First Session",
+    "subText1": "Your therapist will build emotional...",
+    "title2": "First Session",
+    "subText2": "Your therapist will build emotional..."
+  },
+  "onlineAssessment": {
+    "title1": "Depression Test",
+    "title2": "Anxiety Test",
+    "title3": "Anger Test"
+  },
+  "therapists": {
+    "name1": "Dr Jelena Lubenko",
+    "tags1": "Psychologist",
+    "subTags1": "Depression, Anxiety, ADHD, OCD",
+    "years1": "2 years",
+    "location1": "India",
+    "languages1": "English, Arabic",
+    "name2": "Joao Laurence",
+    "tags2": "Psychologist",
+    "subTags2": "Depression, Anxiety, ADHD, OCD",
+    "years2": "2 years",
+    "location2": "India",
+    "languages2": "English, Arabic",
+    "name3": "Joao Laurence",
+    "tags3": "Psychologist",
+    "subTags3": "Depression, Anxiety, ADHD, OCD",
+    "years3": "2 years",
+    "location3": "India",
+    "languages3": "English, Arabic",
+    "name4": "Joao Laurence",
+    "tags4": "Psychologist",
+    "subTags4": "Depression, Anxiety, ADHD, OCD",
+    "years4": "2 years",
+    "location4": "India",
+    "languages4": "English, Arabic",
+    "individualCouple": "Individual, Couple",
+    "book": "BOOK WITH ME!"
+  },
+  "assessmentTitles": {
+    "title1": "Depression By PHQ-9",
+    "title2": "Anxiety test",
+    "title3": "Anger Test"
+  },
+  "assessments": {
+    "assessments": "Assessments",
+    "depressionByPHQ9": "Depression By PHQ-9",
+    "depressionByPHQ9Description": "Your therapist will build emotional bound with you by ask what struggling with, medical background.",
+    "anxietyByZung": "Anxiety By Zung",
+    "anxietyByZungDescription": "Your therapist will build emotional bound with you by ask what struggling with, medical background.",
+    "angerManagement": "Anger Management",
+    "angerManagementDescription": "Your therapist will build emotional bound with you by ask what struggling with, medical background.",
+    "duration": "10 Minutes"
+  },
+  "categoriesList":{
+    "title1": "Lavender Essential Oil - 5 Fluid Ounce",
+    "search": "Search in category",
+    "aromaTherapyProducts":  "Aroma Therapy Products",
+    "aromaTherapy":  "Aroma therapy"
+
+},
+"productCategoriesScreen": {
+  "categoriesList": {
+    "title": "Lavender Essential Oil - 5 Fluid Ounce",
+    "search": "Search in category",
+    "aromaTherapyProducts": "Aroma Therapy Products",
+    "aromaTherapy": "Aroma therapy",
+    "all": "All",
+    "new": "New",
+    "popular": "Popular",
+    "products": "Products",
+    "favorites": "Favorites",
+    "categories": "Categories",
+    "seeAll": "See all",
+    "highlightedProducts": "Highlighted Products",
+    "allProducts": "All Products"
   }
+},
+"productDetailsScreen": {
+  "backButton": "Back",
+  "productName": "Lavender Essential Oil, Soothing Aromatherapy Scent - 5 Fluid Ounce",
+  "productBenefitsTitle": "Product benefits",
+  "productBenefits": {
+    "benefit1": "Promotes relaxation",
+    "benefit2": "Eases anxiety",
+    "benefit3": "Improves mood"
+  },
+  "buyButton": "Buy on amazon"
+},
+"therapistSpeaks": {
+    "title1": "What Is Cognitive Behavioral Therapy (CBT)",
+    "title2": "Can You Explain Who A Neuropsychologist Is & What Their Role Entails?",
+    "title3": "Can You Explain Your Approach To Acceptance And Commitment Therapy?",
+    "screenTitle": "Therapist Speaks",
+    "mainTitle": "What Social Anxiety Disorder",
+    "mainText": "Social Anxiety Disorder, Or Social Phobia, Is Characterized By An Intense Fear Of Social Situations And Being Judged By Others. This Condition Can Lead To Avoidance Of Daily Activities And Significant Distress. Symptoms Include Excessive Anxiety, Rapid Heartbeat, And Sweating In Social Contexts. With Treatment Like Cognitive-Behavioral Therapy And Medication, Individuals Can Manage Symptoms And Improve Their Quality Of Life.",
+    "otherPostsText": "Check other posts",
+    "generalTopic": "General Topic"
+  },
+  "highlightedProductTile":{
+  "promotesRelaxation": "Promotes relaxation",
+  "easesAnxiety": "Eases anxiety",
+  "improvesMood": "Improves mood",
+  "checkOn": "Check on",
+  "lavenderOil":"Lavender Oil"
+  },
+  "depressionByPHQ":{
+    "assessmentTime": "10 minutes",
+    "aboutAssessment": "About Assessment",
+    "aboutAssessmentText": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...",
+    "previousAssessment": "Previous Assessment",
+    "depressionPHQ": "Depression By PHQ-9",
+    "assessmentDate": "Date {{date}}",
+    "result": "Result",
+    "startAssessment": "Start Assessment"
+  },
+  "therapyCoursesTile": {
+    "title": "First Session",
+    "subText": "Your therapist will build emotional bound with you by ask what struggling with, medical background.",
+    "free": "Free",
+    "tagYoga": "Yoga",
+    "tagMentalHealth": "Mental Health"
+  },
+  "blogsScreen": {
+    "title": "Blogs",
+    "blogTopic": {
+      "all": "All",
+      "generalTopics": "General Topics",
+      "depression": "Depression",
+      "parenting": "Parenting",
+      "other": "Other"
+    },
+    "mostRecentBlog": "Most Recent Blog",
+    "recentBlogs": "Recent Blogs",
+    "favoriteBlogs": "Favorite Blogs",
+    "blog": {
+      "title1": "Travel and Its Impact on Mental Health",
+      "title2": "Are you struggling to find time to rest during the...",
+      "title3": "Making peace with the fear of being forgotten",
+      "title4": "Distinguishing between psychological frustration a....",
+      "title5": "Feeling Mental Fatigue | Learn about its Symptoms,...",
+      "title6": "What to Expect When Meeting Your Therapist Online"
+    }
+  },
+  "blogsFavoriteScreen": {
+    "title": "Favorite Blogs",
+    "blogTopic": {
+      "all": "All",
+      "generalTopics": "General Topics",
+      "depression": "Depression",
+      "parenting": "Parenting",
+      "other": "Other"
+    },
+    "blog": {
+      "title1": "Travel and Its Impact on Mental Health",
+      "title2": "Are you struggling to find time to rest during the...",
+      "title3": "Making peace with the fear of being forgotten",
+      "title4": "Distinguishing between psychological frustration a....",
+      "title5": "Feeling Mental Fatigue | Learn about its Symptoms,...",
+      "title6": "What to Expect When Meeting Your Therapist Online"
+    }
+  },
+  "blogsReadViewScreen": {
+    "title": "Blogs",
+    "blogTitle": "Making Peace With the Fear of Being Forgotten",
+    "blogText1": "In the quiet moments of introspection, when the noise of the world fades away, there's a whisper that often tugs at the corners of our minds: the fear of being forgotten. It's a primal fear, rooted in our innate desire for significance and connection. We strive to leave our mark on the world, to be remembered long after we're gone. But what happens when that fear becomes a shadow, looming over our every action and decision?",
+    "blogText2": "For many, the fear of being forgotten manifests in subtle ways, shaping the choices we make and the paths we take in life. We seek validation and recognition, grasping for fleeting moments of acknowledgment to appease the gnawing sense of insignificance. Yet, no matter how much praise we receive or how many accomplishments we stack up, the fear remains, lurking in the corners of our consciousness.",
+    "blogText3": "But what if we shifted our perspective? What if instead of fearing oblivion, we embraced the transient nature of existence? What if we found solace in the ebb and flow of life, knowing that our impact doesn't have to be grand or enduring to be meaningful? Perhaps, in embracing our impermanence, we can find freedom from the shackles of validation-seeking and the relentless pursuit of legacy.",
+    "blogText4": "Making peace with the fear of being forgotten isn't about resigning ourselves to obscurity; it's about finding peace within ourselves, independent of external validation. It's about recognizing that our worth isn't measured by the number of people who remember our name, but by the depth of the connections we forge and the lives we touch, however fleetingly.",
+    "blogText5": "In the end, perhaps the true measure of a life well-lived isn't in the echoes that reverberate through history, but in the quiet moments of connection, the shared laughter, the tears wiped away, and the love exchanged. So let us release the fear of being forgotten and instead embrace the beauty of the present moment, knowing that our presence, however transient, leaves an indelible mark on the tapestry of humanity.",
+    "categoriesTitle": "Categories",
+    "category": {
+      "generalTopics": "General Topics",
+      "depression": "Depression",
+      "parentingAndFamily": "Parenting & Family Relationship",
+      "addiction": "Addiction",
+      "childrenAndTeenagers": "Children & Teenagers"
+    }
+  },
+  "expressAndChatScreen": {
+    "title": "Express and Chat",
+    "trendingNow": "Trending Now",
+    "mentalHealthDay": "#MentalHealthDay",
+    "calmTalk": "#CalmTalk",
+    "therapy": "#Therapy",
+    "othersPosts": "Other's posts",
+    "myPosts": "My posts",
+    "expressAndChat": "Express and chat",
+    "maxCharacters": "Max 400 characters allowed"
+  },
+    "confirmAppointment": {
+      "title": "Confirm your appointment",
+      "doctorName": "Dr. John Mark",
+      "doctorTitle": "Clinical Psychologist",
+      "bookingDetails": "Booking Details",
+      "package": "Package",
+      "packageDetail": "$100 for a session",
+      "date": "Date",
+      "timeslot": "Timeslot",
+      "price": "Price",
+      "promoCode": "Promo code",
+      "apply": "Apply",
+      "paymentMethod": "Payment Method",
+      "secureTransactions": "All transactions are secure and encrypted.",
+      "payWithCard": "Pay with card",
+      "googlePay": "Google Pay",
+      "applePay": "Apple Pay",
+      "confirm": "Confirm",
+      "addCardInfo": "Add your card information",
+      "cardNumber": "Card Number",
+      "expiryDate": "MM / YY",
+      "cvc": "CVC",
+      "countryOrRegion": "Country or region",
+      "saveInfo": "Save this information for CalmTalk future payments.",
+      "payAmount": "Pay USD {{amount}}",
+      "successMessage": "{{name}}, your appointment has been successfully booked.",
+      "appointmentDate": "THURSDAY, MAY 9, 2024",
+      "cancellationPolicy": "To cancel your appointment within 24 hours, go to 'My Appointments' and get a full refund.",
+      "backHome": "Back to home",
+      "myAppointments": "My Appointments",
+      "edit": "Edit"
+    },
+      "form": {
+        "individual_couple": "Individual, Couple",
+        "clinical_psychologist": "Clinical Psychologist",
+        "nationality": "Nationality",
+        "experience": "Experience",
+        "languages": "Languages",
+        "about_me": "About Me",
+        "therapist_speaks": "Therapist speaks",
+        "book_your_session": "Book your session",
+        "choose_your_package": "Choose your package",
+        "package1": "$100 for a session",
+        "package4": "$320 for four sessions",
+        "pick_date_time": "Pick a date & time",
+        "select_preferred_date_time": "Select your preferred date & time",
+        "date": "Date",
+        "time": "Time (GST) (GMT +4)",
+        "book_now": "Book Now",
+        "1": {
+          "title": "What social anxiety disorder",
+          "content": "Social anxiety disorder, or social phobia is characterized by an intense fear of social situations and being judged by others. This condition can lead to avoidance of daily activities.."
+        },
+        "2": {
+          "title": "What social anxiety disorder",
+          "content": "Social anxiety disorder, or social phobia is characterized by an intense fear of social situations and being judged by others. This condition can lead to avoidance of daily activities."
+        }
+      }
+    
+    
+  
+  
+
+ 
 }

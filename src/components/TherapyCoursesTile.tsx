@@ -1,15 +1,22 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity,I18nManager } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 // Import the image you uploaded
 const uploadedImage = require('../../assets/images/therapy_courses_render_item_bg.png');
 
+import { t } from 'i18next';
+
 const TherapyCoursesTile = ({
-  title = 'First Session',
-  subText = 'Your therapist will build emotional bound with you by ask what struggling with, medical background.',
+  title = t('therapyCoursesTile.title'),
+  subText = t('therapyCoursesTile.subText'),
   onPress,
 }) => {
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const alignItemStyle =  isRTL ? 'flex-start': null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const alignSelfStyle= isRTL? 'flex-start'   : null;
   return (
     <TouchableOpacity onPress={onPress} style={styles.courseTile}>
       <View
@@ -18,7 +25,7 @@ const TherapyCoursesTile = ({
           { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
         ]}
       >
-        <Text style={{ color: 'white' }}>Free</Text>
+        <Text style={{ color: 'white' }}>{t('therapyCoursesTile.free')}</Text>
       </View>
       <LinearGradient
         colors={['#FFFFFF', 'rgba(69, 161, 109, 0.3)']}
@@ -31,15 +38,12 @@ const TherapyCoursesTile = ({
           style={styles.courseImage}
           resizeMode="contain"
         />
-
-        <Text style={styles.courseTitle}>{title}</Text>
+<View>
+        <Text style={[styles.courseTitle,  {alignSelf:alignSelfStyle}]}>{title}</Text>
         {/* <View style={{height:'50%', width:'70%' }}> */}
-        <Text style={styles.courseSubText}>
-          Your therapist will build emotional bound with you by ask what
-          struggling with, medical background.
-        </Text>
+        <Text style={[styles.courseSubText, {alignSelf:alignSelfStyle}]}>{subText}</Text>
         {/* </View> */}
-
+        </View>
         <View style={styles.tagsContainer}>
           <Image
             source={require('../../assets/images/play.png')}
@@ -48,13 +52,13 @@ const TherapyCoursesTile = ({
           />
 
           <View style={styles.tag}>
-            <Text style={styles.tagText}>Yoga</Text>
+            <Text style={styles.tagText}>{t('therapyCoursesTile.tagYoga')}</Text>
           </View>
           <View style={styles.tag}>
-            <Text style={styles.tagText}>Mental Health</Text>
+            <Text style={styles.tagText}>{t('therapyCoursesTile.tagMentalHealth')}</Text>
           </View>
           <View style={styles.tag}>
-            <Text style={styles.tagText}>Yoga</Text>
+            <Text style={styles.tagText}>{t('therapyCoursesTile.tagYoga')}</Text>
           </View>
         </View>
       </LinearGradient>
@@ -62,15 +66,15 @@ const TherapyCoursesTile = ({
   );
 };
 
+
 const styles = StyleSheet.create({
   courseTile: {
-    // borderWidth: 1,
     width: 350,
-    backgroundColor: '#E5F6EF', // Background color from the image
-    borderRadius: 20, // Adjusted border radius
+    backgroundColor: '#E5F6EF', 
+    borderRadius: 20, 
     marginRight: 10,
-    elevation: 5, // Add shadow for Android
-    shadowColor: '#000', // Add shadow for iOS
+    elevation: 5, 
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
@@ -84,11 +88,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingVertical: 5,
     paddingHorizontal: 15,
-    zIndex: 1, // Add z-index to make sure
+    zIndex: 1, 
   },
   gradient: {
     width: '100%',
-    height: 190, // Adjusted height to match the image
+    height: 190, 
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -104,13 +108,13 @@ const styles = StyleSheet.create({
   courseTitle: {
     marginVertical: 10,
     fontWeight: '500',
-    fontSize: 18, // Adjusted font size
-    color: '#2D2D2D', // Title color
+    fontSize: 18,
+    color: '#2D2D2D', 
+
   },
   courseSubText: {
-    fontSize: 14, // Adjusted font size
+    fontSize: 14,
     color: '#888A95',
-    // marginHorizontal: 10,
     width: '80%',
     lineHeight: 25,
   },

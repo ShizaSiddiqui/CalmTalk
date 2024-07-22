@@ -7,49 +7,55 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  I18nManager
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { t } from 'i18next';
 
 const BlogsScreen = () => {
   const navigation = useNavigation();
   const blogTopic = [
-    'All',
-    'General Topics',
-    'Depression',
-    'Parenting',
-    'Other',
+    t('blogsScreen.blogTopic.all'),
+    t('blogsScreen.blogTopic.generalTopics'),
+    t('blogsScreen.blogTopic.depression'),
+    t('blogsScreen.blogTopic.parenting'),
+    t('blogsScreen.blogTopic.other'),
   ];
   const [activeBlogTopic, setActiveBlogTopic] = useState(blogTopic[0]);
 
   const [blog, setBlog] = useState([
     {
-      title: 'Travel and Its Impact on Mental Health',
+      title: t('blogsScreen.blog.title1'),
       image: require('../../assets/images/blog1.png'),
     },
     {
-      title: 'Are you struggling to find time to rest during the...',
+      title: t('blogsScreen.blog.title2'),
       image: require('../../assets/images/blog2.png'),
     },
     {
-      title: 'Making peace with the fear of being forgotten',
+      title: t('blogsScreen.blog.title3'),
       image: require('../../assets/images/blog5.png'),
     },
     {
-      title: 'Distinguishing between psychological frustration a....',
+      title: t('blogsScreen.blog.title4'),
       image: require('../../assets/images/blog3.png'),
     },
     {
-      title: 'Feeling Mental Fatigue | Learn about its Symptoms,...',
+      title: t('blogsScreen.blog.title5'),
       image: require('../../assets/images/blog4.png'),
     },
     {
-      title: 'What to Expect When Meeting Your Therapist Online',
+      title: t('blogsScreen.blog.title6'),
       image: require('../../assets/images/blog6.png'),
     },
     // Add more blog data here
   ]);
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+
   const renderBlogTopicItem = ({ item }: { item: string }) => (
     <TouchableOpacity
       style={[
@@ -83,11 +89,11 @@ const BlogsScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={styles.backIcon}
+              style={[styles.backIcon , {transform:transformStyle}]}
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <Text style={styles.title}>Blogs</Text>
+          <Text style={styles.title}>{t('blogsScreen.title')}</Text>
         </View>
         <FlatList
           horizontal
@@ -103,7 +109,7 @@ const BlogsScreen = () => {
         >
           <View style={styles.mostRecentBlogsHeader}>
             <Text style={styles.mostRecentBlogsHeaderTitle}>
-              Most Recent Blog
+              {t('blogsScreen.mostRecentBlog')}
             </Text>
           </View>
           <TouchableOpacity
@@ -127,7 +133,7 @@ const BlogsScreen = () => {
                 }}
               >
                 <Text style={styles.flatListTitle}>
-                  Travel and Its Impact on Mental Health
+                  {t('blogsScreen.blog.title1')}
                 </Text>
                 <Image
                   source={require('../../assets/images/most_recent_blogs_heart.png')}
@@ -152,12 +158,16 @@ const BlogsScreen = () => {
               justifyContent: 'space-between',
             }}
           >
-            <Text style={styles.recentBlogsTitle}>Recent Blogs</Text>
+            <Text style={styles.recentBlogsTitle}>
+              {t('blogsScreen.recentBlogs')}
+            </Text>
             <TouchableOpacity
               style={styles.favoriteButton}
               onPress={() => navigation.navigate('BlogsFavoriteScreen')}
             >
-              <Text style={styles.favoriteButtonText}>Favorite Blogs</Text>
+              <Text style={styles.favoriteButtonText}>
+                {t('blogsScreen.favoriteBlogs')}
+              </Text>
               <Image
                 source={require('../../assets/images/favorite.png')}
                 style={styles.favoriteIcon}
@@ -211,15 +221,11 @@ const BlogsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#F8F8F8',
-    // marginTop: '10%',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'space-between',
     padding: 16,
-    // backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },

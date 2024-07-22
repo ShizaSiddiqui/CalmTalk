@@ -9,18 +9,24 @@ import {
   ScrollView,
   Modal,
   Pressable,
+  I18nManager
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { t } from 'i18next';
+
 
 const ConfirmAppointment = ({ navigation }) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('card');
-  //   const [isModalVisible, setModalVisible] = useState(false);
   const [isCheckboxChecked, setCheckboxChecked] = useState(false);
   const [billingCountry, setBillingCountry] = useState('Pakistan');
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false);
   const [isPaymentModalVisible, setPaymentModalVisible] = useState(false);
+  const isRTL = I18nManager.isRTL;
+  const textAlignStyle =  isRTL ? 'right': 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' :null
 
   const togglePaymentModal = () => {
     setPaymentModalVisible(!isPaymentModalVisible);
@@ -46,10 +52,10 @@ const ConfirmAppointment = ({ navigation }) => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={styles.backIcon}
+              style={[styles.backIcon, {transform:transformStyle}]}
             />
           </TouchableOpacity>
-          <Text style={styles.headerText}>Confirm your appointment</Text>
+          <Text style={styles.headerText}>{t('confirmAppointment.title')}</Text>
         </View>
 
         <View style={styles.profileContainer}>
@@ -58,29 +64,29 @@ const ConfirmAppointment = ({ navigation }) => {
             style={styles.profileImage}
           />
           <View style={styles.profileDetails}>
-            <Text style={styles.doctorName}>Dr. John Mark</Text>
-            <Text style={styles.doctorTitle}>Clinical Psychologist</Text>
+            <Text style={styles.doctorName}>{t('confirmAppointment.doctorName')}</Text>
+            <Text style={styles.doctorTitle}>{t('confirmAppointment.doctorTitle')}</Text>
           </View>
         </View>
 
         <View style={styles.bookingContainer}>
-          <Text style={styles.bookingTitle}>Booking Details</Text>
+          <Text style={styles.bookingTitle}>{t('confirmAppointment.bookingDetails')}</Text>
 
           <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Package</Text>
+            <Text style={styles.detailLabel}>{t('confirmAppointment.package')}</Text>
             <View style={styles.packageDetail}>
-              <Text style={styles.packageText}>$100 for a session</Text>
+              <Text style={styles.packageText}>{t('confirmAppointment.packageDetail')}</Text>
             </View>
           </View>
 
           <View style={styles.separator} />
 
           <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Date</Text>
+            <Text style={styles.detailLabel}>{t('confirmAppointment.date')}</Text>
             <View style={styles.detailWithButton}>
               <Text style={styles.detailText}>09-05-2024</Text>
               <TouchableOpacity style={styles.editButton} onPress={() => {}}>
-                <Text style={styles.editButtonText}>Edit</Text>
+                <Text style={styles.editButtonText}>{t('confirmAppointment.edit')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -88,11 +94,11 @@ const ConfirmAppointment = ({ navigation }) => {
           <View style={styles.separator} />
 
           <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Timeslot</Text>
+            <Text style={styles.detailLabel}>{t('confirmAppointment.timeslot')}</Text>
             <View style={styles.detailWithButton}>
               <Text style={styles.detailText}>5:00 PM - 6:00 PM</Text>
               <TouchableOpacity style={styles.editButton} onPress={() => {}}>
-                <Text style={styles.editButtonText}>Edit</Text>
+                <Text style={styles.editButtonText}>{t('confirmAppointment.edit')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -100,23 +106,24 @@ const ConfirmAppointment = ({ navigation }) => {
           <View style={styles.separator} />
 
           <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Price</Text>
+            <Text style={styles.detailLabel}>{t('confirmAppointment.price')}</Text>
             <Text style={styles.detailText}>50.00 USD</Text>
           </View>
         </View>
 
         <View style={styles.promoContainer}>
-          <TextInput placeholder="Promo code" style={styles.promoInput} />
+          <TextInput 
+          placeholder={t('confirmAppointment.promoCode')} 
+          style={[styles.promoInput, {textAlign:textAlignStyle}]} 
+          />
           <TouchableOpacity style={styles.applyButton} onPress={() => {}}>
-            <Text style={styles.applyButtonText}>Apply</Text>
+            <Text style={styles.applyButtonText}>{t('confirmAppointment.apply')}</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.paymentContainer}>
-          <Text style={styles.bookingTitle}>Payment Method</Text>
-          <Text style={styles.subText}>
-            All transactions are secure and encrypted.
-          </Text>
+          <Text style={[styles.bookingTitle, {alignSelf: alignSelfStyle }]}>{t('confirmAppointment.paymentMethod')}</Text>
+          <Text style={[styles.subText, {alignSelf:alignSelfStyle}]}>{t('confirmAppointment.secureTransactions')}</Text>
 
           <TouchableOpacity
             style={[
@@ -130,7 +137,7 @@ const ConfirmAppointment = ({ navigation }) => {
               style={styles.paymentImage}
               resizeMode="contain"
             />
-            <Text style={styles.paymentText}>Pay with card</Text>
+            <Text style={styles.paymentText}>{t('confirmAppointment.payWithCard')}</Text>
             {selectedPaymentMethod === 'card' && (
               <Image
                 source={require('../../assets/images/checkmark_payment.png')}
@@ -142,8 +149,7 @@ const ConfirmAppointment = ({ navigation }) => {
           <TouchableOpacity
             style={[
               styles.paymentOption,
-              selectedPaymentMethod === 'google' &&
-                styles.selectedPaymentOption,
+              selectedPaymentMethod === 'google' && styles.selectedPaymentOption,
             ]}
             onPress={() => setSelectedPaymentMethod('google')}
           >
@@ -152,7 +158,7 @@ const ConfirmAppointment = ({ navigation }) => {
               style={styles.paymentImage}
               resizeMode="contain"
             />
-            <Text style={styles.paymentText}>Google Pay</Text>
+            <Text style={styles.paymentText}>{t('confirmAppointment.googlePay')}</Text>
             {selectedPaymentMethod === 'google' && (
               <Image
                 source={require('../../assets/images/checkmark_payment.png')}
@@ -173,7 +179,7 @@ const ConfirmAppointment = ({ navigation }) => {
               style={styles.paymentImage}
               resizeMode="contain"
             />
-            <Text style={styles.paymentText}>Apple Pay</Text>
+            <Text style={styles.paymentText}>{t('confirmAppointment.applePay')}</Text>
             {selectedPaymentMethod === 'apple' && (
               <Image
                 source={require('../../assets/images/checkmark_payment.png')}
@@ -187,7 +193,7 @@ const ConfirmAppointment = ({ navigation }) => {
           style={styles.confirmButton}
           onPress={togglePaymentModal}
         >
-          <Text style={styles.confirmButtonText}>Confirm</Text>
+          <Text style={styles.confirmButtonText}>{t('confirmAppointment.confirm')}</Text>
         </TouchableOpacity>
 
         <Modal
@@ -199,21 +205,21 @@ const ConfirmAppointment = ({ navigation }) => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <View style={styles.modalHeader}>
-                <Text style={styles.modalTitle}>Add your card information</Text>
+                <Text style={styles.modalTitle}>{t('confirmAppointment.addCardInfo')}</Text>
                 <TouchableOpacity onPress={togglePaymentModal}>
                   <Text style={styles.closeButton}>X</Text>
                 </TouchableOpacity>
               </View>
 
-              <TextInput placeholder="Card Number" style={styles.input} />
+              <TextInput placeholder={t('confirmAppointment.cardNumber')} style={[styles.input,{textAlign:textAlignStyle}]} />
               <View style={styles.expiryCVCRow}>
                 <TextInput
-                  placeholder="MM / YY"
-                  style={[styles.input, styles.halfInput]}
+                  placeholder={t('confirmAppointment.expiryDate')}
+                  style={[styles.input, styles.halfInput ,{textAlign:textAlignStyle}]}
                 />
                 <TextInput
-                  placeholder="CVC"
-                  style={[styles.input, styles.halfInput]}
+                  placeholder={t('confirmAppointment.cvc')}
+                  style={[styles.input, styles.halfInput,{textAlign:textAlignStyle}]}
                 />
               </View>
 
@@ -227,7 +233,7 @@ const ConfirmAppointment = ({ navigation }) => {
                 ]}
                 style={pickerSelectStyles}
                 value={billingCountry}
-                placeholder={{ label: 'Country or region', value: null }}
+                placeholder={{ label: t('confirmAppointment.countryOrRegion'), value: null }}
               />
 
               <View style={styles.checkboxContainer}>
@@ -237,7 +243,7 @@ const ConfirmAppointment = ({ navigation }) => {
                   style={styles.checkbox}
                 />
                 <Text style={styles.checkboxLabel}>
-                  Save this information for CalmTalk future payments.
+                  {t('confirmAppointment.saveInfo')}
                 </Text>
               </View>
 
@@ -245,7 +251,7 @@ const ConfirmAppointment = ({ navigation }) => {
                 style={styles.payButton}
                 onPress={handlePayment}
               >
-                <Text style={styles.payButtonText}>Pay USD 50.00</Text>
+                <Text style={styles.payButtonText}>{t('confirmAppointment.payAmount', { amount: 50.00 })}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -273,18 +279,17 @@ const ConfirmAppointment = ({ navigation }) => {
               </View>
 
               <Text style={styles.successMessage}>
-                John, your appointment has been successfully booked.
+                {t('confirmAppointment.successMessage', { name: 'John' })}
               </Text>
               <Text style={styles.appointmentDetails}>
                 5:00 PM - 6:00 PM | Dr. John Mark
               </Text>
-              <Text style={styles.appointmentDate}>THURSDAY, MAY 9, 2024</Text>
+              <Text style={styles.appointmentDate}>{t('confirmAppointment.appointmentDate')}</Text>
 
               <View style={styles.separator} />
 
               <Text style={styles.cancellationPolicy}>
-                To cancel your appointment within 24 hours, go to 'My
-                Appointments' and get a full refund.
+                {t('confirmAppointment.cancellationPolicy')}
               </Text>
 
               <View style={styles.successButtonContainer}>
@@ -295,14 +300,14 @@ const ConfirmAppointment = ({ navigation }) => {
                     navigation.navigate('Home');
                   }}
                 >
-                  <Text style={styles.backHomeButtonText}>Back to home</Text>
+                  <Text style={styles.backHomeButtonText}>{t('confirmAppointment.backHome')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.myAppointmentsButton}
                   onPress={() => {}}
                 >
                   <Text style={styles.myAppointmentsButtonText}>
-                    My Appointments
+                    {t('confirmAppointment.myAppointments')}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -313,6 +318,7 @@ const ConfirmAppointment = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -454,9 +460,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
-  },
+ 
+},
   selectedPaymentOption: {
     backgroundColor: '#4BB543FC',
+    
   },
   paymentImage: {
     width: 40,
@@ -466,6 +474,7 @@ const styles = StyleSheet.create({
   paymentText: {
     fontSize: 14,
     flex: 1,
+
   },
   checkIcon: {
     width: 20,

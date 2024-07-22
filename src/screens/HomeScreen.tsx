@@ -1,17 +1,17 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet,I18nManager } from 'react-native';
 import Header from '../components/Header';
-import HowYouFeel from '../components/HowYouFeel';
 import BookAppointment from '../components/BookAppointment';
 import OurTeam from '../components/OurTeam';
 import Pathway from '../components/Pathway';
 import ForYou from '../components/ForYou';
 
 const HomeScreen = ({ navigation }) => {
+  
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Header navigation={navigation} />
-      <View style={{ marginTop: -50 }}>
+      <View style={{ marginTop: '-14%' }}>
         <BookAppointment navigation={navigation} />
       </View>
 
