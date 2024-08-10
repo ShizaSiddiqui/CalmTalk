@@ -3,26 +3,25 @@ import {
   View,
   Text,
   TextInput,
-  FlatList,
   Image,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
   ImageBackground,
-  I18nManager
 } from 'react-native';
 import CalmMusic from '../components/CalmMusic';
 import TherapyCoursesTile from '../components/TherapyCoursesTile';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTranslation } from 'react-i18next';
-import { transform } from '@babel/core';
+import { FlatList } from 'react-native-gesture-handler';
 
 const DiscoverScreen = ({ navigation }) => {
-  const { t } = useTranslation();
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const alignItemStyle =  isRTL ? 'flex-start': null;
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
 
   const data = {
     blog: [
@@ -137,7 +136,7 @@ const DiscoverScreen = ({ navigation }) => {
         >
           <Image
             source={require('../../assets/images/back.png')}
-            style={[styles.backIcon, {transform:transformStyle}]}
+            style={[styles.backIcon, { transform: transformStyle }]}
           />
         </TouchableOpacity>
         <>
@@ -152,7 +151,7 @@ const DiscoverScreen = ({ navigation }) => {
 
       <View style={styles.searchContainer}>
         <TextInput
-          style={styles.searchInput}
+          style={[styles.searchInput, { textAlign: isRTL ? 'right' : 'left' }]}
           placeholder={t('search.placeholder')}
           placeholderTextColor={'#D9D9D9'}
         />
@@ -238,18 +237,24 @@ const DiscoverScreen = ({ navigation }) => {
             maxLength={400}
           />
           <View style={styles.textAreaIcons}>
-            <Image
-              source={require('../../assets/images/mic.png')}
-              style={styles.icon}
-            />
-            <Image
-              source={require('../../assets/images/close.png')}
-              style={styles.icon}
-            />
-            <Image
-              source={require('../../assets/images/check.png')}
-              style={styles.icon}
-            />
+            <TouchableOpacity>
+              <Image
+                source={require('../../assets/images/mic.png')}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                source={require('../../assets/images/close.png')}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                source={require('../../assets/images/check.png')}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
           </View>
         </View>
         <View
@@ -298,7 +303,9 @@ const DiscoverScreen = ({ navigation }) => {
             ]}
           >
             <Image source={item.image} style={styles.blogImage} />
-            <Text style={styles.blogText}>{item.title}</Text>
+            <Text style={[styles.blogText, { textAlign: textAlignStyle }]}>
+              {item.title}
+            </Text>
             <TouchableOpacity
               style={styles.blogLinkTouch}
               onPress={() => navigation.navigate('BlogsReadViewScreen')}
@@ -318,7 +325,9 @@ const DiscoverScreen = ({ navigation }) => {
       <CalmMusic navigation={navigation} />
 
       <View style={[styles.sectionHeader]}>
-        <Text style={[styles.sectionTitle]}>{t('sections.therapyCourses')}</Text>
+        <Text style={[styles.sectionTitle]}>
+          {t('sections.therapyCourses')}
+        </Text>
         <Text style={styles.sectionLink}>{t('sections.showAll')}</Text>
       </View>
       <FlatList
@@ -338,48 +347,51 @@ const DiscoverScreen = ({ navigation }) => {
         keyExtractor={(item, index) => `course-${index}`}
       />
 
-      <View style={styles.sectionHeaderAssessment}>
-        <Text style={styles.sectionTitle}>
-          {t('sections.onlineAssessment')}
-        </Text>
-        <TouchableOpacity>
-          <Text
-            style={styles.sectionLink}
-            onPress={() => navigation.navigate('AssesmentsScreen')}
-          >
-            {t('sections.showAll')}
+      <View
+        style={{ backgroundColor: 'white', marginTop: 20, paddingBottom: 10 }}
+      >
+        <View style={styles.sectionHeaderAssessment}>
+          <Text style={styles.sectionTitle}>
+            {t('sections.onlineAssessment')}
           </Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={data.onlineAssessment}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.assessmentTile}
-            onPress={() => {
-              let title;
-              if (item.id === 1) {
-                title = t('assessmentTitles.title1');
-              } else if (item.id === 2) {
-                title = t('assessmentTitles.title2');
-              } else if (item.id === 3) {
-                title = t('assessmentTitles.title3');
-              }
-              navigation.navigate('DepressionByPHQScreen', { title });
-            }}
-          >
-            <ImageBackground
-              source={item.image}
-              style={styles.assessmentImage}
-              resizeMode="contain"
-            ></ImageBackground>
+          <TouchableOpacity>
+            <Text
+              style={styles.sectionLink}
+              onPress={() => navigation.navigate('AssessmentScreen')}
+            >
+              {t('sections.showAll')}
+            </Text>
           </TouchableOpacity>
-        )}
-        keyExtractor={(item, index) => `assessment-${index}`}
-      />
-
+        </View>
+        <FlatList
+          data={data.onlineAssessment}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.assessmentTile}
+              onPress={() => {
+                let title;
+                if (item.id === 1) {
+                  title = t('assessmentTitles.title1');
+                } else if (item.id === 2) {
+                  title = t('assessmentTitles.title2');
+                } else if (item.id === 3) {
+                  title = t('assessmentTitles.title3');
+                }
+                navigation.navigate('DepressionByPHQScreen', { title });
+              }}
+            >
+              <ImageBackground
+                source={item.image}
+                style={styles.assessmentImage}
+                resizeMode="contain"
+              ></ImageBackground>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item, index) => `assessment-${index}`}
+        />
+      </View>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>{t('sections.therapist')}</Text>
       </View>
@@ -403,7 +415,7 @@ const DiscoverScreen = ({ navigation }) => {
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  // justifyContent: 'space-between',
                   alignItems: 'center',
                   marginVertical: 5,
                 }}
@@ -412,14 +424,20 @@ const DiscoverScreen = ({ navigation }) => {
                 <View
                   style={{
                     backgroundColor: '#EBF5F5',
-                    padding: 8,
+                    paddingVertical: 5,
+                    paddingHorizontal: 8,
                     borderRadius: 15,
+                    marginHorizontal: 10,
                   }}
                 >
                   <Text style={styles.therapistTags}>{item.tags}</Text>
                 </View>
               </View>
-              <Text style={styles.therapistSubTags}>{item.subTags}</Text>
+              <Text
+                style={[styles.therapistSubTags, { textAlign: textAlignStyle }]}
+              >
+                {item.subTags}
+              </Text>
 
               <View
                 style={{
@@ -504,24 +522,23 @@ const styles = StyleSheet.create({
   tilesContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginVertical: 10,
     alignItems: 'center',
     // borderWidth:1,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
   },
   tile: {
     // width: 'auto%',
     flexDirection: 'row',
     backgroundColor: 'white',
     borderRadius: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 22,
+    paddingVertical: 19,
+    paddingHorizontal: '7%',
     opacity: 0.7,
-    // marginHorizontal:7,
+    marginHorizontal: 4,
     marginVertical: 7,
     alignItems: 'center',
-    // alignItems: 'center',
     // marginBottom: 10,
   },
   tileImage: {
@@ -547,6 +564,7 @@ const styles = StyleSheet.create({
   },
   expressTitle: {
     fontSize: 20,
+    fontWeight: 'bold',
   },
   expressLink: {
     fontSize: 14,
@@ -603,12 +621,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     backgroundColor: 'white',
-    marginTop: 20,
   },
 
   sectionTitle: {
     fontSize: 20,
     marginVertical: 15,
+    fontWeight: 'bold',
+
     // fontWeight: '600',
   },
   sectionLink: {
@@ -618,21 +637,22 @@ const styles = StyleSheet.create({
   blogTile: {
     flex: 1,
     width: '50%',
-    height: 190,
+    height: 220,
     backgroundColor: 'white',
     borderRadius: 10,
-    padding: 10,
+    paddingHorizontal: 2,
     marginHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: '12%',
-    paddingVertical: '5%',
+    // paddingBottom: 25,
+    // paddingVertical: 15,
   },
   blogImage: {
+    // borderWidth:1,
     width: '100%',
-    height: 100,
+    height: 140,
     borderRadius: 10,
-    marginTop: '1%',
+    // paddingTop: '2%',
   },
   iconBlogLink: {
     width: 25,
@@ -645,10 +665,15 @@ const styles = StyleSheet.create({
     right: 2,
   },
   blogText: {
+    width: '80%',
     fontWeight: '600',
     fontSize: 13,
-    paddingBottom: 10,
-    // textAlign: 'center'
+    // paddingTop: 10,
+    lineHeight: 15,
+    // borderWidth:1,
+    marginTop: 10,
+    alignSelf: 'flex-start',
+    marginHorizontal: 5,
   },
 
   musicTile: {
@@ -704,12 +729,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   assessmentTile: {
-    width: 150,
-    backgroundColor: 'white',
+    width: 140,
+    // backgroundColor: 'white',
     borderRadius: 10,
     paddingVertical: 10,
+
     // marginRight: 10,
-    // borderWidth: 1,
   },
   assessmentImage: {
     width: 140,
@@ -760,7 +785,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   therapistDetails: {
-    fontSize: 10,
+    fontSize: 8,
     color: '#5C5C5C',
     borderWidth: 1.2,
     borderColor: '#E8E8F1',
@@ -770,14 +795,14 @@ const styles = StyleSheet.create({
   },
   bookButton: {
     backgroundColor: '#B1C181',
-    padding: 5,
+    paddingHorizontal: 15,
     borderRadius: 7,
-    paddingVertical: 8,
+    paddingVertical: 12,
   },
   bookButtonText: {
     color: 'white',
     textAlign: 'center',
-    fontSize: 8,
+    fontSize: 10,
   },
   faqImage: {
     width: '100%',

@@ -7,28 +7,27 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  I18nManager
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HighlightedProductsTile from '../components/HighlightedProductsTile';
-import { t } from 'i18next';
-
+import { useTranslation } from 'react-i18next';
+import BlogsReadViewScreen from './BlogsReadViewScreen';
 
 const ProductCategoriesScreen = () => {
   const navigation = useNavigation();
-
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
-  const alignSelfStyle = isRTL ? 'flex-start' :null
-
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' : null;
 
   const productTopic = [
     t('productCategoriesScreen.categoriesList.all'),
     t('productCategoriesScreen.categoriesList.new'),
-    t('productCategoriesScreen.categoriesList.popular')
+    t('productCategoriesScreen.categoriesList.popular'),
   ];
   const [activeBlogTopic, setActiveBlogTopic] = useState(productTopic[0]);
 
@@ -77,6 +76,7 @@ const ProductCategoriesScreen = () => {
     <TouchableOpacity
       style={[
         styles.productTopicButton,
+
         activeBlogTopic === item
           ? styles.activeBlogTopicButton
           : styles.inactiveBlogTopicButton,
@@ -100,21 +100,25 @@ const ProductCategoriesScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.header}>
-          <View style={{ flexDirection: 'row', alignItems:'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
               <Image
                 source={require('../../assets/images/back.png')}
-                style={[styles.backIcon, {transform:transformStyle}]}
+                style={[styles.backIcon, { transform: transformStyle }]}
                 resizeMode="contain"
               />
             </TouchableOpacity>
-            <Text style={styles.title}>{t('productCategoriesScreen.categoriesList.products')}</Text>
+            <Text style={styles.title}>
+              {t('productCategoriesScreen.categoriesList.products')}
+            </Text>
           </View>
           <TouchableOpacity style={styles.favoriteButton} onPress={() => {}}>
-            <Text style={styles.favoriteButtonText}>{t('productCategoriesScreen.categoriesList.favorites')}</Text>
+            <Text style={styles.favoriteButtonText}>
+              {t('productCategoriesScreen.categoriesList.favorites')}
+            </Text>
             <Image
               source={require('../../assets/images/favorite.png')}
               style={styles.favoriteIcon}
@@ -127,11 +131,15 @@ const ProductCategoriesScreen = () => {
           source={require('../../assets/images/category_background.png')}
         >
           <View style={styles.mostRecentProductsHeader}>
-            <Text style={styles.mostRecentProductsHeaderTitle}>{t('productCategoriesScreen.categoriesList.categories')}</Text>
+            <Text style={styles.mostRecentProductsHeaderTitle}>
+              {t('productCategoriesScreen.categoriesList.categories')}
+            </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('CategoryListScreen')}
             >
-              <Text style={{ fontSize: 14 }}>{t('productCategoriesScreen.categoriesList.seeAll')}</Text>
+              <Text style={{ fontSize: 14 }}>
+                {t('productCategoriesScreen.categoriesList.seeAll')}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.categories}>
@@ -139,7 +147,9 @@ const ProductCategoriesScreen = () => {
               data={[
                 {
                   image: require('../../assets/images/product_categories.png'),
-                  title: t('productCategoriesScreen.categoriesList.aromaTherapy'),
+                  title: t(
+                    'productCategoriesScreen.categoriesList.aromaTherapy',
+                  ),
                 },
                 {
                   image: require('../../assets/images/product_categories.png'),
@@ -176,7 +186,9 @@ const ProductCategoriesScreen = () => {
         </ImageBackground>
 
         <View style={[styles.sectionHeader]}>
-          <Text style={styles.sectionTitle}>{t('productCategoriesScreen.categoriesList.highlightedProducts')}</Text>
+          <Text style={styles.sectionTitle}>
+            {t('productCategoriesScreen.categoriesList.highlightedProducts')}
+          </Text>
         </View>
         <FlatList
           data={data.allProducts}
@@ -195,15 +207,22 @@ const ProductCategoriesScreen = () => {
           keyExtractor={(item, index) => `course-${index}`}
         />
 
-        <View style={[styles.recentProductsContainer]}>
-          <Text style={[styles.recentProductsTitle, {alignSelf:alignSelfStyle}]}>{t('productCategoriesScreen.categoriesList.allProducts')}</Text>
-          <FlatList
-            horizontal
-            data={productTopic}
-            renderItem={renderProductTopicItem}
-            keyExtractor={(item) => item}
-            showsHorizontalScrollIndicator={false}
-          />
+        <View style={{ backgroundColor: '#FFFFFF', marginTop: 12 }}>
+          <Text
+            style={[styles.recentProductsTitle, { alignSelf: alignSelfStyle }]}
+          >
+            {t('productCategoriesScreen.categoriesList.allProducts')}
+          </Text>
+          <View style={{ alignItems: isRTL ? 'flex-start' : null }}>
+            <FlatList
+              horizontal
+              data={productTopic}
+              renderItem={renderProductTopicItem}
+              keyExtractor={(item) => item}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+
           <FlatList
             data={data.product}
             renderItem={({ item, index }) => (
@@ -217,9 +236,18 @@ const ProductCategoriesScreen = () => {
                     { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
                   ]}
                 >
-                  <Text style={{ color: 'white' }}>{t('productCategoriesScreen.categoriesList.aromaTherapy')}</Text>
+                  <Text style={{ color: 'white', fontSize: 10 }}>
+                    {t('productCategoriesScreen.categoriesList.aromaTherapy')}
+                  </Text>
                 </View>
-                <View style={{ width: '100%' }}>
+                <View
+                  style={{
+                    width: '100%',
+                    borderTopRightRadius: 20,
+                    borderTopLeftRadius: 20,
+                    backgroundColor: '#B1C1814D',
+                  }}
+                >
                   <TouchableOpacity
                     style={{
                       position: 'absolute',
@@ -244,7 +272,13 @@ const ProductCategoriesScreen = () => {
                   />
                 </View>
 
-                <Text style={styles.productText}>{item.title}</Text>
+                <View style={{ paddingVertical: 10 }}>
+                  <Text
+                    style={[styles.productText, { textAlign: textAlignStyle }]}
+                  >
+                    {item.title}
+                  </Text>
+                </View>
               </TouchableOpacity>
             )}
             keyExtractor={(item) => item.title}
@@ -256,8 +290,6 @@ const ProductCategoriesScreen = () => {
     </SafeAreaView>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -342,7 +374,7 @@ const styles = StyleSheet.create({
     color: '#555555',
   },
   mostRecentProductsContainer: {
-    height: 200,
+    height: 220,
     paddingHorizontal: 10,
     borderRadius: 10,
     marginVertical: 10,
@@ -371,6 +403,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingVertical: 5,
     paddingHorizontal: 10,
+    zIndex: 1,
   },
 
   mostReadTitle: {
@@ -387,7 +420,7 @@ const styles = StyleSheet.create({
   productTile: {
     flex: 1,
     width: '50%',
-    height: 150,
+    height: 170,
     backgroundColor: 'white',
     borderRadius: 20,
     marginHorizontal: 10,
@@ -420,12 +453,7 @@ const styles = StyleSheet.create({
   productText: {
     fontWeight: '600',
     fontSize: 13,
-    paddingBottom: 20,
     paddingHorizontal: 7,
-  },
-
-  recentProductsContainer: {
-    // padding: 20,
   },
   recentProductsTitle: {
     fontSize: 18,

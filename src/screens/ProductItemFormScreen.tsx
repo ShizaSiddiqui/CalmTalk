@@ -1,91 +1,99 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, I18nManager } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  I18nManager,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { t } from 'i18next';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useTranslation } from 'react-i18next';
 
 const ProductDetails = () => {
   const navigation = useNavigation();
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
   const alignSelfStyle = isRTL ? 'flex-start' : null;
-
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView  showsVerticalScrollIndicator={false}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Image
-          source={require('../../assets/images/back.png')}
-          style={[styles.backIcon, {transform:transformStyle}]}
-          resizeMode="contain"
-        />
-      </TouchableOpacity>
-      <View style={styles.productImageContainer}>
-        <Image
-          style={styles.productImage}
-          source={require('../../assets/images/lavender-oil-image.png')}
-          resizeMode="contain"
-        />
-      </View>
-      <Text style={[styles.productName, {alignSelf:alignSelfStyle}]}>
-        {t('productDetailsScreen.productName')}
-      </Text>
-      <Text style={[styles.productBenefitsTitle, {alignSelf:alignSelfStyle}]}>
-        {t('productDetailsScreen.productBenefitsTitle')}
-      </Text>
-      <View style={styles.productBenefitsContainer}>
-        <View style={styles.productBenefit}>
-          <View style={styles.productBenefitCheckmark}>
-            <Image
-              source={require('../../assets/images/checkmark_payment.png')}
-              style={styles.bulletsImage}
-              resizeMode="contain"
-            />
-          </View>
-          <Text style={styles.productBenefitText}>
-            {t('productDetailsScreen.productBenefits.benefit1')}
-          </Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+            source={require('../../assets/images/back.png')}
+            style={[styles.backIcon, { transform: transformStyle }]}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+        <View style={styles.productImageContainer}>
+          <Image
+            style={styles.productImage}
+            source={require('../../assets/images/lavender-oil-image.png')}
+            resizeMode="contain"
+          />
         </View>
-        <View style={styles.productBenefit}>
-          <View style={styles.productBenefitCheckmark}>
-            <Image
-              source={require('../../assets/images/checkmark_payment.png')}
-              style={styles.bulletsImage}
-              resizeMode="contain"
-            />
-          </View>
-          <Text style={styles.productBenefitText}>
-            {t('productDetailsScreen.productBenefits.benefit2')}
-          </Text>
-        </View>
-        <View style={styles.productBenefit}>
-          <View style={styles.productBenefitCheckmark}>
-            <Image
-              source={require('../../assets/images/checkmark_payment.png')}
-              style={styles.bulletsImage}
-              resizeMode="contain"
-            />
-          </View>
-          <Text style={styles.productBenefitText}>
-            {t('productDetailsScreen.productBenefits.benefit3')}
-          </Text>
-        </View>
-      </View>
-      <TouchableOpacity style={styles.buyButton}>
-        <Text style={styles.buyButtonText}>
-          {t('productDetailsScreen.buyButton')}
+        <Text style={[styles.productName, { textAlign: textAlignStyle }]}>
+          {t('productDetailsScreen.productName')}
         </Text>
-      </TouchableOpacity>
+        <Text
+          style={[styles.productBenefitsTitle, { alignSelf: alignSelfStyle }]}
+        >
+          {t('productDetailsScreen.productBenefitsTitle')}
+        </Text>
+        <View style={styles.productBenefitsContainer}>
+          <View style={styles.productBenefit}>
+            <View style={styles.productBenefitCheckmark}>
+              <Image
+                source={require('../../assets/images/checkmark_payment.png')}
+                style={styles.bulletsImage}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.productBenefitText}>
+              {t('productDetailsScreen.productBenefits.benefit1')}
+            </Text>
+          </View>
+          <View style={styles.productBenefit}>
+            <View style={styles.productBenefitCheckmark}>
+              <Image
+                source={require('../../assets/images/checkmark_payment.png')}
+                style={styles.bulletsImage}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.productBenefitText}>
+              {t('productDetailsScreen.productBenefits.benefit2')}
+            </Text>
+          </View>
+          <View style={styles.productBenefit}>
+            <View style={styles.productBenefitCheckmark}>
+              <Image
+                source={require('../../assets/images/checkmark_payment.png')}
+                style={styles.bulletsImage}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.productBenefitText}>
+              {t('productDetailsScreen.productBenefits.benefit3')}
+            </Text>
+          </View>
+        </View>
+        <TouchableOpacity style={styles.buyButton}>
+          <Text style={styles.buyButtonText}>
+            {t('productDetailsScreen.buyButton')}
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -174,8 +182,8 @@ const styles = StyleSheet.create({
   },
   buyButtonText: {
     color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 

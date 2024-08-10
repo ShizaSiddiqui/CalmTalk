@@ -6,14 +6,22 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
-  FlatList,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
+import { FlatList } from 'react-native-gesture-handler';
 
 const TherapistSpeaksScreen = () => {
+  const navigation = useNavigation();
+
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
+
   const data = [
     {
       image: require('../../assets/images/blog4.png'),
@@ -28,13 +36,6 @@ const TherapistSpeaksScreen = () => {
       title: t('therapistSpeaks.title3'),
     },
   ];
-
-  const navigation = useNavigation();
-
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
-  const alignItemStyle = isRTL? 'flex-start' :null;
 
   return (
     <ScrollView style={styles.container}>
@@ -51,11 +52,13 @@ const TherapistSpeaksScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={[styles.backArrow, {transform:transformStyle}]}
+              style={[styles.backArrow, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>{t('therapistSpeaks.screenTitle')}</Text>
+          <Text style={styles.headerTitle}>
+            {t('therapistSpeaks.screenTitle')}
+          </Text>
         </View>
       </ImageBackground>
       <View style={styles.content}>
@@ -66,13 +69,17 @@ const TherapistSpeaksScreen = () => {
             resizeMode="contain"
           />
         </View>
-        <View style={[styles.textContainer, {alignItems: alignItemStyle}]}>
-          <Text style={styles.title}>{t('therapistSpeaks.mainTitle')}</Text>
-          <Text style={styles.text}>
+        <View style={[styles.textContainer]}>
+          <Text style={[styles.title, { textAlign: textAlignStyle }]}>
+            {t('therapistSpeaks.mainTitle')}
+          </Text>
+          <Text style={[styles.text, { textAlign: textAlignStyle }]}>
             {t('therapistSpeaks.mainText')}
           </Text>
         </View>
-        <Text style={[styles.otherPostsText, {alignSelf:alignItemStyle}]}>{t('therapistSpeaks.otherPostsText')}</Text>
+        <Text style={[styles.otherPostsText, { textAlign: textAlignStyle }]}>
+          {t('therapistSpeaks.otherPostsText')}
+        </Text>
         <FlatList
           data={data}
           renderItem={({ item }) => (
@@ -81,6 +88,7 @@ const TherapistSpeaksScreen = () => {
                 backgroundColor: 'white',
                 marginVertical: 10,
                 borderRadius: 10,
+                elevation: 2,
               }}
             >
               <TouchableOpacity style={styles.otherPost}>
@@ -91,10 +99,16 @@ const TherapistSpeaksScreen = () => {
                     // resizeMode='cover'
                   />
                   <View style={styles.generalTopic}>
-                    <Text style={styles.generalTopicText}>{t('therapistSpeaks.generalTopic')}</Text>
+                    <Text style={styles.generalTopicText}>
+                      {t('therapistSpeaks.generalTopic')}
+                    </Text>
                   </View>
                 </View>
-                <Text style={styles.otherPostText}>{item.title}</Text>
+                <Text
+                  style={[styles.otherPostText, { textAlign: textAlignStyle }]}
+                >
+                  {item.title}
+                </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -105,14 +119,13 @@ const TherapistSpeaksScreen = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   headerBackground: {
     width: '100%',
-    height: 180,
+    height: 200,
     paddingTop: '15%',
   },
   header: {
@@ -133,7 +146,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     marginLeft: 15,
-    // color: '#FFFFFF',
   },
 
   content: {
@@ -171,16 +183,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#71717A40',
     borderBottomWidth: 1,
     marginBottom: 20,
-   
-
   },
   text: {
     fontSize: 16,
     lineHeight: 27,
     marginBottom: 20,
     color: '#5C5C5C',
-
-    
   },
   otherPostsText: {
     fontSize: 20,
@@ -189,18 +197,15 @@ const styles = StyleSheet.create({
 
   otherPost: {
     width: '50%',
-    // marginBottom: 15,
     borderRadius: 10,
     backgroundColor: '#FFF',
-    elevation: 2,
+    // elevation: 2,
     padding: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // borderWidth:1
   },
   otherPostImageContainer: {
-    // marginBottom: 10,
     alignItems: 'center',
   },
   otherPostImage: {
@@ -208,14 +213,12 @@ const styles = StyleSheet.create({
     height: 120,
     padding: 10,
     borderRadius: 10,
-    // resizeMode: 'cover',
-    // borderWidth:1,
   },
   otherPostText: {
     fontSize: 14,
     lineHeight: 20,
-    marginHorizontal: 5,
     fontWeight: 'bold',
+    marginLeft: 20,
   },
 });
 

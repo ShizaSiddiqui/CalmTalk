@@ -35,9 +35,10 @@ const BottomTabsNavigator = () => {
           return <TabIcon focused={focused} icon={icon} label={label} />;
         },
         tabBarShowLabel: false,
+
         tabBarStyle: {
-          height:Platform.OS ==='android'?  75 : 80,
-          paddingTop: Platform.OS ==='ios'?  25 : 10,
+          height: Platform.OS === 'android' ? 57 : 85,
+          paddingTop: Platform.OS === 'ios' ? 25 : 10,
           backgroundColor: '#ECF9EE',
         },
         headerShown: false,

@@ -4,20 +4,20 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  FlatList,
   StyleSheet,
   Dimensions,
   Modal,
   I18nManager,
   TextInput,
+  Platform,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
+// import { SafeAreaView } from 'react-native-safe-area-context';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useNavigation } from '@react-navigation/native';
+import { FlatList } from 'react-native-gesture-handler';
 
-import { t } from 'i18next';
-import { transform } from '@babel/core';
+import { useTranslation } from 'react-i18next';
 
 const initialLayout = { width: Dimensions.get('window').width };
 const otherPosts = [
@@ -35,9 +35,17 @@ const otherPosts = [
     text: 'Lorem ipsum dolor sit amet consectetur. Egestas eros sagittis mauris et. Maecenas urna varius a sollicitudin tincidunt malesuada scelerisque. Lacus proin amet diam sodales pretium fames nunc.',
     liked: false,
   },
+
   {
     id: '3',
     name: 'Ayeza Khan',
+    date: 'May 19, 8:15 AM',
+    text: 'Lorem ipsum dolor sit amet consectetur. Egestas eros sagittis mauris et. Maecenas urna varius a sollicitudin tincidunt malesuada scelerisque. Lacus proin amet diam sodales pretium fames nunc.',
+    liked: false,
+  },
+  {
+    id: '4',
+    name: 'Dr. Shafaq',
     date: 'May 19, 8:15 AM',
     text: 'Lorem ipsum dolor sit amet consectetur. Egestas eros sagittis mauris et. Maecenas urna varius a sollicitudin tincidunt malesuada scelerisque. Lacus proin amet diam sodales pretium fames nunc.',
     liked: false,
@@ -60,8 +68,20 @@ const myPosts = [
     liked: false,
   },
 ];
+const trendingTabs = [
+  { id: '1', name: '#MentalHealthDay' },
+  { id: '2', name: '#CalmTalk' },
+  { id: '3', name: '#Therapy' },
+  { id: '4', name: '#Mindfulness' },
+  { id: '5', name: '#SelfCare' },
+  { id: '6', name: '#Wellness' },
+  { id: '7', name: '#Motivation' },
+  { id: '8', name: '#Inspiration' },
+];
 
 const ExpressAndChatScreen = () => {
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
   const [likeStatus, setLikeStatus] = useState(otherPosts);
   const [myPostStatus, setMyPostStatus] = useState(myPosts);
   const [trendingTab, setTrendingTab] = useState('#MentalHealthDay');
@@ -74,10 +94,9 @@ const ExpressAndChatScreen = () => {
   const [newPostText, setNewPostText] = useState('');
   const navigation = useNavigation();
 
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
-  const alignSelfStyle= isRTL? 'flex-start'   : null;
+  const textAlignStyle = isRTL ? 'left' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' : null;
 
   const toggleLike = (id: string, isOtherPosts: boolean) => {
     if (isOtherPosts) {
@@ -96,59 +115,78 @@ const ExpressAndChatScreen = () => {
   };
 
   const renderItem = ({ item }: any, isOtherPosts: boolean) => (
-    <View style={styles.postContainer}>
-      <View style={styles.postHeader}>
+    <View
+      style={{
+        width: '100%',
+        borderBottomWidth: Platform.OS === 'ios' ? 0.3 : 0.5,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: 'row',
+          // marginTop: 10,
+          backgroundColor: 'white',
+          width: Platform.OS === 'ios' ? '86%' : '78%',
+          paddingLeft: 15,
+        }}
+      >
         <Image
           source={require('../../assets/images/profile_user.png')}
           style={styles.profileImage}
         />
-        <View style={[styles.postInfo, {alignItems:alignSelfStyle}]}>
-          <Text style={styles.postName}>{item.name}</Text>
-          <Text style={styles.postDate}>{item.date}</Text>
-        </View>
-        <TouchableOpacity>
-          <Image
-            source={require('../../assets/images/dots.png')}
-            style={styles.dotsImage}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.postText}>{item.text}</Text>
-      <View style={styles.postActions}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TouchableOpacity
-            style={{ marginRight: 10 }}
-            onPress={() => toggleLike(item.id, isOtherPosts)}
-          >
-            <Image
-              source={
-                item.liked
-                  ? require('../../assets/images/favorite.png')
-                  : require('../../assets/images/heart_outline.png')
-              }
-              style={styles.icon}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-          <Text>21</Text>
+        <View style={styles.postContainer}>
+          <View style={styles.postHeader}>
+            <View style={[styles.postInfo, { alignItems: alignSelfStyle }]}>
+              <Text style={styles.postName}>{item.name}</Text>
+              <Text style={styles.postDate}>{item.date}</Text>
+            </View>
+            <TouchableOpacity>
+              <Image
+                source={require('../../assets/images/dots.png')}
+                style={styles.dotsImage}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={[styles.postText, { textAlign: textAlignStyle }]}>
+            {t('depressionByPHQ.aboutAssessmentText')}
+          </Text>
+          <View style={styles.postActions}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <TouchableOpacity
+                style={{ marginRight: 10 }}
+                onPress={() => toggleLike(item.id, isOtherPosts)}
+              >
+                <Image
+                  source={
+                    item.liked
+                      ? require('../../assets/images/favorite.png')
+                      : require('../../assets/images/heart_outline.png')
+                  }
+                  style={styles.icon}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <Text style={styles.numberOfEngagement}>21</Text>
 
-          <TouchableOpacity style={{ marginHorizontal: 10 }}>
-            <Image
-              source={require('../../assets/images/comment.png')}
-              style={styles.icon}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-          <Text>3</Text>
+              <TouchableOpacity style={{ marginHorizontal: 10 }}>
+                <Image
+                  source={require('../../assets/images/comment.png')}
+                  style={styles.icon}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <Text style={styles.numberOfEngagement}>3</Text>
+            </View>
+            <TouchableOpacity>
+              <Image
+                source={require('../../assets/images/save.png')}
+                style={styles.icon}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-        <TouchableOpacity>
-          <Image
-            source={require('../../assets/images/save.png')}
-            style={styles.icon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -177,7 +215,7 @@ const ExpressAndChatScreen = () => {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <TouchableOpacity
@@ -186,68 +224,44 @@ const ExpressAndChatScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={[styles.backIcon, {transform:transformStyle}]}
+              style={[styles.backIcon, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
           <Text style={[styles.title]}>{t('expressAndChatScreen.title')}</Text>
         </View>
-        <Text style={[styles.trendingNow, , {alignSelf:alignSelfStyle}]}>{t('expressAndChatScreen.trendingNow')}</Text>
+        <Text style={[styles.trendingNow, , { alignSelf: alignSelfStyle }]}>
+          {t('expressAndChatScreen.trendingNow')}
+        </Text>
         <View style={styles.trendingTabs}>
-          <TouchableOpacity
-            style={
-              trendingTab === '#MentalHealthDay'
-                ? styles.activeTab
-                : styles.inactiveTab
-            }
-            onPress={() => setTrendingTab('#MentalHealthDay')}
-          >
-            <Text
-              style={
-                trendingTab === '#MentalHealthDay'
-                  ? styles.activeTabText
-                  : styles.inactiveTabText
-              }
-            >
-              {t('expressAndChatScreen.mentalHealthDay')}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={
-              trendingTab === '#CalmTalk'
-                ? styles.activeTab
-                : styles.inactiveTab
-            }
-            onPress={() => setTrendingTab('#CalmTalk')}
-          >
-            <Text
-              style={
-                trendingTab === '#CalmTalk'
-                  ? styles.activeTabText
-                  : styles.inactiveTabText
-              }
-            >
-              {t('expressAndChatScreen.calmTalk')}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={
-              trendingTab === '#Therapy' ? styles.activeTab : styles.inactiveTab
-            }
-            onPress={() => setTrendingTab('#Therapy')}
-          >
-            <Text
-              style={
-                trendingTab === '#Therapy'
-                  ? styles.activeTabText
-                  : styles.inactiveTabText
-              }
-            >
-              {t('expressAndChatScreen.therapy')}
-            </Text>
-          </TouchableOpacity>
+          <FlatList
+            data={trendingTabs}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={
+                  trendingTab === item.name
+                    ? styles.activeTab
+                    : styles.inactiveTab
+                }
+                onPress={() => setTrendingTab(item.name)}
+              >
+                <Text
+                  style={
+                    trendingTab === item.name
+                      ? styles.activeTabText
+                      : styles.inactiveTabText
+                  }
+                >
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.id}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
         </View>
-        <View style={{ height: '230%' }}>
+        <View style={{ height: '300%' }}>
           <TabView
             navigationState={{ index, routes }}
             renderScene={renderScene}
@@ -283,7 +297,7 @@ const ExpressAndChatScreen = () => {
         <View style={styles.modalOverlay}>
           <View style={[styles.modalContent]}>
             <TextInput
-              style={[styles.input,{textAlign:textAlignStyle}]}
+              style={[styles.input, { textAlign: isRTL ? 'right' : 'left' }]}
               placeholder={t('expressAndChatScreen.expressAndChat')}
               placeholderTextColor={'#424242B2'}
               multiline={true}
@@ -314,7 +328,7 @@ const ExpressAndChatScreen = () => {
                 >
                   <Image
                     source={require('../../assets/images/mic.png')}
-                    style={styles.actionIcon}
+                    style={[styles.actionIcon, { tintColor: '#B1C181' }]}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -325,7 +339,7 @@ const ExpressAndChatScreen = () => {
                 >
                   <Image
                     source={require('../../assets/images/close.png')}
-                    style={styles.actionIcon}
+                    style={[styles.actionIcon, { tintColor: '#B1C181' }]}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -335,7 +349,7 @@ const ExpressAndChatScreen = () => {
                   }}
                 >
                   <Image
-                    source={require('../../assets/images/check.png')}
+                    source={require('../../assets/images/check_B1C181.png')}
                     style={styles.actionIcon}
                   />
                 </TouchableOpacity>
@@ -344,7 +358,7 @@ const ExpressAndChatScreen = () => {
           </View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -386,7 +400,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
     textAlignVertical: 'top',
-    paddingTop:10,
+    paddingTop: 10,
   },
   modalActions: {
     flexDirection: 'row',
@@ -400,7 +414,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    marginTop: 40,
   },
   header: {
     flexDirection: 'row',
@@ -430,6 +444,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 20,
+    marginLeft: 10,
   },
   inactiveTab: {
     // backgroundColor: '#9DB8A1',
@@ -438,6 +453,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 8,
+    marginHorizontal: 3,
   },
 
   activeTab: {
@@ -445,6 +461,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 8,
+    marginHorizontal: 3,
   },
   activeTabText: {
     color: 'white',
@@ -452,16 +469,12 @@ const styles = StyleSheet.create({
   inactiveTabText: {
     color: '#333',
   },
-  postsList: {
-    paddingHorizontal: 20,
-  },
+  postsList: { backgroundColor: 'white' },
   postContainer: {
     backgroundColor: 'white',
-    borderRadius: 10,
+    paddingHorizontal: 10,
+    // borderRadius: 10,
     paddingVertical: 15,
-    marginBottom: 20,
-    elevation: 1,
-    width: '100%',
   },
   postHeader: {
     flexDirection: 'row',
@@ -473,6 +486,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     marginRight: 10,
+    margin: 10,
   },
   postInfo: {
     flex: 1,
@@ -480,23 +494,28 @@ const styles = StyleSheet.create({
   postName: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#223322',
   },
   postDate: {
     fontSize: 12,
-    color: '#888',
+    color: '#23232380',
   },
   dotsImage: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
   },
   postText: {
     fontSize: 14,
     marginBottom: 10,
+    color: '#232323',
   },
   postActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  numberOfEngagement: {
+    color: '#232323',
   },
   icon: {
     width: 20,

@@ -1,18 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image,I18nManager } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  I18nManager,
+} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const BlogsReadViewScreen = () => {
   const navigation = useNavigation();
 
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const alignItemStyle =  isRTL ? 'flex-start': null;
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
 
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -24,7 +32,7 @@ const BlogsReadViewScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={[styles.backIcon , {transform:transformStyle}]}
+              style={[styles.backIcon, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -40,7 +48,7 @@ const BlogsReadViewScreen = () => {
               alignItems: 'center',
             }}
           >
-            <Text style={styles.blogTitle}>
+            <Text style={[styles.blogTitle, { width: isRTL ? null : '70%' }]}>
               {t('blogsReadViewScreen.blogTitle')}
             </Text>
             <TouchableOpacity>
@@ -55,29 +63,25 @@ const BlogsReadViewScreen = () => {
             source={require('../../assets/images/blog3.png')}
             style={styles.blogImage}
           />
-          <View style={{alignItems:alignItemStyle,}}>
-          <Text style={styles.blogText}>
+          <Text style={[styles.blogText, { textAlign: textAlignStyle }]}>
             {t('blogsReadViewScreen.blogText1')}
           </Text>
-          <Text style={styles.blogText}>
+          <Text style={[styles.blogText, { textAlign: textAlignStyle }]}>
             {t('blogsReadViewScreen.blogText2')}
           </Text>
-          <Text style={styles.blogText}>
+          <Text style={[styles.blogText, { textAlign: textAlignStyle }]}>
             {t('blogsReadViewScreen.blogText3')}
           </Text>
-          <Text style={styles.blogText}>
+          <Text style={[styles.blogText, { textAlign: textAlignStyle }]}>
             {t('blogsReadViewScreen.blogText4')}
           </Text>
-          <Text style={styles.blogText}>
+          <Text style={[styles.blogText, { textAlign: textAlignStyle }]}>
             {t('blogsReadViewScreen.blogText5')}
           </Text>
-          </View>
         </View>
 
         <View style={styles.categoriesContainer}>
-          <Text style={[styles.categoriesTitle, 
-            {alignSelf:alignItemStyle}
-            ]}>
+          <Text style={[styles.categoriesTitle, { textAlign: textAlignStyle }]}>
             {t('blogsReadViewScreen.categoriesTitle')}
           </Text>
           <TouchableOpacity style={styles.categoryItem}>
@@ -86,7 +90,7 @@ const BlogsReadViewScreen = () => {
             </Text>
             <Image
               source={require('../../assets/images/forward.png')}
-              style={[styles.categoryIcon, {transform:transformStyle}]}
+              style={[styles.categoryIcon, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -96,7 +100,7 @@ const BlogsReadViewScreen = () => {
             </Text>
             <Image
               source={require('../../assets/images/forward.png')}
-              style={[styles.categoryIcon, {transform:transformStyle}]}
+              style={[styles.categoryIcon, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -106,7 +110,7 @@ const BlogsReadViewScreen = () => {
             </Text>
             <Image
               source={require('../../assets/images/forward.png')}
-              style={[styles.categoryIcon, {transform:transformStyle}]}
+              style={[styles.categoryIcon, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -116,7 +120,7 @@ const BlogsReadViewScreen = () => {
             </Text>
             <Image
               source={require('../../assets/images/forward.png')}
-              style={[styles.categoryIcon, {transform:transformStyle}]}
+              style={[styles.categoryIcon, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -126,7 +130,7 @@ const BlogsReadViewScreen = () => {
             </Text>
             <Image
               source={require('../../assets/images/forward.png')}
-              style={[styles.categoryIcon, {transform:transformStyle}]}
+              style={[styles.categoryIcon, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -135,7 +139,6 @@ const BlogsReadViewScreen = () => {
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -157,6 +160,7 @@ const styles = StyleSheet.create({
     height: 15,
     marginLeft: 10,
   },
+
   title: {
     fontSize: 18,
     fontWeight: '600',
@@ -181,8 +185,8 @@ const styles = StyleSheet.create({
     // borderWidth:1,
     fontSize: 18,
     fontWeight: '500',
-    marginRight: 16,
-    width: '60%',
+    // marginRight: 16,
+    // width: '60%',
     color: '#232323',
     // marginBottom: 16,
   },

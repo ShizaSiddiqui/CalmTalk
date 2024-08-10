@@ -3,17 +3,25 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
   Image,
   Dimensions,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { FlatList } from 'react-native-gesture-handler';
 
 const { width } = Dimensions.get('window');
 
-const moods = ['recommended', 'calm', 'sleepy', 'moody', 'motivated'];
+const moods = [
+  'recommended',
+  'recommended',
+  'recommended',
+  'calm',
+  'sleepy',
+  'moody',
+  'motivated',
+];
 
 const meditations = [
   {
@@ -42,7 +50,7 @@ const ForYou: React.FC = () => {
   const flatListRef = useRef<FlatList>(null);
   const { t } = useTranslation();
   const isRTL = I18nManager.isRTL;
-  const alignItemStyle =  isRTL ? 'flex-start': null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
 
   const renderMoodItem = ({ item }: { item: string }) => (
     <TouchableOpacity
@@ -70,9 +78,11 @@ const ForYou: React.FC = () => {
   }: {
     item: (typeof meditations)[0];
   }) => (
-    <View style={styles.meditationCard}>
+    <TouchableOpacity style={styles.meditationCard}>
       <Image source={item.image} style={styles.meditationImage} />
-      <View style={[styles.meditationTextContainer, {alignItems:alignItemStyle}]}>
+      <View
+        style={[styles.meditationTextContainer, { alignItems: alignItemStyle }]}
+      >
         <Text style={styles.meditationTitle}>{t(`foryou.${item.title}`)}</Text>
         <View style={styles.progressBarContainer}>
           <View style={styles.progressBar} />
@@ -81,7 +91,7 @@ const ForYou: React.FC = () => {
       <Text style={styles.meditationDuration}>
         {t('foryou.duration', { duration: item.duration })}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   const onViewableItemsChanged = ({ viewableItems }: any) => {
@@ -108,6 +118,7 @@ const ForYou: React.FC = () => {
         renderItem={renderMoodItem}
         keyExtractor={(item) => item}
         showsHorizontalScrollIndicator={false}
+        style={{ alignSelf: isRTL ? 'flex-start' : null }}
       />
       <FlatList
         horizontal
@@ -119,6 +130,7 @@ const ForYou: React.FC = () => {
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
         ref={flatListRef}
+        style={{ flex: 1 }}
       />
       <View style={[styles.indicatorContainer]}>
         {meditations.map((_, index) => (
@@ -141,6 +153,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     backgroundColor: '#F5F5F5',
+    flex: 1,
   },
   header: {
     flexDirection: 'row',
@@ -150,6 +163,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
+    fontWeight: 'bold',
   },
   viewAll: {
     fontSize: 14,
@@ -180,7 +194,8 @@ const styles = StyleSheet.create({
   meditationCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -190,14 +205,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   meditationImage: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 25,
     marginRight: 16,
   },
   meditationTextContainer: {
-    flex: 1,    
-
+    flex: 1,
   },
   meditationTitle: {
     fontSize: 16,
@@ -207,6 +221,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E6E6E6',
     borderRadius: 5,
     height: 5,
+    width: '85%',
     marginTop: 8,
     marginHorizontal: 8,
   },
@@ -214,7 +229,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#9DB8A1',
     borderRadius: 5,
     height: 5,
-    width: '50%', 
+    width: '50%',
   },
   meditationDuration: {
     fontSize: 16,

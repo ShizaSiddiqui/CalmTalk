@@ -7,67 +7,71 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  FlatList,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+import { FlatList } from 'react-native-gesture-handler';
 
 const OurTeamListScreen = () => {
+  const navigation = useNavigation();
+
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' : null;
+
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedLanguage, setSelectedLanguage] = useState('EN');
   const [selectedGender, setSelectedGender] = useState('Male');
 
-  const navigation = useNavigation();
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const alignItemStyle =  isRTL ? 'flex-start': null;
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
 
   const teamMembers = [
     {
-      name: 'Dr. John',
-      tags: 'Psychologist',
-      subTags: 'Depression, Anxiety, ADHD, OCD',
-      years: '2 years',
-      location: 'India',
-      languages: 'English, Arabic',
+      name: t('teamMember.name1'),
+      tags: t('teamMember.tags1'),
+      subTags: t('teamMember.subTags1'),
+      years: t('teamMember.years1'),
+      location: t('teamMember.location1'),
+      languages: t('teamMember.languages1'),
       image: require('../../assets/images/doctor.png'),
     },
     {
-      name: 'Dr. John',
-      tags: 'Psychologist',
-      subTags: 'Depression, Anxiety, ADHD, OCD',
-      years: '2 years',
-      location: 'India',
-      languages: 'English, Arabic',
+      name: t('teamMember.name2'),
+      tags: t('teamMember.tags2'),
+      subTags: t('teamMember.subTags2'),
+      years: t('teamMember.years2'),
+      location: t('teamMember.location2'),
+      languages: t('teamMember.languages2'),
       image: require('../../assets/images/doctor.png'),
     },
     {
-      name: 'Dr. John',
-      tags: 'Psychologist',
-      subTags: 'Depression, Anxiety, ADHD, OCD',
-      years: '2 years',
-      location: 'India',
-      languages: 'English, Arabic',
+      name: t('teamMember.name3'),
+      tags: t('teamMember.tags3'),
+      subTags: t('teamMember.subTags3'),
+      years: t('teamMember.years3'),
+      location: t('teamMember.location3'),
+      languages: t('teamMember.languages3'),
       image: require('../../assets/images/doctor.png'),
     },
     {
-      name: 'Dr. John',
-      tags: 'Psychologist',
-      subTags: 'Depression, Anxiety, ADHD, OCD',
-      years: '2 years',
-      location: 'India',
-      languages: 'English, Arabic',
+      name: t('teamMember.name4'),
+      tags: t('teamMember.tags4'),
+      subTags: t('teamMember.subTags4'),
+      years: t('teamMember.years4'),
+      location: t('teamMember.location4'),
+      languages: t('teamMember.languages4'),
       image: require('../../assets/images/doctor.png'),
     },
   ];
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <ImageBackground
         source={require('../../assets/images/header_category_form.png')}
         style={styles.headerBackground}
@@ -81,16 +85,16 @@ const OurTeamListScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-          style={[styles.backArrow, {transform:transformStyle}]}
+              style={[styles.backArrow, { transform: transformStyle }]}
             />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Our team</Text>
+          <Text style={styles.headerTitle}>{t('headerTitle')}</Text>
         </View>
       </ImageBackground>
       <View style={styles.filterBar}>
-        <Text style={styles.filterByText}>Filter By</Text>
+        <Text style={styles.filterByText}>{t('filterByText')}</Text>
         <TouchableOpacity>
-          <Text style={styles.resetFilterText}>Reset Filter</Text>
+          <Text style={styles.resetFilterText}>{t('resetFilterText')}</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.filterContainer}>
@@ -108,7 +112,7 @@ const OurTeamListScreen = () => {
                 selectedLanguage === 'EN' && styles.selectedButtonText,
               ]}
             >
-              EN
+              {t('language.EN')}
             </Text>
           </TouchableOpacity>
           <Text style={styles.pipeSeparator}>|</Text>
@@ -125,7 +129,7 @@ const OurTeamListScreen = () => {
                 selectedLanguage === 'AR' && styles.selectedButtonText,
               ]}
             >
-              AR
+              {t('language.AR')}
             </Text>
           </TouchableOpacity>
           <Text style={styles.pipeSeparator}>|</Text>
@@ -142,7 +146,7 @@ const OurTeamListScreen = () => {
                 selectedLanguage === 'FR' && styles.selectedButtonText,
               ]}
             >
-              FR
+              {t('language.FR')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -160,7 +164,7 @@ const OurTeamListScreen = () => {
                 selectedGender === 'Male' && styles.selectedButtonText,
               ]}
             >
-              Male
+              {t('gender.Male')}
             </Text>
           </TouchableOpacity>
           <Text style={styles.pipeSeparator}>|</Text>
@@ -177,7 +181,7 @@ const OurTeamListScreen = () => {
                 selectedGender === 'Female' && styles.selectedButtonText,
               ]}
             >
-              Female
+              {t('gender.Female')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -194,14 +198,16 @@ const OurTeamListScreen = () => {
                 { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
               ]}
             >
-              <Text style={{ color: 'white' }}>Individual, Couple</Text>
+              <Text style={{ color: 'white', fontSize: 10 }}>
+                {t('individualCouple')}
+              </Text>
             </View>
             <Image source={item.image} style={styles.therapistImage} />
             <View style={styles.therapistInfo}>
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  // justifyContent: 'space-between',
                   alignItems: 'center',
                   marginVertical: 5,
                 }}
@@ -211,13 +217,18 @@ const OurTeamListScreen = () => {
                   style={{
                     backgroundColor: '#EBF5F5',
                     padding: 8,
+                    marginLeft: 20,
                     borderRadius: 15,
                   }}
                 >
                   <Text style={styles.therapistTags}>{item.tags}</Text>
                 </View>
               </View>
-              <Text style={styles.therapistSubTags}>{item.subTags}</Text>
+              <Text
+                style={[styles.therapistSubTags, { textAlign: textAlignStyle }]}
+              >
+                {item.subTags}
+              </Text>
 
               <View
                 style={{
@@ -234,7 +245,7 @@ const OurTeamListScreen = () => {
                   style={styles.bookButton}
                   onPress={() => navigation.navigate('TherapistFormScreen')}
                 >
-                  <Text style={styles.bookButtonText}>BOOK WITH ME!</Text>
+                  <Text style={styles.bookButtonText}>{t('bookWithMe')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -248,18 +259,28 @@ const OurTeamListScreen = () => {
           onPress={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
-          <Text style={styles.paginationButtonText}>{'<'}</Text>
+          <Text
+            style={[styles.paginationButtonText, { transform: transformStyle }]}
+          >
+            {t('pagination.previous')}
+          </Text>
         </TouchableOpacity>
-        <Text style={styles.paginationCurrentPage}>{currentPage}</Text>
+        <TouchableOpacity style={styles.currentPageContainer}>
+          <Text style={styles.paginationCurrentPage}>{currentPage}</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.paginationButton}
           onPress={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === Math.ceil(teamMembers.length / 2)}
         >
-          <Text style={styles.paginationButtonText}>{'>'}</Text>
+          <Text
+            style={[styles.paginationButtonText, { transform: transformStyle }]}
+          >
+            {t('pagination.next')}
+          </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -308,7 +329,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    // paddingVertical: 5,
   },
   filterByText: {
     fontSize: 12,
@@ -340,7 +361,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
   },
   selectedButton: {
-    backgroundColor: '#B1C181',
+    backgroundColor: '#9DB8A1',
   },
   filterButtonText: {
     fontSize: 14,
@@ -389,13 +410,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingVertical: 5,
     paddingHorizontal: 10,
-    
   },
   therapistSubTags: {
     fontSize: 12,
     color: '#5C5C5C',
     marginBottom: 5,
-    
   },
   therapistDetails: {
     fontSize: 10,
@@ -404,18 +423,18 @@ const styles = StyleSheet.create({
     borderColor: '#E8E8F1',
     borderRadius: 18,
     paddingVertical: 10,
-    paddingHorizontal: 3,
+    paddingHorizontal: 8,
   },
   bookButton: {
     backgroundColor: '#B1C181',
-    padding: 5,
+    paddingHorizontal: 15,
     borderRadius: 7,
-    paddingVertical: 8,
+    paddingVertical: 12,
   },
   bookButtonText: {
     color: 'white',
     textAlign: 'center',
-    fontSize: 8,
+    fontSize: 10,
   },
   paginationContainer: {
     flexDirection: 'row',
@@ -424,19 +443,30 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   paginationButton: {
-    backgroundColor: '#E0E0E0',
-    padding: 10,
-    borderRadius: 5,
+    // backgroundColor: '#E0E0E0',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
     marginHorizontal: 10,
+    borderColor: '#2323234D',
+    borderWidth: 1,
   },
   paginationButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#2323234D',
   },
   paginationCurrentPage: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#fff',
+  },
+  currentPageContainer: {
+    borderRadius: 10,
     marginHorizontal: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: '#9DB8A1',
   },
 });
 

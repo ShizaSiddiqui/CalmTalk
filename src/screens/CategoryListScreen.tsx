@@ -6,15 +6,20 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
-  FlatList,
   TextInput,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
+import { FlatList } from 'react-native-gesture-handler';
 
 const CategoryListScreen = () => {
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' : null;
   const data = {
     product: [
       {
@@ -45,9 +50,6 @@ const CategoryListScreen = () => {
     ],
   };
   const navigation = useNavigation();
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
 
   return (
     <ScrollView style={styles.container}>
@@ -64,7 +66,7 @@ const CategoryListScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={[styles.backArrow, {transform:transformStyle}]}
+              style={[styles.backArrow, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -74,7 +76,10 @@ const CategoryListScreen = () => {
               style={styles.icon}
             />
             <TextInput
-              style={[styles.searchInput, {textAlign:textAlignStyle}]}
+              style={[
+                styles.searchInput,
+                { textAlign: isRTL ? 'right' : null },
+              ]}
               placeholder={t('categoriesList.search')}
               placeholderTextColor={'#23232399'}
             />
@@ -82,7 +87,9 @@ const CategoryListScreen = () => {
         </View>
       </ImageBackground>
       <View style={styles.content}>
-        <Text style={styles.title}>{t('categoriesList.aromaTherapyProducts')}</Text>
+        <Text style={[styles.title, { textAlign: textAlignStyle }]}>
+          {t('categoriesList.aromaTherapyProducts')}
+        </Text>
 
         <FlatList
           data={data.product}
@@ -97,9 +104,18 @@ const CategoryListScreen = () => {
                   { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
                 ]}
               >
-                <Text style={{ color: 'white' }}>{t('categoriesList.aromaTherapy')}</Text>
+                <Text style={{ color: 'white', fontSize: 10 }}>
+                  {t('categoriesList.aromaTherapy')}
+                </Text>
               </View>
-              <View style={{ width: '100%' }}>
+              <View
+                style={{
+                  width: '100%',
+                  borderTopRightRadius: 20,
+                  borderTopLeftRadius: 20,
+                  backgroundColor: '#B1C1814D',
+                }}
+              >
                 <TouchableOpacity
                   style={{
                     position: 'absolute',
@@ -124,7 +140,13 @@ const CategoryListScreen = () => {
                 />
               </View>
 
-              <Text style={styles.productText}>{item.title}</Text>
+              <View style={{ paddingVertical: 10 }}>
+                <Text
+                  style={[styles.productText, { textAlign: textAlignStyle }]}
+                >
+                  {item.title}
+                </Text>
+              </View>
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item.title}
@@ -172,14 +194,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingVertical: 5,
     paddingHorizontal: 10,
+    zIndex: 1,
   },
   productTile: {
     flex: 1,
     width: '50%',
-    height: 150,
+    height: 170,
     backgroundColor: 'white',
     borderRadius: 20,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 8,
@@ -201,7 +224,6 @@ const styles = StyleSheet.create({
   productText: {
     fontWeight: '600',
     fontSize: 13,
-    paddingBottom: 20,
     paddingHorizontal: 7,
   },
   row: {

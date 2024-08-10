@@ -3,20 +3,25 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
   Image,
   ImageBackground,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
+import { FlatList } from 'react-native-gesture-handler';
 
 const BlogsFavoriteScreen = () => {
   const navigation = useNavigation();
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
+
   const blogTopic = [
     t('blogsFavoriteScreen.blogTopic.all'),
     t('blogsFavoriteScreen.blogTopic.generalTopics'),
@@ -53,11 +58,6 @@ const BlogsFavoriteScreen = () => {
     },
   ]);
 
-
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -68,7 +68,7 @@ const BlogsFavoriteScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={[styles.backIcon, {transform:transformStyle}]}
+              style={[styles.backIcon, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -119,7 +119,6 @@ const BlogsFavoriteScreen = () => {
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {

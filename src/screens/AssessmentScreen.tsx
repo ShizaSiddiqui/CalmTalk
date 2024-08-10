@@ -6,20 +6,18 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  I18nManager
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 
-const AssessmentsScreen = () => {
+const AssessmentScreen = () => {
   const navigation = useNavigation();
-  const { t } = useTranslation();
-
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
   const alignSelfStyle = isRTL ? 'flex-start' : null;
-
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
 
   return (
     <View style={styles.container}>
@@ -36,7 +34,7 @@ const AssessmentsScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={[styles.backArrow, {transform:transformStyle}]}
+              style={[styles.backArrow, { transform: transformStyle }]}
             />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>{t('assessments.assessments')}</Text>
@@ -57,13 +55,22 @@ const AssessmentsScreen = () => {
           }
         >
           <View style={styles.assessmentText}>
-            <Text style={[styles.assessmentTitle, {alignSelf: alignSelfStyle}]}>
+            <Text
+              style={[styles.assessmentTitle, { textAlign: textAlignStyle }]}
+            >
               {t('assessments.depressionByPHQ9')}
             </Text>
-            <Text style={styles.assessmentDescription}>
+            <Text
+              style={[
+                styles.assessmentDescription,
+                { textAlign: textAlignStyle },
+              ]}
+            >
               {t('assessments.depressionByPHQ9Description')}
             </Text>
-            <Text style={styles.assessmentDuration}>
+            <Text
+              style={[styles.assessmentDuration, { textAlign: textAlignStyle }]}
+            >
               {t('assessments.duration', { minutes: 10 })}
             </Text>
           </View>
@@ -84,13 +91,22 @@ const AssessmentsScreen = () => {
           }
         >
           <View style={styles.assessmentText}>
-            <Text style={styles.assessmentTitle}>
+            <Text
+              style={[styles.assessmentTitle, { textAlign: textAlignStyle }]}
+            >
               {t('assessments.anxietyByZung')}
             </Text>
-            <Text style={styles.assessmentDescription}>
+            <Text
+              style={[
+                styles.assessmentDescription,
+                { textAlign: textAlignStyle },
+              ]}
+            >
               {t('assessments.anxietyByZungDescription')}
             </Text>
-            <Text style={styles.assessmentDuration}>
+            <Text
+              style={[styles.assessmentDuration, { textAlign: textAlignStyle }]}
+            >
               {t('assessments.duration', { minutes: 10 })}
             </Text>
           </View>
@@ -111,13 +127,22 @@ const AssessmentsScreen = () => {
           }
         >
           <View style={styles.assessmentText}>
-            <Text style={styles.assessmentTitle}>
+            <Text
+              style={[styles.assessmentTitle, { textAlign: textAlignStyle }]}
+            >
               {t('assessments.angerManagement')}
             </Text>
-            <Text style={styles.assessmentDescription}>
+            <Text
+              style={[
+                styles.assessmentDescription,
+                { textAlign: textAlignStyle },
+              ]}
+            >
               {t('assessments.angerManagementDescription')}
             </Text>
-            <Text style={styles.assessmentDuration}>
+            <Text
+              style={[styles.assessmentDuration, { textAlign: textAlignStyle }]}
+            >
               {t('assessments.duration', { minutes: 10 })}
             </Text>
           </View>
@@ -158,7 +183,7 @@ const styles = StyleSheet.create({
     height: 15,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '600',
     marginLeft: 15,
     // color: '#FFFFFF',
@@ -198,18 +223,19 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   assessmentTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontWeight: '500',
     marginBottom: 5,
   },
   assessmentDescription: {
-    fontSize: 14,
+    fontSize: 10,
     marginBottom: 5,
+    color: '#888A95',
   },
   assessmentDuration: {
-    fontSize: 14,
-    color: '#808080',
+    fontSize: 11,
+    color: '#0F161E',
   },
 });
 
-export default AssessmentsScreen;
+export default AssessmentScreen;

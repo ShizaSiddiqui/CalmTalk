@@ -3,24 +3,33 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
   Image,
   ImageBackground,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
+import { FlatList } from 'react-native-gesture-handler';
 
 const BlogsScreen = () => {
   const navigation = useNavigation();
+
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
+
   const blogTopic = [
     t('blogsScreen.blogTopic.all'),
     t('blogsScreen.blogTopic.generalTopics'),
     t('blogsScreen.blogTopic.depression'),
     t('blogsScreen.blogTopic.parenting'),
+    t('blogsScreen.blogTopic.other'),
+    t('blogsScreen.blogTopic.other'),
     t('blogsScreen.blogTopic.other'),
   ];
   const [activeBlogTopic, setActiveBlogTopic] = useState(blogTopic[0]);
@@ -52,9 +61,6 @@ const BlogsScreen = () => {
     },
     // Add more blog data here
   ]);
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
 
   const renderBlogTopicItem = ({ item }: { item: string }) => (
     <TouchableOpacity
@@ -89,20 +95,21 @@ const BlogsScreen = () => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={[styles.backIcon , {transform:transformStyle}]}
+              style={[styles.backIcon, { transform: transformStyle }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
           <Text style={styles.title}>{t('blogsScreen.title')}</Text>
         </View>
-        <FlatList
-          horizontal
-          data={blogTopic}
-          renderItem={renderBlogTopicItem}
-          keyExtractor={(item) => item}
-          showsHorizontalScrollIndicator={false}
-        />
-
+        <View style={{ marginLeft: 12 }}>
+          <FlatList
+            horizontal
+            data={blogTopic}
+            renderItem={renderBlogTopicItem}
+            keyExtractor={(item) => item}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
         <ImageBackground
           style={styles.mostRecentBlogsContainer}
           source={require('../../assets/images/background_express_and_chat.png')}
@@ -132,7 +139,9 @@ const BlogsScreen = () => {
                   paddingVertical: 10,
                 }}
               >
-                <Text style={styles.flatListTitle}>
+                <Text
+                  style={[styles.flatListTitle, { textAlign: textAlignStyle }]}
+                >
                   {t('blogsScreen.blog.title1')}
                 </Text>
                 <Image
@@ -176,8 +185,16 @@ const BlogsScreen = () => {
           </View>
           <FlatList
             data={blog}
+            numColumns={2}
             renderItem={({ item, index }) => (
-              <View style={styles.blogTile}>
+              <View
+                style={[
+                  styles.blogTile,
+                  {
+                    marginTop: index % 2 === 1 ? 30 : 0,
+                  },
+                ]}
+              >
                 <TouchableOpacity
                   style={{ position: 'absolute', right: 0, top: 0, zIndex: 1 }}
                 >
@@ -195,7 +212,9 @@ const BlogsScreen = () => {
                   style={styles.blogImage}
                   resizeMode="contain"
                 />
-                <Text style={styles.blogText}>{item.title}</Text>
+                <Text style={[styles.blogText, { textAlign: textAlignStyle }]}>
+                  {item.title}
+                </Text>
                 <TouchableOpacity
                   style={styles.blogLinkTouch}
                   onPress={() => navigation.navigate('BlogsReadViewScreen')}
@@ -286,7 +305,7 @@ const styles = StyleSheet.create({
     color: '#555555',
   },
   mostRecentBlogsContainer: {
-    height: 280,
+    height: 300,
     padding: 15,
     borderRadius: 10,
     marginVertical: 10,
@@ -294,6 +313,7 @@ const styles = StyleSheet.create({
   },
   mostRecentBlogsHeaderTitle: {
     fontSize: 18,
+    fontWeight: 'bold',
   },
   mostRecentBlogsHeader: {
     flexDirection: 'row',
@@ -302,35 +322,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  mostRecentBlogsImage: {
-    width: 150,
-    height: 150,
-  },
-
-  mostReadTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  mostReadBlog: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    overflow: 'hidden',
-    padding: 10,
-  },
   blogTile: {
     flex: 1,
     width: '50%',
     height: 230,
     backgroundColor: 'white',
     borderRadius: 10,
-    paddingHorizontal: 10,
-    marginHorizontal: 10,
+    paddingHorizontal: 8,
+    marginHorizontal: 7,
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: '12%',
-    paddingVertical: '3%',
-    marginVertical: 8,
+    paddingTop: '3%',
   },
   blogImage: {
     width: '100%',
@@ -349,7 +352,7 @@ const styles = StyleSheet.create({
   },
   blogText: {
     fontWeight: '600',
-    fontSize: 13,
+    fontSize: 14,
     paddingBottom: 10,
   },
 
@@ -358,7 +361,7 @@ const styles = StyleSheet.create({
   },
   recentBlogsTitle: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: 'bold',
     marginBottom: 10,
   },
   row: {
@@ -404,6 +407,7 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     marginHorizontal: 10,
+    tintColor: '#9DB8A1',
   },
   favoriteButtonText: {
     textAlign: 'center',
@@ -414,7 +418,7 @@ const styles = StyleSheet.create({
 
   flatListItem: {
     flexDirection: 'row',
-    width: 350,
+    width: '100%',
     backgroundColor: '#fff',
     borderRadius: 10,
     justifyContent: 'center',
@@ -424,7 +428,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    paddingVertical: 5,
+    paddingVertical: 8,
   },
   flatListImage: {
     width: 100,

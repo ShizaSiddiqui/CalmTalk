@@ -1,28 +1,41 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, I18nManager } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  I18nManager,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 // Import the image you uploaded
 const uploadedImage = require('../../assets/images/highlighted_products.png');
 
-
-const HighlightedProductsTile = ({ title = t('highlightedProductTile.lavenderOil'), onPress }) => {
-
+const HighlightedProductsTile = ({ title, onPress }) => {
   // Assuming `uploadedImage` is dynamically provided or passed as a prop
-  const uploadedImage = require('../../assets/images/lavender-oil-image.png'); // Example image, replace as needed
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
 
-
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
-  const alignSelfStyle = isRTL ? 'flex-start' :null
-
+  title = t('highlightedProductTile.lavenderOil');
   // Example bullet points data, replace with actual data as needed
   const bulletPoints = [
-    { image: require('../../assets/images/checkmark_payment.png'), text: t('highlightedProductTile.promotesRelaxation') },
-    { image: require('../../assets/images/checkmark_payment.png'), text: t('highlightedProductTile.easesAnxiety') },
-    { image: require('../../assets/images/checkmark_payment.png'), text: t('highlightedProductTile.improvesMood') },
+    {
+      image: require('../../assets/images/checkmark_payment.png'),
+      text: t('highlightedProductTile.promotesRelaxation'),
+    },
+    {
+      image: require('../../assets/images/checkmark_payment.png'),
+      text: t('highlightedProductTile.easesAnxiety'),
+    },
+    {
+      image: require('../../assets/images/checkmark_payment.png'),
+      text: t('highlightedProductTile.improvesMood'),
+    },
   ];
 
   return (
@@ -39,16 +52,20 @@ const HighlightedProductsTile = ({ title = t('highlightedProductTile.lavenderOil
           resizeMode="contain"
         />
 
-        <Text style={[styles.courseTitle, {alignSelf:alignSelfStyle}]}>{title}</Text>
+        <Text style={[styles.courseTitle, { alignSelf: alignItemStyle }]}>
+          {title}
+        </Text>
 
         {bulletPoints.map((bullet, index) => (
-          <View key={index} style={[styles.bulletsContainer ]}>
+          <View key={index} style={[styles.bulletsContainer]}>
             <Image
               source={bullet.image}
               style={styles.bulletsImage}
               resizeMode="contain"
             />
-            <Text style={[styles.courseSubText,]}>{bullet.text}</Text>
+            <Text style={[styles.courseSubText, { textAlign: textAlignStyle }]}>
+              {bullet.text}
+            </Text>
           </View>
         ))}
 
@@ -67,34 +84,23 @@ const HighlightedProductsTile = ({ title = t('highlightedProductTile.lavenderOil
   );
 };
 
-
-
 const styles = StyleSheet.create({
   courseTile: {
     width: 300,
     backgroundColor: '#E5F6EF',
     borderRadius: 20,
     marginRight: 10,
-    elevation: 5, 
-    shadowColor: '#000', 
+    elevation: 5,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
     marginHorizontal: 10,
   },
-  headerTag: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    backgroundColor: 'black',
-    color: '#fff',
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    zIndex: 1, 
-  },
+
   gradient: {
     width: '100%',
-    height: 190, 
+    height: 190,
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -110,11 +116,11 @@ const styles = StyleSheet.create({
   courseTitle: {
     marginVertical: 10,
     fontWeight: '600',
-    fontSize: 18, 
-    color: '#2D2D2D', 
+    fontSize: 18,
+    color: '#2D2D2D',
   },
   courseSubText: {
-    fontSize: 14, 
+    fontSize: 14,
     color: '#282828B2',
     width: '80%',
     lineHeight: 25,

@@ -1,24 +1,39 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, I18nManager } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Image,
+  I18nManager,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const TermsAndConditionsScreen = () => {
   const navigation = useNavigation();
   const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
+  const textAlignStyle = isRTL ? 'right' : 'left';
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
+      <TouchableOpacity
+        style={styles.header}
+        onPress={() => {
+          navigation.goBack();
+        }}
+      >
         <Image
           source={require('../../assets/images/back.png')}
-          style={[styles.backArrowIcon, {transform:transformStyle}]}
+          style={[styles.backArrowIcon, { transform: transformStyle }]}
         />
         <Text style={styles.headerText}>Terms & Conditions</Text>
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.content}>
-        <Text style={styles.sectionTitle}>Welcome to CalmTalk</Text>
+        <Text style={[styles.sectionTitle, { fontSize: 28 }]}>
+          Welcome to CalmTalk
+        </Text>
 
         <Text style={styles.sectionTitle}>INTRODUCTION</Text>
         <Text style={styles.paragraph}>
@@ -214,25 +229,28 @@ const styles = StyleSheet.create({
     marginTop: '10%',
   },
   headerText: {
+    color: '#523432',
     fontSize: 24,
     fontWeight: 'bold',
     marginHorizontal: 10,
   },
   backArrowIcon: {
-    width: 24,
-    height: 24,
+    width: 15,
+    height: 15,
   },
   content: {
     marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginVertical: 15,
+    color: '#000000',
   },
   paragraph: {
     fontSize: 16,
     marginBottom: 10,
+    color: '#000000',
   },
 });
 

@@ -70,7 +70,9 @@
     "dailyDiary": "Daily Diary",
     "time": "Time",
     "sayYourMindHere": "Say your mind here...",
-    "voiceNote": "Voice Note"
+    "voiceNote": "Voice Note",
+    "refresh": "Refresh",
+    "previous": "Previous"
   },
   "bookAppointment": {
     "title": "Book appointment",
@@ -238,42 +240,41 @@
     "angerManagementDescription": "Your therapist will build emotional bound with you by ask what struggling with, medical background.",
     "duration": "10 Minutes"
   },
-  "categoriesList":{
+  "categoriesList": {
     "title1": "Lavender Essential Oil - 5 Fluid Ounce",
     "search": "Search in category",
-    "aromaTherapyProducts":  "Aroma Therapy Products",
-    "aromaTherapy":  "Aroma therapy"
-
-},
-"productCategoriesScreen": {
-  "categoriesList": {
-    "title": "Lavender Essential Oil - 5 Fluid Ounce",
-    "search": "Search in category",
     "aromaTherapyProducts": "Aroma Therapy Products",
-    "aromaTherapy": "Aroma therapy",
-    "all": "All",
-    "new": "New",
-    "popular": "Popular",
-    "products": "Products",
-    "favorites": "Favorites",
-    "categories": "Categories",
-    "seeAll": "See all",
-    "highlightedProducts": "Highlighted Products",
-    "allProducts": "All Products"
-  }
-},
-"productDetailsScreen": {
-  "backButton": "Back",
-  "productName": "Lavender Essential Oil, Soothing Aromatherapy Scent - 5 Fluid Ounce",
-  "productBenefitsTitle": "Product benefits",
-  "productBenefits": {
-    "benefit1": "Promotes relaxation",
-    "benefit2": "Eases anxiety",
-    "benefit3": "Improves mood"
+    "aromaTherapy": "Aroma therapy"
   },
-  "buyButton": "Buy on amazon"
-},
-"therapistSpeaks": {
+  "productCategoriesScreen": {
+    "categoriesList": {
+      "title": "Lavender Essential Oil - 5 Fluid Ounce",
+      "search": "Search in category",
+      "aromaTherapyProducts": "Aroma Therapy Products",
+      "aromaTherapy": "Aroma therapy",
+      "all": "All",
+      "new": "New",
+      "popular": "Popular",
+      "products": "Products",
+      "favorites": "Favorites",
+      "categories": "Categories",
+      "seeAll": "See all",
+      "highlightedProducts": "Highlighted Products",
+      "allProducts": "All Products"
+    }
+  },
+  "productDetailsScreen": {
+    "backButton": "Back",
+    "productName": "Lavender Essential Oil, Soothing Aromatherapy Scent - 5 Fluid Ounce",
+    "productBenefitsTitle": "Product benefits",
+    "productBenefits": {
+      "benefit1": "Promotes relaxation",
+      "benefit2": "Eases anxiety",
+      "benefit3": "Improves mood"
+    },
+    "buyButton": "Buy on amazon"
+  },
+  "therapistSpeaks": {
     "title1": "What Is Cognitive Behavioral Therapy (CBT)",
     "title2": "Can You Explain Who A Neuropsychologist Is & What Their Role Entails?",
     "title3": "Can You Explain Your Approach To Acceptance And Commitment Therapy?",
@@ -283,14 +284,14 @@
     "otherPostsText": "Check other posts",
     "generalTopic": "General Topic"
   },
-  "highlightedProductTile":{
-  "promotesRelaxation": "Promotes relaxation",
-  "easesAnxiety": "Eases anxiety",
-  "improvesMood": "Improves mood",
-  "checkOn": "Check on",
-  "lavenderOil":"Lavender Oil"
+  "highlightedProductTile": {
+    "promotesRelaxation": "Promotes relaxation",
+    "easesAnxiety": "Eases anxiety",
+    "improvesMood": "Improves mood",
+    "checkOn": "Check on",
+    "lavenderOil": "Lavender Oil"
   },
-  "depressionByPHQ":{
+  "depressionByPHQ": {
     "assessmentTime": "10 minutes",
     "aboutAssessment": "About Assessment",
     "aboutAssessmentText": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...",
@@ -374,68 +375,107 @@
     "expressAndChat": "Express and chat",
     "maxCharacters": "Max 400 characters allowed"
   },
-    "confirmAppointment": {
-      "title": "Confirm your appointment",
-      "doctorName": "Dr. John Mark",
-      "doctorTitle": "Clinical Psychologist",
-      "bookingDetails": "Booking Details",
-      "package": "Package",
-      "packageDetail": "$100 for a session",
-      "date": "Date",
-      "timeslot": "Timeslot",
-      "price": "Price",
-      "promoCode": "Promo code",
-      "apply": "Apply",
-      "paymentMethod": "Payment Method",
-      "secureTransactions": "All transactions are secure and encrypted.",
-      "payWithCard": "Pay with card",
-      "googlePay": "Google Pay",
-      "applePay": "Apple Pay",
-      "confirm": "Confirm",
-      "addCardInfo": "Add your card information",
-      "cardNumber": "Card Number",
-      "expiryDate": "MM / YY",
-      "cvc": "CVC",
-      "countryOrRegion": "Country or region",
-      "saveInfo": "Save this information for CalmTalk future payments.",
-      "payAmount": "Pay USD {{amount}}",
-      "successMessage": "{{name}}, your appointment has been successfully booked.",
-      "appointmentDate": "THURSDAY, MAY 9, 2024",
-      "cancellationPolicy": "To cancel your appointment within 24 hours, go to 'My Appointments' and get a full refund.",
-      "backHome": "Back to home",
-      "myAppointments": "My Appointments",
-      "edit": "Edit"
+  "confirmAppointment": {
+    "title": "Confirm your appointment",
+    "doctorName": "Dr. John Mark",
+    "doctorTitle": "Clinical Psychologist",
+    "bookingDetails": "Booking Details",
+    "package": "Package",
+    "packageDetail": "$100 for a session",
+    "date": "Date",
+    "timeslot": "Timeslot",
+    "price": "Price",
+    "promoCode": "Promo code",
+    "apply": "Apply",
+    "paymentMethod": "Payment Method",
+    "secureTransactions": "All transactions are secure and encrypted.",
+    "payWithCard": "Pay with card",
+    "googlePay": "Google Pay",
+    "applePay": "Apple Pay",
+    "confirm": "Confirm",
+    "addCardInfo": "Add your card information",
+    "cardNumber": "Card Number",
+    "expiryDate": "MM / YY",
+    "cvc": "CVC",
+    "countryOrRegion": "Country or region",
+    "saveInfo": "Save this information for CalmTalk future payments.",
+    "payAmount": "Pay USD {{amount}}",
+    "successMessage": "{{name}}, your appointment has been successfully booked.",
+    "appointmentDate": "THURSDAY, MAY 9, 2024",
+    "cancellationPolicy": "To cancel your appointment within 24 hours, go to 'My Appointments' and get a full refund.",
+    "backHome": "Back to home",
+    "myAppointments": "My Appointments",
+    "edit": "Edit"
+  },
+  "form": {
+    "individual_couple": "Individual, Couple",
+    "clinical_psychologist": "Clinical Psychologist",
+    "nationality": "Nationality",
+    "experience": "Experience",
+    "languages": "Languages",
+    "about_me": "About Me",
+    "therapist_speaks": "Therapist speaks",
+    "book_your_session": "Book your session",
+    "choose_your_package": "Choose your package",
+    "package1": "$100 for a session",
+    "package4": "$320 for four sessions",
+    "pick_date_time": "Pick a date & time",
+    "select_preferred_date_time": "Select your preferred date & time",
+    "date": "Date",
+    "time": "Time (GST) (GMT +4)",
+    "book_now": "Book Now",
+    "1": {
+      "title": "What social anxiety disorder",
+      "content": "Social anxiety disorder, or social phobia is characterized by an intense fear of social situations and being judged by others. This condition can lead to avoidance of daily activities.."
     },
-      "form": {
-        "individual_couple": "Individual, Couple",
-        "clinical_psychologist": "Clinical Psychologist",
-        "nationality": "Nationality",
-        "experience": "Experience",
-        "languages": "Languages",
-        "about_me": "About Me",
-        "therapist_speaks": "Therapist speaks",
-        "book_your_session": "Book your session",
-        "choose_your_package": "Choose your package",
-        "package1": "$100 for a session",
-        "package4": "$320 for four sessions",
-        "pick_date_time": "Pick a date & time",
-        "select_preferred_date_time": "Select your preferred date & time",
-        "date": "Date",
-        "time": "Time (GST) (GMT +4)",
-        "book_now": "Book Now",
-        "1": {
-          "title": "What social anxiety disorder",
-          "content": "Social anxiety disorder, or social phobia is characterized by an intense fear of social situations and being judged by others. This condition can lead to avoidance of daily activities.."
-        },
-        "2": {
-          "title": "What social anxiety disorder",
-          "content": "Social anxiety disorder, or social phobia is characterized by an intense fear of social situations and being judged by others. This condition can lead to avoidance of daily activities."
-        }
-      }
-    
-    
-  
-  
+    "2": {
+      "title": "What social anxiety disorder",
+      "content": "Social anxiety disorder, or social phobia is characterized by an intense fear of social situations and being judged by others. This condition can lead to avoidance of daily activities."
+    }
+  },
 
- 
+  "teamMember": {
+    "name1": "Dr. John",
+    "tags1": "Psychologist",
+    "subTags1": "Depression, Anxiety, ADHD, OCD",
+    "years1": "2 years",
+    "location1": "India",
+    "languages1": "English, Arabic",
+    "name2": "Dr. John",
+    "tags2": "Psychologist",
+    "subTags2": "Depression, Anxiety, ADHD, OCD",
+    "years2": "2 years",
+    "location2": "India",
+    "languages2": "English, Arabic",
+    "name3": "Dr. John",
+    "tags3": "Psychologist",
+    "subTags3": "Depression, Anxiety, ADHD, OCD",
+    "years3": "2 years",
+    "location3": "India",
+    "languages3": "English, Arabic",
+    "name4": "Dr. John",
+    "tags4": "Psychologist",
+    "subTags4": "Depression, Anxiety, ADHD, OCD",
+    "years4": "2 years",
+    "location4": "India",
+    "languages4": "English, Arabic"
+  },
+  "headerTitle": "Our team",
+  "filterByText": "Filter By",
+  "resetFilterText": "Reset Filter",
+  "language": {
+    "EN": "EN",
+    "AR": "AR",
+    "FR": "FR"
+  },
+  "gender": {
+    "Male": "Male",
+    "Female": "Female"
+  },
+  "individualCouple": "Individual, Couple",
+  "bookWithMe": "BOOK WITH ME!",
+  "pagination": {
+    "previous": "<",
+    "next": ">"
+  }
 }

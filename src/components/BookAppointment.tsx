@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, I18nManager } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  I18nManager,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const BookAppointment: React.FC = () => {
   const navigation = useNavigation();
-  const isRTL = I18nManager.isRTL;
-  const alignItemStyle =  isRTL ? 'flex-start': null;
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
 
-  const [selected, setSelected] = useState<'individual' | 'couples' | 'teen'>('individual');
+  const [selected, setSelected] = useState<'individual' | 'couples' | 'teen'>(
+    'individual',
+  );
 
   const getImageSource = () => {
     switch (selected) {
@@ -24,7 +35,11 @@ const BookAppointment: React.FC = () => {
     }
   };
 
-  const renderTile = (type: 'individual' | 'couples' | 'teen', title: string, subtitle: string) => {
+  const renderTile = (
+    type: 'individual' | 'couples' | 'teen',
+    title: string,
+    subtitle: string,
+  ) => {
     const isSelected = selected === type;
     const tileStyle = isSelected ? styles.selectedTile : styles.tile;
 
@@ -54,9 +69,11 @@ const BookAppointment: React.FC = () => {
     <>
       <View style={styles.container}>
         <View style={styles.header}>
-          <View style={[styles.textContainer, {alignItems:alignItemStyle}]}>
+          <View style={[styles.textContainer, { alignItems: alignItemStyle }]}>
             <Text style={[styles.title]}>{t('bookAppointment.title')}</Text>
-            <Text style={[styles.subtitle]}>{t('bookAppointment.subtitle')}</Text>
+            <Text style={[styles.subtitle, { textAlign: textAlignStyle }]}>
+              {t('bookAppointment.subtitle')}
+            </Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigation.navigate('TherapistFormScreen')}
@@ -141,19 +158,22 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    fontWeight: '500',
   },
 
   subtitle: {
     fontSize: 14,
-    color: '#666',
+    color: '#888A95',
     marginVertical: 8,
+    // borderWidth:1,
+    width: '80%',
   },
 
   button: {
-    width: '80%',
+    width: '70%',
     backgroundColor: '#B1C181',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 13,
+    // paddingHorizontal: 12,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 10,
@@ -161,6 +181,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#FFF',
     fontSize: 16,
+    fontWeight: '500',
   },
 
   image: {
@@ -206,12 +227,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginVertical: 3,
   },
-  
+
   tileSubtitle: {
     fontSize: 10,
     color: '#666',
   },
- 
+
   indicatorContainer: {
     flexDirection: 'row',
     justifyContent: 'center',

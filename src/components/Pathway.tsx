@@ -3,13 +3,13 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
   Dimensions,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import Svg, { Circle, Text as SvgText } from 'react-native-svg';
 import { useTranslation } from 'react-i18next';
+import { FlatList } from 'react-native-gesture-handler';
 
 const pathways = [
   {
@@ -42,9 +42,14 @@ const Pathway: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { t } = useTranslation();
   const isRTL = I18nManager.isRTL;
+  const [scrollOffset, setScrollOffset] = useState(0);
 
-  const alignItemStyle =  isRTL ? 'flex-start': null;
-
+  const handleScroll = (event) => {
+    const offset = event.nativeEvent.contentOffset.x;
+    const nearestOffset = Math.round(offset / width) * width;
+    setScrollOffset(nearestOffset);
+  };
+  const alignItemStyle = isRTL ? 'flex-start' : 'flex-end';
 
   const renderPathwayItem = ({ item }: { item: (typeof pathways)[0] }) => (
     <View style={styles.pathwayCard}>
@@ -54,7 +59,9 @@ const Pathway: React.FC = () => {
           { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
         ]}
       >
-        <Text style={{ color: 'white' }}>{t('pathway.active')}</Text>
+        <Text style={{ color: 'white', fontSize: 10 }}>
+          {t('pathway.active')}
+        </Text>
       </View>
       <View style={styles.progressContainer}>
         <Svg height="60" width="60" viewBox="0 0 100 100">
@@ -88,7 +95,9 @@ const Pathway: React.FC = () => {
         </Svg>
       </View>
 
-      <View style={[styles.pathwayTextContainer, {alignItems:alignItemStyle}]}>
+      <View
+        style={[styles.pathwayTextContainer, { alignItems: alignItemStyle }]}
+      >
         <Text style={styles.pathwayDay}>
           {t('pathway.day', { day: item.day, totalDays: item.totalDays })}
         </Text>
@@ -121,7 +130,9 @@ const Pathway: React.FC = () => {
         renderItem={renderPathwayItem}
         keyExtractor={(item) => item.id}
         showsHorizontalScrollIndicator={false}
-        pagingEnabled
+        pagingEnabled={false}
+        onScroll={handleScroll}
+        scrollEventThrottle={1}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
       />
@@ -155,6 +166,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
+    fontWeight: 'bold',
   },
   viewAll: {
     fontSize: 14,

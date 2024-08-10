@@ -65,28 +65,32 @@ const LoginScreen: React.FC = () => {
   };
 
   // Function to handle login with API
-  // const loginHandle = async (email, password) => {
-  //   try {
-  //     const response = await fetch('https://calmtalk.com/login', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ email, password }),
-  //     });
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       // Handle successful login
-  //       console.log('Login successful', data);
-  //       navigation.navigate('Home');
-  //     } else {
-  //       // Handle login error
-  //       console.error('Login failed', data);
-  //     }
-  //   } catch (error) {
-  //     console.error('An error occurred', error);
-  //   }
-  // };
+  const loginHandle = async (email, password) => {
+    try {
+      const response = await fetch(
+        'https://jsonplaceholder.typicode.com/todos',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ phone: '03060101362' }),
+        },
+      );
+      const data = await response.json();
+      if (response.ok) {
+        // Handle successful login
+        console.log('Login successful', data);
+        // navigation.navigate('Home');
+      } else {
+        // Handle login error
+        console.error('Login failed', data);
+      }
+    } catch (error) {
+      console.error('An error occurred', error);
+    }
+  };
 
   // Determine the text alignment based on the current language
   const isRtl = i18n.language === 'ar';
@@ -182,7 +186,7 @@ const LoginScreen: React.FC = () => {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <TouchableOpacity style={styles.loginButton} onPress={loginHandle}>
               <Text style={styles.loginButtonText}>
                 {t('login.loginButton')}
               </Text>

@@ -6,15 +6,14 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
   ImageBackground,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import { Button, Input, Divider } from 'react-native-elements';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useNavigation } from '@react-navigation/native';
-import { t } from 'i18next';
-
+import { useTranslation } from 'react-i18next';
+import { FlatList } from 'react-native-gesture-handler';
 
 const TherapistFormScreen: React.FC = () => {
   const [date, setDate] = useState(new Date());
@@ -24,23 +23,21 @@ const TherapistFormScreen: React.FC = () => {
 
   const navigation = useNavigation();
 
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
-  const alignSelfStyle = isRTL ? 'flex-start' : null;
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
   const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
+  const alignSelfStyle = isRTL ? 'flex-start' : null;
 
-
-  const onChangeDate = (event: any, selectedDate?: Date) => {
-    const currentDate = selectedDate || date;
+  const handleConfirmDate = (selectedDate: Date) => {
     setShowDatePicker(false);
-    setDate(currentDate);
+    setDate(selectedDate);
   };
 
-  const onChangeTime = (event: any, selectedDate?: Date) => {
-    const currentDate = selectedDate || date;
+  const handleConfirmTime = (selectedTime: Date) => {
     setShowTimePicker(false);
-    setDate(currentDate);
+    setDate(selectedTime);
   };
 
   const therapistInfo = {
@@ -50,7 +47,7 @@ const TherapistFormScreen: React.FC = () => {
     nationality: 'Emirati',
     experience: '7 Years',
     languages: ['EN', 'AR'],
-    about: t('ourteam.description')
+    about: t('ourteam.description'),
   };
 
   const flatListItems = [
@@ -76,14 +73,18 @@ const TherapistFormScreen: React.FC = () => {
         source={require('../../assets/images/therapist_form_header.png')}
         style={styles.background}
       >
-        {/* <View style={styles.header}> */}
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.pop()}
         >
           <Image
             source={require('../../assets/images/back.png')}
-            style={{ width: 15, height: 15, marginTop: '11%' , transform:transformStyle }}
+            style={{
+              width: 15,
+              height: 15,
+              marginTop: '11%',
+              transform: transformStyle,
+            }}
             resizeMode="contain"
           />
         </TouchableOpacity>
@@ -94,8 +95,10 @@ const TherapistFormScreen: React.FC = () => {
               { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
             ]}
           >
-            <Text style={{ color: 'white' }}>{t('form.individual_couple')}</Text>
-            </View>
+            <Text style={{ color: 'white', fontSize: 10 }}>
+              {t('form.individual_couple')}
+            </Text>
+          </View>
           <Image
             source={require('../../assets/images/doctor.png')}
             style={styles.profileImage}
@@ -127,10 +130,9 @@ const TherapistFormScreen: React.FC = () => {
                 />
               </TouchableOpacity>
             </View>
-            <Text 
-            style={[styles.doctorTitle,{alignSelf: alignSelfStyle}]}
-            >
-              {t('form.clinical_psychologist')}</Text>
+            <Text style={[styles.doctorTitle, { alignSelf: alignSelfStyle }]}>
+              {t('form.clinical_psychologist')}
+            </Text>
 
             <View style={styles.specializations}>
               {therapistInfo.specializations.map((spec, index) => (
@@ -141,38 +143,37 @@ const TherapistFormScreen: React.FC = () => {
             </View>
           </View>
         </View>
-        {/* </View> */}
       </ImageBackground>
       <View style={styles.infoContainer}>
         <View style={styles.infoBox}>
-        <Text style={styles.infoTitle}>{t('form.nationality')}</Text>
-        <Text style={styles.infoSubtitle}>{therapistInfo.nationality}</Text>
+          <Text style={styles.infoTitle}>{t('form.nationality')}</Text>
+          <Text style={styles.infoSubtitle}>{therapistInfo.nationality}</Text>
         </View>
         <View style={styles.infoBox}>
-        <Text style={styles.infoTitle}>{t('form.experience')}</Text>
-        <Text style={styles.infoSubtitle}>{therapistInfo.experience}</Text>
+          <Text style={styles.infoTitle}>{t('form.experience')}</Text>
+          <Text style={styles.infoSubtitle}>{therapistInfo.experience}</Text>
         </View>
         <View style={styles.infoBox}>
-        <Text style={styles.infoTitle}>{t('form.languages')}</Text>
-        <Text style={styles.infoSubtitle}>
+          <Text style={styles.infoTitle}>{t('form.languages')}</Text>
+          <Text style={styles.infoSubtitle}>
             {therapistInfo.languages.join(' | ')}
           </Text>
         </View>
       </View>
-      <View style={[styles.aboutContainer, 
-        {alignItems:alignItemStyle}
-        ]}
-        >
-      <Text style={styles.sectionTitle}>{t('form.about_me')}</Text>
-      <Text style={styles.sectionContent}>{therapistInfo.about}</Text>
+      <View style={[styles.aboutContainer]}>
+        <Text style={[styles.sectionTitle, { textAlign: textAlignStyle }]}>
+          {t('form.about_me')}
+        </Text>
+        <Text style={[styles.sectionContent, { textAlign: textAlignStyle }]}>
+          {therapistInfo.about}
+        </Text>
       </View>
-      <Text 
-      style={[styles.therapistSpeaksTitle, 
-        {alignSelf:alignSelfStyle}
-        ]}>
-          {t('form.therapist_speaks')}</Text>
+      <Text
+        style={[styles.therapistSpeaksTitle, { alignSelf: alignSelfStyle }]}
+      >
+        {t('form.therapist_speaks')}
+      </Text>
 
-      {/* Therapist speaks */}
       <View style={styles.speaksContainer}>
         <FlatList
           data={flatListItems}
@@ -191,21 +192,37 @@ const TherapistFormScreen: React.FC = () => {
                 style={styles.flatListImage}
                 resizeMode="contain"
               />
-              <View style={[styles.flatListText, {alignItems:alignItemStyle}]}>
-                <Text style={styles.flatListTitle}>{t(`form.${item.id}.title`)}</Text>
-                <Text style={styles.flatListContent}>{t(`form.${item.id}.content`)}</Text>
+              <View
+                style={[styles.flatListText, { alignItems: alignItemStyle }]}
+              >
+                <Text style={styles.flatListTitle}>
+                  {t(`form.${item.id}.title`)}
+                </Text>
+                <Text
+                  style={[
+                    styles.flatListContent,
+                    { textAlign: textAlignStyle },
+                  ]}
+                >
+                  {t(`form.${item.id}.content`)}
+                </Text>
               </View>
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item.id}
         />
- 
       </View>
-      {/* Therapist speaks ends */}
-      <View style={styles.bookingContainer}>
-        <Text style={[styles.bookYourSessionTitle, {alignSelf:alignSelfStyle}]}>{t('form.book_your_session')}</Text>
 
-        <Text style={[styles.sectionSubtitle,  {alignSelf:alignSelfStyle}]}>{t('form.choose_your_package')}</Text>
+      <View style={styles.bookingContainer}>
+        <Text
+          style={[styles.bookYourSessionTitle, { alignSelf: alignSelfStyle }]}
+        >
+          {t('form.book_your_session')}
+        </Text>
+
+        <Text style={[styles.sectionSubtitle, { alignSelf: alignSelfStyle }]}>
+          {t('form.choose_your_package')}
+        </Text>
         <View style={styles.packageContainer}>
           <TouchableOpacity
             style={[
@@ -221,7 +238,7 @@ const TherapistFormScreen: React.FC = () => {
               ]}
             >
               {t('form.package1')}
-              </Text>
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -237,48 +254,73 @@ const TherapistFormScreen: React.FC = () => {
               ]}
             >
               {t('form.package4')}
-              </Text>
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
+
       <View style={styles.dateTimeContainer}>
-   <Text style={[styles.sectionSubtitle, { marginBottom: 20, alignSelf:alignSelfStyle }]}>
+        <Text
+          style={[styles.bookYourSessionTitle, { alignSelf: alignSelfStyle }]}
+        >
+          {t('form.pick_date_time')}
+        </Text>
+        <Text
+          style={[
+            styles.sectionSubtitle,
+            { marginBottom: 20, alignSelf: alignSelfStyle },
+          ]}
+        >
           {t('form.select_preferred_date_time')}
         </Text>
-       
-        <Text style={{alignSelf:alignSelfStyle}}>{t('form.date')}</Text>
+
+        <Text style={{ alignSelf: alignSelfStyle, fontWeight: '500' }}>
+          {t('form.date')}
+        </Text>
         <TouchableOpacity
           style={styles.dateTimePicker}
           onPress={() => setShowDatePicker(true)}
         >
-          <Text style={styles.dateTimePickerLabel}>09-05-24</Text>
-          <Text>{date.toDateString()}</Text>
+          <Text style={styles.dateTimePickerLabel}>
+            {date.toLocaleDateString()}
+          </Text>
         </TouchableOpacity>
-        <Text style={{ marginTop: 10 , alignSelf:alignSelfStyle}}>{t('form.time')}</Text>
-        {showDatePicker && (
-          <DateTimePicker
-            value={date}
-            mode="date"
-            display="default"
-            onChange={onChangeDate}
-          />
-        )}
+
+        <Text
+          style={{
+            marginTop: 10,
+            alignSelf: alignSelfStyle,
+            fontWeight: '500',
+          }}
+        >
+          {t('form.time')}
+        </Text>
         <TouchableOpacity
           style={styles.dateTimePicker}
           onPress={() => setShowTimePicker(true)}
         >
-          <Text style={styles.dateTimePickerLabel}>5:00 PM - 6:00 PM</Text>
-          <Text>{date.toLocaleTimeString()}</Text>
+          <Text style={styles.dateTimePickerLabel}>
+            {date.toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </Text>
         </TouchableOpacity>
-        {showTimePicker && (
-          <DateTimePicker
-            value={date}
-            mode="time"
-            display="default"
-            onChange={onChangeTime}
-          />
-        )}
+
+        <DateTimePickerModal
+          isVisible={showDatePicker}
+          mode="date"
+          onConfirm={handleConfirmDate}
+          onCancel={() => setShowDatePicker(false)}
+        />
+        <DateTimePickerModal
+          isVisible={showTimePicker}
+          mode="time"
+          onConfirm={handleConfirmTime}
+          onCancel={() => setShowTimePicker(false)}
+        />
       </View>
+
       <Button
         title={t('form.book_now')}
         buttonStyle={styles.bookButton}
@@ -402,9 +444,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 15,
     marginTop: 15,
-    writingDirection:  'rtl',
-
-    
+    writingDirection: 'rtl',
   },
   sectionTitle: {
     fontSize: 15,
@@ -539,7 +579,6 @@ const styles = StyleSheet.create({
   },
   dateTimePickerLabel: {
     fontSize: 14,
-    // fontWeight: 'bold',
     color: '#23232399',
   },
   bookButton: {

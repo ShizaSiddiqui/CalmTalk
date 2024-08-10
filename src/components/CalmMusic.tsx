@@ -3,14 +3,14 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
   Image,
   Dimensions,
   ImageBackground,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { FlatList } from 'react-native-gesture-handler';
 
 const { width } = Dimensions.get('window');
 
@@ -21,10 +21,9 @@ const CalmMusic: React.FC = () => {
   const { t } = useTranslation();
   const isRTL = I18nManager.isRTL;
 
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const alignItemStyle =  isRTL ? 'flex-start': null;
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
-
+  const textAlignStyle = isRTL ? 'right' : 'left';
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
 
   const moods = [
     t('calmMusic.moods.recommended'),
@@ -84,7 +83,9 @@ const CalmMusic: React.FC = () => {
     <View style={styles.meditationCard}>
       <Image source={item.image} style={styles.meditationImage} />
       <View style={styles.meditationTextContainer}>
-        <Text style={[styles.meditationTitle, {alignSelf:alignItemStyle}]}>{item.title}</Text>
+        <Text style={[styles.meditationTitle, { alignSelf: alignItemStyle }]}>
+          {item.title}
+        </Text>
         <View style={styles.progressBarContainer}>
           <View style={styles.progressBar} />
         </View>
@@ -121,6 +122,7 @@ const CalmMusic: React.FC = () => {
           renderItem={renderMoodItem}
           keyExtractor={(item) => item}
           showsHorizontalScrollIndicator={false}
+          style={{ alignSelf: isRTL ? 'flex-start' : null }}
         />
         <FlatList
           horizontal
@@ -153,7 +155,7 @@ const CalmMusic: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 280,
+    height: 290,
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
@@ -168,6 +170,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
+    fontWeight: 'bold',
   },
   viewAll: {
     fontSize: 14,
@@ -208,11 +211,11 @@ const styles = StyleSheet.create({
     marginRight: 16,
     borderColor: '#E5DFFE',
     borderWidth: 1,
-    height: '80%',
+    height: '75%',
   },
   meditationImage: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 25,
     marginRight: 16,
   },

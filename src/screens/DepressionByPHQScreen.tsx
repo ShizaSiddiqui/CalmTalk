@@ -6,18 +6,22 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const DepressionByPHQScreen = ({ route }) => {
   const navigation = useNavigation();
   const { title } = route.params;
-  const isRTL = I18nManager.isRTL;
-  const textAlignStyle =  isRTL ? 'right': 'left';
-  const transformStyle = isRTL ? [{ rotate: '180deg' }]   : [{ rotate: '0deg' }];
-  const alignSelfStyle= isRTL?  'flex-start' :null;
+
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
+  const alignSelfStyle = isRTL ? 'flex-start' : null;
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -31,17 +35,20 @@ const DepressionByPHQScreen = ({ route }) => {
           >
             <Image
               source={require('../../assets/images/back.png')}
-              style={[styles.backArrow, {transform:transformStyle}]}
+              style={[styles.backArrow, { transform: transformStyle }]}
             />
           </TouchableOpacity>
-          <Text style={[styles.headerTitle, {alignSelf:alignSelfStyle}]}>{title}</Text>
+          <Text style={[styles.headerTitle]}>{title}</Text>
         </View>
+
         <View style={styles.timeContainer}>
           <Image
             source={require('../../assets/images/clock-icon.png')}
             style={styles.timeIcon}
           />
-          <Text style={[styles.timeText,  {alignSelf:alignSelfStyle}]}>{t('depressionByPHQ.assessmentTime')}</Text>
+          <Text style={[styles.timeText]}>
+            {t('depressionByPHQ.assessmentTime')}
+          </Text>
         </View>
         <Image
           source={require('../../assets/images/depression_by_PHQ.png')}
@@ -49,17 +56,25 @@ const DepressionByPHQScreen = ({ route }) => {
           resizeMode="contain"
         />
       </ImageBackground>
-      <View style={{ paddingHorizontal: 10,}}>
-        <View style={[styles.aboutContainer,  {alignItems:alignSelfStyle}]}>
-          <Text style={styles.aboutTitle}>{t('depressionByPHQ.aboutAssessment')}</Text>
-          <Text style={styles.aboutText}>
+      <View style={{ paddingHorizontal: 10 }}>
+        <View style={[styles.aboutContainer]}>
+          <Text style={[styles.aboutTitle, { textAlign: textAlignStyle }]}>
+            {t('depressionByPHQ.aboutAssessment')}
+          </Text>
+          <Text style={[styles.aboutText, { textAlign: textAlignStyle }]}>
             {t('depressionByPHQ.aboutAssessmentText')}
           </Text>
         </View>
         <View style={styles.previousContainer}>
-          <Text style={[styles.previousTitle, , {alignSelf:alignSelfStyle}]}>{t('depressionByPHQ.previousAssessment')}</Text>
+          <Text style={[styles.previousTitle, { textAlign: textAlignStyle }]}>
+            {t('depressionByPHQ.previousAssessment')}
+          </Text>
           <View style={[styles.previousItem]}>
-            <Text style={[styles.depressionText, , {alignSelf:alignSelfStyle}]}>{t('depressionByPHQ.depressionPHQ')}</Text>
+            <Text
+              style={[styles.depressionText, { textAlign: textAlignStyle }]}
+            >
+              {t('depressionByPHQ.depressionPHQ')}
+            </Text>
 
             <View style={styles.previousItemRow}>
               <View style={styles.previousDateContainer}>
@@ -67,29 +82,37 @@ const DepressionByPHQScreen = ({ route }) => {
                   source={require('../../assets/images/calendar-icon.png')}
                   style={styles.calendarIcon}
                 />
-                <Text style={styles.previousDate}>{t('depressionByPHQ.assessmentDate', { date: '14 Aug 2k24' })}</Text>
+                <Text style={styles.previousDate}>
+                  {t('depressionByPHQ.assessmentDate', { date: '14 Aug 2k24' })}
+                </Text>
               </View>
               <View style={{ justifyContent: 'center' }}>
-                <Text style={{ color: '#888A95', fontSize: 10 }}>{t('depressionByPHQ.result')}</Text>
+                <Text style={{ color: '#888A95', fontSize: 10 }}>
+                  {t('depressionByPHQ.result')}
+                </Text>
                 <Text style={styles.previousResult}>20/30</Text>
               </View>
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.startButton}>
-          <Text style={styles.startButtonText}>{t('depressionByPHQ.startAssessment')}</Text>
+        <TouchableOpacity
+          style={styles.startButton}
+          onPress={() => {
+            navigation.navigate('AssessmentQuestionsScreen');
+          }}
+        >
+          <Text style={styles.startButtonText}>
+            {t('depressionByPHQ.startAssessment')}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
   },
   headerBackground: {
     width: '100%',
@@ -111,7 +134,7 @@ const styles = StyleSheet.create({
     height: 15,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '600',
     marginLeft: 15,
   },
@@ -226,7 +249,8 @@ const styles = StyleSheet.create({
   previousDateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+
+    alignSelf: 'flex-end',
   },
   calendarIcon: {
     width: 12,
@@ -244,13 +268,13 @@ const styles = StyleSheet.create({
   startButton: {
     backgroundColor: '#B1C181',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 15,
     alignItems: 'center',
   },
   startButtonText: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 

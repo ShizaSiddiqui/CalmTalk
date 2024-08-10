@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { FlatList } from 'react-native-gesture-handler';
 
 interface Doctor {
   id: string;
@@ -77,96 +71,114 @@ const doctors: Doctor[] = [
 const OurTeam: React.FC = () => {
   const [selectedPackage, setSelectedPackage] = useState(1);
   const navigation = useNavigation();
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const textAlignStyle = isRTL ? 'left' : null;
 
   const renderItem = ({ item }: { item: Doctor }) => (
     <View style={styles.card}>
-      <View
-        style={[
-          styles.headerTag,
-          { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
-        ]}
-      >
-        <Text style={{ color: 'white' }}>{t('ourteam.individualCouple')}</Text>
-      </View>
+      <View style={{ paddingHorizontal: 16, paddingTop: 16 }}>
+        <View
+          style={[
+            styles.headerTag,
+            { borderTopRightRadius: 20, borderBottomLeftRadius: 20 },
+          ]}
+        >
+          <Text style={{ color: 'white', fontSize: 10 }}>
+            {t('ourteam.individualCouple')}
+          </Text>
+        </View>
 
-      <View style={styles.profileContainer}>
-        <Image
-          source={require('../../assets/images/doctor.png')}
-          style={styles.profileImage}
-        />
-        <View style={styles.textContainer}>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.name}>{t(`ourteam.${item.name}`)}</Text>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#EBF5F5',
-                paddingHorizontal: 15,
-                borderRadius: 15,
-                marginHorizontal: 8,
-              }}
-            >
-              <Text style={styles.therapistTags}>
-                {t(`ourteam.${item.designation}`)}
+        <View style={styles.profileContainer}>
+          <Image
+            source={require('../../assets/images/doctor.png')}
+            style={styles.profileImage}
+          />
+          <View style={styles.textContainer}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.name}>{t(`ourteam.${item.name}`)}</Text>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: '#EBF5F5',
+                  paddingHorizontal: 15,
+                  borderRadius: 15,
+                  marginHorizontal: 8,
+                }}
+              >
+                <Text style={styles.therapistTags}>
+                  {t(`ourteam.${item.designation}`)}
+                </Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={[styles.specialties, { textAlign: textAlignStyle }]}>
+                {item.specialties
+                  .map((specialty) => t(`ourteam.${specialty}`))
+                  .join(',  ')}
               </Text>
             </View>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles.specialties}>
-              {item.specialties
-                .map((specialty) => t(`ourteam.${specialty}`))
-                .join(', ')}
+        </View>
+        <Text style={[styles.description, { textAlign: textAlignStyle }]}>
+          {t(`ourteam.${item.description}`)}
+        </Text>
+        <View style={styles.experienceContainer}>
+          <Text style={styles.experience}>
+            {t(`ourteam.${item.experience}`)}
+          </Text>
+        </View>
+        <View style={styles.packageContainer}>
+          <TouchableOpacity
+            style={[
+              styles.packageBox,
+              selectedPackage === 1 && styles.packageBoxSelected,
+            ]}
+            onPress={() => setSelectedPackage(1)}
+          >
+            <Text
+              style={[
+                styles.packageText,
+                selectedPackage === 1 && styles.packageTextSelected,
+              ]}
+            >
+              {t(`ourteam.${item.price1}`)}
             </Text>
-          </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.packageBox,
+              selectedPackage === 4 && styles.packageBoxSelected,
+            ]}
+            onPress={() => setSelectedPackage(4)}
+          >
+            <Text
+              style={[
+                styles.packageText,
+                selectedPackage === 4 && styles.packageTextSelected,
+              ]}
+            >
+              {t(`ourteam.${item.price2}`)}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
-      <Text style={styles.description}>{t(`ourteam.${item.description}`)}</Text>
-      <View style={styles.experienceContainer}>
-        <Text style={styles.experience}>{t(`ourteam.${item.experience}`)}</Text>
-      </View>
-      <View style={styles.packageContainer}>
-        <TouchableOpacity
-          style={[
-            styles.packageBox,
-            selectedPackage === 1 && styles.packageBoxSelected,
-          ]}
-          onPress={() => setSelectedPackage(1)}
-        >
-          <Text
-            style={[
-              styles.packageText,
-              selectedPackage === 1 && styles.packageTextSelected,
-            ]}
-          >
-            {t(`ourteam.${item.price1}`)}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.packageBox,
-            selectedPackage === 4 && styles.packageBoxSelected,
-          ]}
-          onPress={() => setSelectedPackage(4)}
-        >
-          <Text
-            style={[
-              styles.packageText,
-              selectedPackage === 4 && styles.packageTextSelected,
-            ]}
-          >
-            {t(`ourteam.${item.price2}`)}
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('TherapistFormScreen')}
+      <View
+        style={{
+          backgroundColor: '#EBF5F5',
+          paddingVertical: 20,
+          borderBottomEndRadius: 10,
+          borderBottomLeftRadius: 10,
+        }}
       >
-        <Text style={styles.buttonText}>{t('ourteam.bookWithMe')}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('TherapistFormScreen')}
+        >
+          <Text style={styles.buttonText}>{t('ourteam.bookWithMe')}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -196,7 +208,8 @@ const OurTeam: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#ECF9EE',
+    marginTop: 10,
   },
   header: {
     flexDirection: 'row',
@@ -206,6 +219,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
+    fontWeight: 'bold',
   },
   viewAll: {
     fontSize: 14,
@@ -214,7 +228,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    padding: 16,
+    // padding: 16,
     marginRight: 16,
     width: 330,
   },
@@ -260,17 +274,14 @@ const styles = StyleSheet.create({
     color: '#888888',
   },
   specialties: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#888888',
     marginVertical: 4,
-  
-
   },
   description: {
     fontSize: 14,
     marginVertical: 4,
-
-   
+    color: '#000000CC',
   },
   experienceContainer: {
     width: '80%',
@@ -280,7 +291,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     paddingHorizontal: 7,
     paddingVertical: 10,
-    
+    alignSelf: 'center',
   },
   experience: {
     color: '#555555',
@@ -298,8 +309,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginVertical: 10,
     backgroundColor: '#ECF9EE',
-    padding: 8,
-    borderRadius: 18,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    borderRadius: 15,
   },
   packageBox: {
     padding: 10,
@@ -328,9 +340,12 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#B1C181',
     borderRadius: 10,
-    padding: 12,
-    marginTop: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 15,
+    // marginTop: 10,
     alignItems: 'center',
+    width: '90%',
+    alignSelf: 'center',
   },
   buttonText: {
     color: '#FFFFFF',

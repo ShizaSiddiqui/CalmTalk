@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-  FlatList,
   I18nManager,
   Alert,
   TouchableOpacity,
@@ -16,6 +15,7 @@ import RNRestart from 'react-native-restart';
 import i18n from '../../i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
+import { FlatList } from 'react-native-gesture-handler';
 
 const { width: screenWidth } = Dimensions.get('window');
 

@@ -70,7 +70,9 @@
     "dailyDiary": "يومية",
     "time": "الوقت",
     "sayYourMindHere": "قل ما يدور في ذهنك...",
-    "voiceNote": "ملاحظة صوتية"
+    "voiceNote": "ملاحظة صوتية",
+    "refresh": "تحديث",
+    "previous": "السابق"
   },
   "bookAppointment": {
     "title": "احجز موعدًا",
@@ -236,31 +238,31 @@
     "angerManagementDescription": "سيقوم معالجك ببناء رابطة عاطفية معك عن طريق سؤال ما الذي تعاني منه، الخلفية الطبية.",
     "duration": "10 دقيقة"
   },
-  
-  "categoriesList":{
-      "title1": "زيت اللافندر العطري - 5 أونصة سائلة",
-      "search": "ابحث في الفئة",
-      "aromaTherapyProducts": "منتجات العلاج بالروائح",
-      "aromaTherapy": "العلاج بالروائح"
-},
-"productCategoriesScreen": {
+
   "categoriesList": {
-    "title": "زيت اللافندر الأساسي - 5 أوقية سائلة",
-    "search": "البحث في الفئة",
+    "title1": "زيت اللافندر العطري - 5 أونصة سائلة",
+    "search": "ابحث في الفئة",
     "aromaTherapyProducts": "منتجات العلاج بالروائح",
-    "aromaTherapy": "العلاج بالروائح",
-    "all": "الكل",
-    "new": "جديد",
-    "popular": "شائع",
-    "products": "المنتجات",
-    "favorites": "المفضلة",
-    "categories": "الفئات",
-    "seeAll": "عرض الكل",
-    "highlightedProducts": "المنتجات المميزة",
-    "allProducts": "جميع المنتجات"
-  }
-},
-"productDetailsScreen": {
+    "aromaTherapy": "العلاج بالروائح"
+  },
+  "productCategoriesScreen": {
+    "categoriesList": {
+      "title": "زيت اللافندر الأساسي - 5 أوقية سائلة",
+      "search": "البحث في الفئة",
+      "aromaTherapyProducts": "منتجات العلاج بالروائح",
+      "aromaTherapy": "العلاج بالروائح",
+      "all": "الكل",
+      "new": "جديد",
+      "popular": "شائع",
+      "products": "المنتجات",
+      "favorites": "المفضلة",
+      "categories": "الفئات",
+      "seeAll": "عرض الكل",
+      "highlightedProducts": "المنتجات المميزة",
+      "allProducts": "جميع المنتجات"
+    }
+  },
+  "productDetailsScreen": {
     "backButton": "رجوع",
     "productName": "زيت اللافندر الأساسي، رائحة مهدئة للعلاج بالروائح - 5 أوقية سائلة",
     "productBenefitsTitle": "فوائد المنتج",
@@ -281,15 +283,14 @@
     "otherPostsText": "تحقق من المشاركات الأخرى",
     "generalTopic": "موضوع عام"
   },
-  "highlightedProductTile":{
+  "highlightedProductTile": {
     "promotesRelaxation": "يعزز الاسترخاء",
     "easesAnxiety": "يخفف القلق",
     "improvesMood": "يحسن المزاج",
     "checkOn": "تحقق من",
-    "lavenderOil":"Lavender Oil"
-
+    "lavenderOil": "Lavender Oil"
   },
-  "depressionByPHQ":{
+  "depressionByPHQ": {
     "assessmentTime": "١٠ دقائق",
     "aboutAssessment": "حول التقييم",
     "aboutAssessmentText": "نص دمية مجرد من الطباعة والتنسيق. لقد كان Lorem Ipsum النص القياسي الخاص بالصناعة منذ القرن الخامس عشر ...",
@@ -373,69 +374,108 @@
     "expressAndChat": "التعبير والدردشة",
     "maxCharacters": "الحد الأقصى 400 حرفًا مسموحًا"
   },
-  
-    "confirmAppointment": {
-      "title": "تأكيد موعدك",
-      "doctorName": "د. جون مارك",
-      "doctorTitle": "أخصائي نفسي سريري",
-      "bookingDetails": "تفاصيل الحجز",
-      "package": "الباقة",
-      "packageDetail": "100 دولار للجلسة",
-      "date": "التاريخ",
-      "timeslot": "الوقت",
-      "price": "السعر",
-      "promoCode": "رمز الترويج",
-      "apply": "تطبيق",
-      "paymentMethod": "طريقة الدفع",
-      "secureTransactions": "جميع المعاملات آمنة ومشفرة.",
-      "payWithCard": "الدفع بالبطاقة",
-      "googlePay": "جوجل باي",
-      "applePay": "أبل باي",
-      "confirm": "تأكيد",
-      "addCardInfo": "أضف معلومات بطاقتك",
-      "cardNumber": "رقم البطاقة",
-      "expiryDate": "شهر / سنة",
-      "cvc": "رمز الأمان",
-      "countryOrRegion": "البلد أو المنطقة",
-      "saveInfo": "احفظ هذه المعلومات لدفعات CalmTalk المستقبلية.",
-      "payAmount": "ادفع {{amount}} دولار أمريكي",
-      "successMessage": "{{name}}، تم حجز موعدك بنجاح.",
-      "appointmentDate": "الخميس، 9 مايو 2024",
-      "cancellationPolicy": "لإلغاء موعدك خلال 24 ساعة، انتقل إلى 'مواعيدي' واسترد المبلغ بالكامل.",
-      "backHome": "العودة إلى الصفحة الرئيسية",
-      "myAppointments": "مواعيدي",
-      "edit": "تعديل"
+
+  "confirmAppointment": {
+    "title": "تأكيد موعدك",
+    "doctorName": "د. جون مارك",
+    "doctorTitle": "أخصائي نفسي سريري",
+    "bookingDetails": "تفاصيل الحجز",
+    "package": "الباقة",
+    "packageDetail": "100 دولار للجلسة",
+    "date": "التاريخ",
+    "timeslot": "الوقت",
+    "price": "السعر",
+    "promoCode": "رمز الترويج",
+    "apply": "تطبيق",
+    "paymentMethod": "طريقة الدفع",
+    "secureTransactions": "جميع المعاملات آمنة ومشفرة.",
+    "payWithCard": "الدفع بالبطاقة",
+    "googlePay": "جوجل باي",
+    "applePay": "أبل باي",
+    "confirm": "تأكيد",
+    "addCardInfo": "أضف معلومات بطاقتك",
+    "cardNumber": "رقم البطاقة",
+    "expiryDate": "شهر / سنة",
+    "cvc": "رمز الأمان",
+    "countryOrRegion": "البلد أو المنطقة",
+    "saveInfo": "احفظ هذه المعلومات لدفعات CalmTalk المستقبلية.",
+    "payAmount": "ادفع {{amount}} دولار أمريكي",
+    "successMessage": "{{name}}، تم حجز موعدك بنجاح.",
+    "appointmentDate": "الخميس، 9 مايو 2024",
+    "cancellationPolicy": "لإلغاء موعدك خلال 24 ساعة، انتقل إلى 'مواعيدي' واسترد المبلغ بالكامل.",
+    "backHome": "العودة إلى الصفحة الرئيسية",
+    "myAppointments": "مواعيدي",
+    "edit": "تعديل"
+  },
+  "form": {
+    "individual_couple": "فردي، زوج",
+    "clinical_psychologist": "طبيب نفسي إكلينيكي",
+    "nationality": "الجنسية",
+    "experience": "الخبرة",
+    "languages": "اللغات",
+    "about_me": "عني",
+    "therapist_speaks": "يتحدث المعالج",
+    "book_your_session": "احجز جلستك",
+    "choose_your_package": "اختر باقتك",
+    "package1": "100 دولار للجلسة",
+    "package4": "320 دولار لأربع جلسات",
+    "pick_date_time": "اختر التاريخ والوقت",
+    "select_preferred_date_time": "اختر التاريخ والوقت المفضلين لديك",
+    "date": "التاريخ",
+    "time": "الوقت (GST) (GMT +4)",
+    "book_now": "احجز الآن",
+    "1": {
+      "title": "ما هو اضطراب القلق الاجتماعي",
+      "content": "يتميز اضطراب القلق الاجتماعي أو الرهاب الاجتماعي بالخوف الشديد من المواقف الاجتماعية والحكم من قبل الآخرين. يمكن أن يؤدي هذا الشرط إلى تجنب الأنشطة اليومية."
     },
-      "form": {
-        "individual_couple": "فردي، زوج",
-        "clinical_psychologist": "طبيب نفسي إكلينيكي",
-        "nationality": "الجنسية",
-        "experience": "الخبرة",
-        "languages": "اللغات",
-        "about_me": "عني",
-        "therapist_speaks": "يتحدث المعالج",
-        "book_your_session": "احجز جلستك",
-        "choose_your_package": "اختر باقتك",
-        "package1": "100 دولار للجلسة",
-        "package4": "320 دولار لأربع جلسات",
-        "pick_date_time": "اختر التاريخ والوقت",
-        "select_preferred_date_time": "اختر التاريخ والوقت المفضلين لديك",
-        "date": "التاريخ",
-        "time": "الوقت (GST) (GMT +4)",
-        "book_now": "احجز الآن",
-        "1": {
-          "title": "ما هو اضطراب القلق الاجتماعي",
-          "content": "يتميز اضطراب القلق الاجتماعي أو الرهاب الاجتماعي بالخوف الشديد من المواقف الاجتماعية والحكم من قبل الآخرين. يمكن أن يؤدي هذا الشرط إلى تجنب الأنشطة اليومية."
-        },
-        "2": {
-          "title": "ما هو اضطراب القلق الاجتماعي",
-          "content": "يتميز اضطراب القلق الاجتماعي أو الرهاب الاجتماعي بالخوف الشديد من المواقف الاجتماعية والحكم من قبل الآخرين. يمكن أن يؤدي هذا الشرط إلى تجنب الأنشطة اليومية."
-        }
-      }
-    
-    
+    "2": {
+      "title": "ما هو اضطراب القلق الاجتماعي",
+      "content": "يتميز اضطراب القلق الاجتماعي أو الرهاب الاجتماعي بالخوف الشديد من المواقف الاجتماعية والحكم من قبل الآخرين. يمكن أن يؤدي هذا الشرط إلى تجنب الأنشطة اليومية."
+    }
+  },
+
+  "teamMember": {
+    "name1": "د. جون",
+    "tags1": "أخصائي نفسي",
+    "subTags1": "اكتئاب، قلق، اضطراب نقص الانتباه مع فرط النشاط، اضطراب الوسواس القهري",
+    "years1": "2 سنوات",
+    "location1": "الهند",
+    "languages1": "الإنجليزية، العربية",
+    "name2": "د. جون",
+    "tags2": "أخصائي نفسي",
+    "subTags2": "اكتئاب، قلق، اضطراب نقص الانتباه مع فرط النشاط، اضطراب الوسواس القهري",
+    "years2": "2 سنوات",
+    "location2": "الهند",
+    "languages2": "الإنجليزية، العربية",
+    "name3": "د. جون",
+    "tags3": "أخصائي نفسي",
+    "subTags3": "اكتئاب، قلق، اضطراب نقص الانتباه مع فرط النشاط، اضطراب الوسواس القهري",
+    "years3": "2 سنوات",
+    "location3": "الهند",
+    "languages3": "الإنجليزية، العربية",
+    "name4": "د. جون",
+    "tags4": "أخصائي نفسي",
+    "subTags4": "اكتئاب، قلق، اضطراب نقص الانتباه مع فرط النشاط، اضطراب الوسواس القهري",
+    "years4": "2 سنوات",
+    "location4": "الهند",
+    "languages4": "الإنجليزية، العربية"
+  },
+  "headerTitle": "فريقنا",
+  "filterByText": "التصفية حسب",
+  "resetFilterText": "إعادة التصفية",
+  "language": {
+    "EN": "إنجليزي",
+    "AR": "عربي",
+    "FR": "فرنسي"
+  },
+  "gender": {
+    "Male": "ذكر",
+    "Female": "أنثى"
+  },
+  "individualCouple": "فردي، زوجي",
+  "bookWithMe": "احجز معي!",
+  "pagination": {
+    "previous": "<",
+    "next": ">"
   }
-  
-
-
-
+}

@@ -9,7 +9,8 @@ import {
   Modal,
   TextInput,
   I18nManager,
-  Platform
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -17,16 +18,19 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTranslation } from 'react-i18next';
 
 const Header = ({ navigation }) => {
-  const { t } = useTranslation();
   const [isDiaryModalVisible, setIsDiaryModalVisible] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
+  const { t } = useTranslation();
   const isRTL = I18nManager.isRTL;
-  const alignItemStyle =  isRTL ? 'flex-start': null;
-  const textAlignStyle =  isRTL ? 'right' :'left';
+
+  const textAlignStyle = isRTL ? 'left' : 'right';
+  const alignItemStyle = isRTL ? 'flex-start' : null;
+  const transformStyle = isRTL ? [{ rotate: '180deg' }] : [{ rotate: '0deg' }];
   const alignSelfStyle = isRTL ? 'flex-start' : null;
 
+  const [moodSelected, setMoodSelected] = useState('');
   const formatDate = (date) => {
     const options = {
       hour: '2-digit',
@@ -41,7 +45,7 @@ const Header = ({ navigation }) => {
   };
 
   const [notes, setNotes] = useState([
-    { id: 1, title: formatDate(new Date()), text: t('header.sayYourMindHere') },
+    { id: 1, title: formatDate(new Date()), text: '' },
   ]);
 
   const [voiceNotes, setVoiceNotes] = useState([
@@ -52,11 +56,11 @@ const Header = ({ navigation }) => {
     setSelectedDate(date);
   };
 
-  const onChangeTime = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShowTimePicker(false);
-    setDate(currentDate);
-  };
+  // const onChangeTime = (event, selectedDate) => {
+  //   const currentDate = selectedDate || date;
+  //   setShowTimePicker(false);
+  //   setDate(currentDate);
+  // };
 
   const handleAddNote = () => {
     const newNote = {
@@ -88,182 +92,304 @@ const Header = ({ navigation }) => {
     setVoiceNotes(voiceNotes.filter((voiceNote) => voiceNote.id !== id));
   };
 
-
-
   return (
-    <ImageBackground
-      source={require('../../assets/images/background_home.png')}
-      style={styles.background}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
     >
-      <View style={styles.container}>
-        <View style={styles.headerTop}>
-          <Text style={styles.greeting}>{t('header.hiJohn')}</Text>
-          <View style={styles.icons}>
-            <TouchableOpacity onPress={() => setIsDiaryModalVisible(true)}>
-              <Image
-                source={require('../../assets/images/icon_dairy.png')}
-                style={styles.icon}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                source={require('../../assets/images/icon_star.png')}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
+      <ImageBackground
+        source={require('../../assets/images/background_home.png')}
+        style={styles.background}
+      >
+        <View style={styles.container}>
+          <View style={styles.headerTop}>
+            <Text style={styles.greeting}>{t('header.hiJohn')}</Text>
+            <View style={styles.icons}>
+              <TouchableOpacity onPress={() => setIsDiaryModalVisible(true)}>
+                <Image
+                  source={require('../../assets/images/icon_dairy.png')}
+                  style={styles.icon}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  source={require('../../assets/images/icon_star.png')}
+                  style={styles.icon}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
 
-        <View style={[styles.quoteContainer,{paddingVertical:isRTL ? 0 : 10}]}>
-          <Text style={[styles.quote, {paddingVertical: Platform.OS === 'ios' ? '7%' : '10%'}]}>{t('header.peaceComesFromWithin')}</Text>
-        </View>
-        <View style={styles.separator} />
-
-        <Text style={[styles.question, { alignSelf: alignSelfStyle}]}>{t('header.howYouFeelToday')}</Text>
-        <View style={styles.moodContainer}>
-          <TouchableOpacity style={styles.moodItem}>
-            <Image
-              source={require('../../assets/images/excellent_mood.png')}
-              style={styles.moodIcon}
-              resizeMode="contain"
-            />
-            <Text style={styles.moodText}>{t('header.excellent')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.moodItem}>
-            <Image
-              source={require('../../assets/images/good_mood.png')}
-              style={styles.moodIcon}
-              resizeMode="contain"
-            />
-            <Text style={styles.moodText}>{t('header.good')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.moodItem}>
-            <Image
-              source={require('../../assets/images/okay_mood.png')}
-              style={styles.moodIcon}
-              resizeMode="contain"
-            />
-            <Text style={styles.moodText}>{t('header.okay')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.moodItem}>
-            <Image
-              source={require('../../assets/images/bad_mood.png')}
-              style={styles.moodIcon}
-              resizeMode="contain"
-            />
-            <Text style={styles.moodText}>{t('header.bad')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.moodItem}>
-            <Image
-              source={require('../../assets/images/terrible_mood.png')}
-              style={styles.moodIcon}
-              resizeMode="contain"
-            />
-            <Text style={styles.moodText}>{t('header.terrible')}</Text>
-          </TouchableOpacity>
-        </View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={isDiaryModalVisible}
-          onRequestClose={() => {
-            setIsDiaryModalVisible(!isDiaryModalVisible);
-          }}
-        >
-          <View style={styles.modalView}>
-            <ScrollView
-              horizontal={false}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{
-                overflowX: 'hidden',
-              }}
+          <View
+            style={[styles.quoteContainer, { paddingVertical: isRTL ? 0 : 10 }]}
+          >
+            <Text
+              style={[
+                styles.quote,
+                { paddingVertical: Platform.OS === 'ios' ? '7%' : '10%' },
+              ]}
             >
-              <View style={styles.modalHeader}>
-                <View style={styles.modalTitleContainer}>
-                  <Text style={styles.modalTitle}>
-                    {t('header.dailyDiary')}
-                  </Text>
-                  <Image
-                    source={require('../../assets/images/dairy.png')}
-                    style={styles.modalIcon}
-                    resizeMode="contain"
-                  />
-                </View>
+              {t('header.peaceComesFromWithin')}
+            </Text>
+          </View>
+          <View style={styles.separator} />
+
+          {moodSelected === '' ? (
+            <>
+              <Text style={[styles.question, { alignSelf: alignSelfStyle }]}>
+                {t('header.howYouFeelToday')}
+              </Text>
+              <View style={styles.moodContainer}>
                 <TouchableOpacity
-                  onPress={() => setIsDiaryModalVisible(!isDiaryModalVisible)}
+                  style={styles.moodItem}
+                  onPress={() => setMoodSelected('Excellent')}
                 >
                   <Image
-                    source={require('../../assets/images/modal_close.png')}
-                    style={styles.modalCloseIcon}
+                    source={require('../../assets/images/excellent_mood.png')}
+                    style={styles.moodIcon}
                     resizeMode="contain"
                   />
+                  <Text style={styles.moodText}>{t('header.excellent')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.moodItem}
+                  onPress={() => setMoodSelected('Good')}
+                >
+                  <Image
+                    source={require('../../assets/images/good_mood.png')}
+                    style={styles.moodIcon}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.moodText}>{t('header.good')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.moodItem}
+                  onPress={() => setMoodSelected('Okay')}
+                >
+                  <Image
+                    source={require('../../assets/images/okay_mood.png')}
+                    style={styles.moodIcon}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.moodText}>{t('header.okay')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.moodItem}
+                  onPress={() => setMoodSelected('Bad')}
+                >
+                  <Image
+                    source={require('../../assets/images/bad_mood.png')}
+                    style={styles.moodIcon}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.moodText}>{t('header.bad')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.moodItem}
+                  onPress={() => setMoodSelected('Terrible')}
+                >
+                  <Image
+                    source={require('../../assets/images/terrible_mood.png')}
+                    style={styles.moodIcon}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.moodText}>{t('header.terrible')}</Text>
                 </TouchableOpacity>
               </View>
-              <View style={styles.modalBody}>
-                <View className={styles.calendarContainer}>
-                  <CalendarPicker
-                    onDateChange={onDateChange}
-                    width={330}
-                    selectedStartDate={selectedDate}
-                    customDatesStyles={[
+            </>
+          ) : (
+            <>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Text style={[styles.question, { alignSelf: alignSelfStyle }]}>
+                  {t('header.howYouFeelToday')}
+                </Text>
+
+                <View style={{ flexDirection: 'row' }}>
+                  <TouchableOpacity
+                    onPress={() => setMoodSelected('')}
+                    style={{
+                      flexDirection: 'row',
+                      marginVertical: 8,
+                      paddingHorizontal: 12,
+                      paddingVertical: 6,
+                      alignItems: 'center',
+                      backgroundColor: '#FFFFFF4D',
+                      justifyContent: 'center',
+                      borderRadius: 20,
+                      marginHorizontal: 8,
+                    }}
+                  >
+                    <Text style={{ color: '#fff' }}>
+                      {t('header.previous')}{' '}
+                    </Text>
+                    <Image
+                      source={require('../../assets/images/timer.png')}
+                      style={{ width: 15, height: 15, marginHorizontal: 3 }}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() => setMoodSelected('')}
+                    style={{
+                      flexDirection: 'row',
+                      marginVertical: 8,
+                      paddingHorizontal: 12,
+                      paddingVertical: 6,
+                      alignItems: 'center',
+                      backgroundColor: '#FFFFFF4D',
+                      justifyContent: 'center',
+                      borderRadius: 20,
+                    }}
+                  >
+                    <Text style={{ color: '#fff' }}>{t('header.refresh')}</Text>
+                    <Image
+                      source={require('../../assets/images/refresh.png')}
+                      style={{ width: 15, height: 15, marginHorizontal: 3 }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={styles.moodContainer}>
+                <View style={styles.moodSelected}>
+                  <Image
+                    source={require('../../assets/images/confetti.png')}
+                    style={styles.confettiIcon}
+                    resizeMode="contain"
+                  />
+                  <View style={{ alignItems: 'center' }}>
+                    <Image
+                      source={require('../../assets/images/emoticon_excellent.png')}
+                      style={styles.moodIcon}
+                      resizeMode="contain"
+                    />
+                    <Text style={styles.moodText}>{moodSelected}</Text>
+                  </View>
+                  <Image
+                    source={require('../../assets/images/confetti.png')}
+                    style={[
+                      styles.confettiIcon,
                       {
-                        date: styles.selectedDate,
-                        style: styles.selectedDate,
-                        textStyle: styles.selectedDateText,
+                        transform: [
+                          { rotate: '180deg' },
+                          { rotateX: '180deg' },
+                        ],
                       },
                     ]}
-                    customStyles={{
-                      day: {
-                        fontSize: 15,
-                        textAlign: 'center',
-                        color: '#3C3C434D',
-                      },
-                      today: {
-                        backgroundColor: '#0F161E',
-                      },
-                      todayText: {
-                        color: 'white',
-                      },
-                      dayText: {
-                        color: '#0F161E',
-                        fontSize: 15,
-                      },
-                      textStyle: {
-                        fontSize: 15,
-                        color: '#0F161E',
-                      },
-                      monthTitle: {
-                        fontSize: 20,
-                        color: '#0F161E',
-                        margin: 10,
-                      },
-                      yearTitle: {
-                        fontSize: 20,
-                        color: '#0F161E',
-                        margin: 10,
-                      },
-                      week: {
-                        marginTop: 10,
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                      },
-                      monthContainer: {
-                        backgroundColor: '#ffffff',
-                      },
-                      yearContainer: {
-                        backgroundColor: '#ffffff',
-                        paddingVertical: 10,
-                      },
-                      headerWrapper: {
-                        marginTop: 10,
-                      },
-                    }}
+                    resizeMode="contain"
                   />
                 </View>
+              </View>
+            </>
+          )}
 
-                <View
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={isDiaryModalVisible}
+            onRequestClose={() => {
+              setIsDiaryModalVisible(!isDiaryModalVisible);
+            }}
+          >
+            <View style={styles.modalView}>
+              <ScrollView
+                horizontal={false}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                  overflowX: 'hidden',
+                }}
+              >
+                <View style={styles.modalHeader}>
+                  <View style={styles.modalTitleContainer}>
+                    <Text style={styles.modalTitle}>
+                      {t('header.dailyDiary')}
+                    </Text>
+                    <Image
+                      source={require('../../assets/images/dairy.png')}
+                      style={styles.modalIcon}
+                      resizeMode="contain"
+                    />
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => setIsDiaryModalVisible(!isDiaryModalVisible)}
+                  >
+                    <Image
+                      source={require('../../assets/images/modal_close.png')}
+                      style={styles.modalCloseIcon}
+                      resizeMode="contain"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.modalBody}>
+                  <View className={styles.calendarContainer}>
+                    <CalendarPicker
+                      onDateChange={onDateChange}
+                      width={Platform.OS === 'android' ? 300 : 330}
+                      selectedStartDate={selectedDate}
+                      customDatesStyles={[
+                        {
+                          date: styles.selectedDate,
+                          style: styles.selectedDate,
+                          textStyle: styles.selectedDateText,
+                        },
+                      ]}
+                      customStyles={{
+                        day: {
+                          fontSize: 15,
+                          textAlign: 'center',
+                          color: '#3C3C434D',
+                        },
+                        today: {
+                          backgroundColor: '#0F161E',
+                        },
+                        todayText: {
+                          color: 'white',
+                        },
+                        dayText: {
+                          color: '#0F161E',
+                          fontSize: 15,
+                        },
+                        textStyle: {
+                          fontSize: 15,
+                          color: '#0F161E',
+                        },
+                        monthTitle: {
+                          fontSize: 20,
+                          color: '#0F161E',
+                          margin: 10,
+                        },
+                        yearTitle: {
+                          fontSize: 20,
+                          color: '#0F161E',
+                          margin: 10,
+                        },
+                        week: {
+                          marginTop: 10,
+                          flexDirection: 'row',
+                          justifyContent: 'space-around',
+                        },
+                        monthContainer: {
+                          backgroundColor: '#ffffff',
+                        },
+                        yearContainer: {
+                          backgroundColor: '#ffffff',
+                          paddingVertical: 10,
+                        },
+                        headerWrapper: {
+                          marginTop: 10,
+                        },
+                      }}
+                    />
+                  </View>
+
+                  {/* <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -287,80 +413,105 @@ const Header = ({ navigation }) => {
                       />
                     )}
                   </View>
-                </View>
+                </View> */}
 
-                {notes.map((note) => (
-                  <View key={note.id} style={styles.noteContainer}>
-                    <View style={styles.noteHeader}>
-                      <Text style={styles.noteTitle}>{note.title}</Text>
-                    </View>
-                    <View style={styles.noteBody}>
-                      <TextInput
-                        style={[styles.noteTextInput, {textAlign:textAlignStyle}]}
-                        placeholder={note.text}
-                        value={notes}
-                        onChangeText={(text) => handleNoteChange(note.id, text)}
-                        multiline
-                      />
-                    </View>
-                    <View style={styles.noteActions}>
-                      <TouchableOpacity
-                        onPress={() => handleDeleteNote(note.id)}
-                      >
-                        <Image
-                          source={require('../../assets/images/close.png')}
-                          style={styles.noteActionIcon}
-                          resizeMode="contain"
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <Image
-                          source={require('../../assets/images/check.png')}
-                          style={styles.noteActionIcon}
-                          resizeMode="contain"
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                ))}
-
-                {voiceNotes.map((voiceNote) => (
-                  <View key={voiceNote.id} style={styles.voiceNoteContainer}>
-                    <View style={[styles.voiceNoteHeader, , {alignItems:alignItemStyle}]}>
-                      <Text style={styles.voiceNoteTitle}>
-                        {t('header.voiceNote')}
-                      </Text>
-                    </View>
-                    <View style={styles.voiceNoteBody}>
-                      <TouchableOpacity>
-                        <Image
-                          source={require('../../assets/images/play.png')}
-                          style={styles.voiceNotePlayIcon}
-                          resizeMode="contain"
-                        />
-                      </TouchableOpacity>
-                      <View style={styles.voiceNoteProgress}>
-                        <View style={styles.voiceNoteProgressBar} />
+                  {notes.map((note) => (
+                    <View key={note.id} style={styles.noteContainer}>
+                      <View style={styles.noteHeader}>
+                        <Text style={[styles.noteTitle, { textAlign: 'left' }]}>
+                          {note.title}
+                        </Text>
                       </View>
-                      <Text style={styles.voiceNoteTime}>16:45</Text>
-                    </View>
-                    <View style={styles.noteActions}>
-                      <TouchableOpacity
-                        onPress={() => handleDeleteVoiceNote(voiceNote.id)}
-                      >
-                        <Image
-                          source={require('../../assets/images/close.png')}
-                          style={styles.noteActionIcon}
-                          resizeMode="contain"
+                      <View style={styles.noteBody}>
+                        <TextInput
+                          style={[
+                            styles.noteTextInput,
+                            { textAlign: isRTL ? 'right' : 'left' },
+                          ]}
+                          placeholder={t('header.sayYourMindHere')}
+                          value={note.text}
+                          onChangeText={(text) =>
+                            handleNoteChange(note.id, text)
+                          }
+                          multiline
                         />
-                      </TouchableOpacity>
+                      </View>
+                      <View style={styles.noteActions}>
+                        <TouchableOpacity onPress={handleAddVoiceNote}>
+                          <Image
+                            source={require('../../assets/images/VN_mic.png')}
+                            style={styles.noteActionIcon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => handleDeleteNote(note.id)}
+                        >
+                          <Image
+                            source={require('../../assets/images/close.png')}
+                            style={styles.noteActionIcon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                          <Image
+                            source={require('../../assets/images/check.png')}
+                            style={styles.noteActionIcon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                  </View>
-                ))}
-              </View>
-            </ScrollView>
-            <View style={styles.voiceNoteActions}>
-              <TouchableOpacity
+                  ))}
+
+                  {voiceNotes.map((voiceNote) => (
+                    <View key={voiceNote.id} style={styles.voiceNoteContainer}>
+                      <View
+                        style={[
+                          styles.voiceNoteHeader,
+                          ,
+                          { alignItems: alignItemStyle },
+                        ]}
+                      >
+                        <Text style={styles.voiceNoteTitle}>
+                          {t('header.voiceNote')}
+                        </Text>
+                      </View>
+                      <View style={styles.voiceNoteBody}>
+                        <TouchableOpacity>
+                          <Image
+                            source={require('../../assets/images/play.png')}
+                            style={styles.voiceNotePlayIcon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                        <View style={styles.voiceNoteProgress}>
+                          <View style={styles.voiceNoteProgressBar} />
+                        </View>
+                        <Text style={styles.voiceNoteTime}>16:45</Text>
+                      </View>
+                      <View
+                        style={[
+                          styles.noteActions,
+                          { position: 'absolute', right: 10, top: 5 },
+                        ]}
+                      >
+                        <TouchableOpacity
+                          onPress={() => handleDeleteVoiceNote(voiceNote.id)}
+                        >
+                          <Image
+                            source={require('../../assets/images/close.png')}
+                            style={styles.closeIcon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+              </ScrollView>
+              <View style={styles.voiceNoteActions}>
+                {/* <TouchableOpacity
                 style={styles.micIconVoiceNote}
                 onPress={handleAddVoiceNote}
               >
@@ -369,22 +520,23 @@ const Header = ({ navigation }) => {
                   style={styles.voiceNoteActionIcon}
                   resizeMode="contain"
                 />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.editIconVoiceNote}
-                onPress={handleAddNote}
-              >
-                <Image
-                  source={require('../../assets/images/edit.png')}
-                  style={styles.noteActionIcon}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
+                <TouchableOpacity
+                  style={styles.editIconVoiceNote}
+                  onPress={handleAddNote}
+                >
+                  <Image
+                    source={require('../../assets/images/edit.png')}
+                    style={styles.noteActionIcon}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </Modal>
-      </View>
-    </ImageBackground>
+          </Modal>
+        </View>
+      </ImageBackground>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -401,7 +553,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: '14%',
-    alignItems:'center'
+    alignItems: 'center',
   },
   icons: {
     flexDirection: 'row',
@@ -434,7 +586,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     textAlign: 'center',
-},
+  },
   separator: {
     height: 0.5,
     backgroundColor: 'white',
@@ -446,14 +598,13 @@ const styles = StyleSheet.create({
     marginVertical: '3%',
 
     color: 'white',
-
-},
+  },
   moodContainer: {
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    position:'relative'
+    position: 'relative',
   },
   moodItem: {
     alignItems: 'center',
@@ -468,14 +619,34 @@ const styles = StyleSheet.create({
     height: 65,
     marginHorizontal: 10,
   },
+  moodSelected: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#E4EEC4',
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    borderRadius: 15,
+    elevation: 2,
+    shadowColor: '#000',
+    width: '90%',
+    height: 60,
+    marginHorizontal: 10,
+    flexDirection: 'row',
+  },
   moodIcon: {
     width: 30,
     height: 30,
   },
+  confettiIcon: {
+    width: 45,
+    height: 45,
+    marginHorizontal: 10,
+  },
   moodText: {
     marginTop: 5,
-    fontSize: 13,
-    color: '#A1A1AA',
+    fontSize: 10,
+    color: '#000000',
+    textAlign: 'center',
   },
   modalView: {
     backgroundColor: 'white',
@@ -642,11 +813,13 @@ const styles = StyleSheet.create({
     // backgroundColor: '#F8F8F8',
     // padding: 20,
     paddingHorizontal: 10,
-    paddingVertical: 15,
+    paddingTop: 8,
+    paddingBottom: 5,
     borderRadius: 10,
     marginBottom: 10,
     borderWidth: 1,
     borderColor: '#E5DFFE',
+    marginTop: 15,
   },
   noteHeader: {
     marginBottom: 10,
@@ -671,9 +844,14 @@ const styles = StyleSheet.create({
     height: 25,
     marginHorizontal: 2,
   },
+  closeIcon: {
+    width: 25,
+    height: 25,
+    marginHorizontal: 2,
+  },
   noteTextInput: {
     fontSize: 16,
-    color: 'gray',
+    color: '#000000',
   },
   voiceNoteContainer: {
     paddingHorizontal: 10,
@@ -685,7 +863,6 @@ const styles = StyleSheet.create({
   },
   voiceNoteHeader: {
     marginBottom: 10,
-
   },
   voiceNoteTitle: {
     fontSize: 16,

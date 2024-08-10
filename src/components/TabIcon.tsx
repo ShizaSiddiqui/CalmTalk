@@ -25,25 +25,32 @@ const TabIcon: React.FC<TabIconProps> = ({ focused, label, icon }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    paddingVertical: 5,
-    paddingHorizontal: 45,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
     borderRadius: 25,
     backgroundColor: 'transparent',
+
+    // borderWidth:1
   },
   activeContainer: {
-    backgroundColor: '#B1C181', // Change the color as needed
+    backgroundColor: '#B1C181',
+    flexDirection: 'row',
+    paddingVertical: 10,
+    // Change the color as needed
   },
   icon: {
-    width: 24,
-    height: 24,
-    tintColor: 'grey', // Inactive icon color
+    width: 18,
+    height: 18,
+    tintColor: '#B1C181', // Inactive icon color
   },
   activeIcon: {
     tintColor: 'white', // Active icon color
   },
   label: {
     fontSize: 12,
-    color: 'grey', // Inactive label color
+    marginHorizontal: 5,
+    color: 'grey',
+    fontWeight: 'bold',
   },
   activeLabel: {
     color: 'white', // Active label color
